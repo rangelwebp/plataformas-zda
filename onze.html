@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONZE BR — Brasileiros no Futebol Português</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0C1420;
+    --bg-panel: #131E2E;
+    --bg-panel-alt: #182339;
+    --bg-input: #0F1826;
+    --border: #263449;
+    --text: #E7ECF3;
+    --text-muted: #8FA0B8;
+    --text-faint: #5C6C82;
+    --accent-green: #33C17A;
+    --accent-green-dim: #1F7A4D;
+    --accent-gold: #E8B94A;
+    --accent-blue: #5B9BD5;
+    --accent-orange: #EF8354;
+    --accent-red: #E5566B;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    line-height: 1.4;
+  }
+
+  ::selection{ background: var(--accent-green-dim); color: #fff; }
+
+  /* ---------- HEADER ---------- */
+  header.app-header{
+    background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 22px 28px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+  }
+  .brand h1{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: 0.5px;
+    margin:0;
+    color: var(--text);
+    line-height: 1;
+  }
+  .brand h1 span{ color: var(--accent-green); }
+  .brand small{
+    font-family: var(--font-body);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  nav.tabs{
+    display:flex; gap:6px; margin-top:18px; flex-wrap:wrap;
+  }
+  nav.tabs button{
+    font-family: var(--font-display);
+    font-size: 17px;
+    letter-spacing:0.3px;
+    font-weight:600;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  nav.tabs button:hover{ color: var(--text); border-color: var(--border); }
+  nav.tabs button.active{
+    color: #08130D;
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+  }
+
+  main{ max-width: 1180px; margin: 0 auto; padding: 26px 28px 80px; }
+  .view{ display:none; }
+  .view.active{ display:block; animation: fadeIn .18s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+  h2.view-title{
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight:700;
+    margin: 0 0 4px;
+    letter-spacing:0.2px;
+  }
+  p.view-sub{
+    color: var(--text-muted);
+    font-size: 13.5px;
+    margin: 0 0 20px;
+  }
+
+  .grid{ display:grid; gap:20px; }
+  .grid.cols-2{ grid-template-columns: 1fr 1fr; }
+  @media (max-width: 860px){ .grid.cols-2{ grid-template-columns: 1fr; } }
+
+  .panel{
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .panel h3{
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight:600;
+    margin: 0 0 14px;
+    color: var(--text);
+    display:flex; align-items:center; gap:8px;
+  }
+  .panel h3 .dot{ width:7px; height:7px; border-radius:50%; background: var(--accent-green); }
+
+  label{
+    display:block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+  }
+  .field{ margin-bottom: 14px; }
+  input[type=text], input[type=number], select, input[type=file], textarea{
+    width:100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 11px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+  }
+  textarea{
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus{
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(51,193,122,0.15);
+  }
+  .row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .row > *{ flex:1; min-width: 140px; }
+  .check-row{ display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+  .check-row input{ width:auto; }
+  .check-row label{ margin:0; text-transform:none; font-size:14px; font-weight:400; color: var(--text); }
+
+  button.btn{
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: var(--accent-green);
+    color: #08130D;
+    border: none;
+    padding: 9px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: filter .12s ease, transform .05s ease;
+  }
+  button.btn:hover{ filter: brightness(1.08); }
+  button.btn:active{ transform: scale(0.98); }
+  button.btn.secondary{
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  button.btn.danger{ background: var(--accent-red); color: #2A0A10; }
+  button.btn.gold{ background: var(--accent-gold); color: #2A2005; }
+  button.btn.small{ padding: 5px 12px; font-size: 14px; }
+  .lote-modo-btn.active{
+    background: var(--accent-green);
+    color: #08130D;
+    border-color: var(--accent-green);
+  }
+  button.icon-btn{
+    background: none; border: 1px solid var(--border); color: var(--text-muted);
+    width: 28px; height:28px; border-radius: var(--radius-sm); cursor:pointer;
+    font-size: 14px; line-height:1;
+  }
+  button.icon-btn:hover{ border-color: var(--accent-red); color: var(--accent-red); }
+  button.icon-btn.edit:hover{ border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  table{ width:100%; border-collapse: collapse; font-size: 14px; }
+  thead th{
+    text-align:left; font-family: var(--font-display); font-weight:600;
+    font-size: 14px; letter-spacing:0.3px; color: var(--text-muted);
+    border-bottom: 1px solid var(--border); padding: 8px 10px;
+    text-transform: uppercase; font-size:12px;
+  }
+  tbody td{ padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  tbody tr:hover{ background: rgba(255,255,255,0.02); }
+  .table-wrap{ overflow-x:auto; margin-top: 6px; }
+  .table-wrap.scroll-limited{
+    max-height: 460px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .table-wrap.scroll-limited table{ margin: 0; }
+  .table-wrap.scroll-limited thead th{
+    position: sticky;
+    top: 0;
+    background: var(--bg-panel);
+    z-index: 1;
+  }
+  .table-wrap.scroll-limited tbody td:first-child,
+  .table-wrap.scroll-limited thead th:first-child{
+    padding-left: 12px;
+  }
+  .empty-state{
+    color: var(--text-faint); font-size: 13.5px; padding: 18px 4px; text-align:center;
+    border: 1px dashed var(--border); border-radius: var(--radius-sm);
+  }
+
+  .pill{
+    display:inline-block; font-family: var(--font-display); font-weight:700;
+    font-size: 13px; padding: 2px 9px; border-radius: 5px; letter-spacing: 0.3px;
+  }
+  .pill.gk{ background: rgba(232,185,74,0.16); color: var(--accent-gold); }
+  .pill.def{ background: rgba(91,155,213,0.16); color: var(--accent-blue); }
+  .pill.mc{ background: rgba(51,193,122,0.16); color: var(--accent-green); }
+  .pill.at{ background: rgba(239,131,84,0.18); color: var(--accent-orange); }
+
+  .liga-tag{
+    font-size: 11.5px; color: var(--text-muted); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 999px; white-space:nowrap;
+  }
+
+  .nota-badge{
+    font-family: var(--font-mono); font-weight:700; font-size: 15px;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 3px 9px; border-radius: 5px; color: #fff;
+    min-width: 40px; display:inline-block; text-align:center;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.35);
+  }
+
+  .team-block{
+    background: var(--bg-panel-alt); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px;
+  }
+  .team-block h4{
+    font-family: var(--font-display); font-size:18px; margin:0 0 10px;
+    color: var(--text); display:flex; align-items:center; justify-content:space-between;
+  }
+  .player-row{
+    display:flex; align-items:center; gap:10px; padding:6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .player-row:last-child{ border-bottom:none; }
+  .player-row .name{ flex:1; font-size:14.5px; }
+  .player-row input[type=number]{ width: 80px; text-align:center; font-family: var(--font-mono); }
+
+  .quick-add-jogador{
+    margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border);
+  }
+  .quick-add-jogador .row{ gap: 8px; align-items: flex-end; }
+  .quick-add-jogador .field{ margin-bottom: 0; }
+  .quick-add-jogador select, .quick-add-jogador input[type=text]{ font-size: 13.5px; padding: 7px 9px; }
+  .quick-add-jogador .qa-posicao{ max-width: 92px; }
+  .quick-add-jogador .qa-nome{ min-width: 140px; }
+  .quick-add-jogador .qa-tipo{ max-width: 130px; }
+  .quick-add-jogador .qa-pais{ max-width: 150px; }
+
+  .filter-bar{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:18px; }
+  .filter-bar .field{ margin-bottom:0; min-width:150px; }
+  .checkbox-group{ display:flex; gap:14px; flex-wrap:wrap; }
+  .checkbox-group label{ text-transform:none; font-weight:400; font-size:13.5px; color:var(--text); display:flex; align-items:center; gap:6px; margin:0; }
+  .checkbox-group input{ width:auto; }
+
+  .group-header{
+    font-family: var(--font-display); font-size: 20px; font-weight:700;
+    margin: 22px 0 8px; padding-bottom:6px; border-bottom: 2px solid var(--border);
+    display:flex; align-items:center; gap:10px;
+  }
+  .group-header .count{ font-size:13px; color:var(--text-faint); font-family: var(--font-body); font-weight:400; }
+
+  .destaque-icon{ font-size:16px; margin-right:4px; }
+  .destaque-card{
+    background: var(--bg-panel-alt); border:1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 12px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .destaque-card .desc{ font-size:14.5px; }
+  .destaque-card .tipo-tag{ font-size:11.5px; text-transform:uppercase; letter-spacing:0.4px; color: var(--text-muted); }
+
+  .stat-cards{ display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:20px; }
+  .stat-card{ background: var(--bg-panel-alt); border:1px solid var(--border); border-radius: var(--radius-sm); padding:16px; text-align:center; }
+  .stat-card .num{ font-family: var(--font-mono); font-size: 28px; font-weight:600; color: var(--accent-green); }
+  .stat-card .lbl{ font-size:12px; color: var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:4px; }
+
+  .toast{
+    position: fixed; bottom: 24px; right: 24px; background: var(--accent-green); color:#08130D;
+    font-family: var(--font-display); font-weight:600; font-size:15px;
+    padding: 12px 20px; border-radius: var(--radius-sm); box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    opacity:0; transform: translateY(8px); transition: all .2s ease; pointer-events:none; z-index: 100;
+  }
+  .toast.show{ opacity:1; transform:translateY(0); }
+  .toast.danger{ background: var(--accent-red); color:#2A0A10; }
+
+  .divider{ height:1px; background: var(--border); margin: 20px 0; border:none; }
+  .hint{ font-size:12.5px; color: var(--text-faint); margin-top:-8px; margin-bottom:14px; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">
+    <h1>ONZE <span>BR</span></h1>
+    <small>Gestão de notas e seleções — brasileiros no futebol português</small>
+  </div>
+  <nav class="tabs">
+    <button data-view="clubes" class="active">Clubes</button>
+    <button data-view="jogadores">Jogadores</button>
+    <button data-view="notas">Lançar Notas</button>
+    <button data-view="selecao">Seleção</button>
+    <button data-view="liga3">Liga 3 · Destaques</button>
+    <button data-view="resumo">Resumo</button>
+    <button data-view="backup">Backup</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ CLUBES ============ -->
+  <section class="view active" id="view-clubes">
+    <h2 class="view-title">Clubes</h2>
+    <p class="view-sub">Cadastre os clubes das três ligas. Isso alimenta os seletores de jogadores e do lançamento de notas.</p>
+    <div class="grid cols-2">
+      <div class="panel">
+        <h3><span class="dot"></span> <span id="clube-form-title">Novo clube</span></h3>
+        <form id="form-clube">
+          <input type="hidden" id="clube-id">
+          <div class="field">
+            <label>Nome do clube</label>
+            <input type="text" id="clube-nome" placeholder="Ex: AVS" required>
+          </div>
+          <div class="field">
+            <label>Liga</label>
+            <select id="clube-liga" required>
+              <option value="Liga Portugal">Liga Portugal</option>
+              <option value="Liga Portugal 2">Liga Portugal 2</option>
+              <option value="Liga 3">Liga 3</option>
+            </select>
+          </div>
+          <div class="row">
+            <button type="submit" class="btn">Salvar clube</button>
+            <button type="button" class="btn secondary" id="clube-cancel" style="display:none;">Cancelar edição</button>
+          </div>
+        </form>
+      </div>
+      <div class="panel">
+        <h3><span class="dot"></span> Clubes cadastrados</h3>
+        <div class="filter-bar">
+          <div class="field">
+            <label>Filtrar por liga</label>
+            <select id="clube-filtro-liga">
+              <option value="">Todas as ligas</option>
+              <option value="Liga Portugal">Liga Portugal</option>
+              <option value="Liga Portugal 2">Liga Portugal 2</option>
+              <option value="Liga 3">Liga 3</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Clube</th><th>Liga</th><th>Jogadores</th><th></th></tr></thead>
+          <tbody id="tbody-clubes"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JOGADORES ============ -->
+  <section class="view" id="view-jogadores">
+    <h2 class="view-title">Jogadores</h2>
+    <p class="view-sub">Cadastro dos atletas brasileiros. Se um jogador mudar de clube, edite o registro dele e troque o clube — o histórico de notas antigas permanece intacto.</p>
+
+    <div class="panel" style="margin-bottom:20px;">
+      <h3><span class="dot"></span> Cadastro em lote</h3>
+      <p class="view-sub" style="margin-bottom:12px;">Cole a lista de jogadores de um clube, um por linha. Brasileiros usam <strong>(POSIÇÃO) Nome</strong>; estrangeiros usam <strong>(POSIÇÃO) Nome (País)</strong>.</p>
+      <div class="row" style="margin-bottom:14px; align-items:flex-start;">
+        <div class="field" style="max-width:340px;">
+          <label>Clube</label>
+          <select id="lote-clube"></select>
+        </div>
+        <div class="field" style="max-width:280px;">
+          <label>Tipo de jogador</label>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn secondary small lote-modo-btn active" data-modo="brasil" id="btn-modo-brasil">Brasileiros</button>
+            <button type="button" class="btn secondary small lote-modo-btn" data-modo="estrangeiro" id="btn-modo-estrangeiro">Estrangeiros</button>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Lista de jogadores</label>
+        <textarea id="lote-texto" rows="7" placeholder="(GK) Estevão
+(LD) Mateus Pivô
+(ZC) Davi Schuindt
+(MC) Roni Moura
+(AT) Guilherme Neiva
+(AT) Talles Wander"></textarea>
+      </div>
+      <div class="row">
+        <button type="button" class="btn secondary" id="btn-lote-analisar">Analisar lista</button>
+      </div>
+      <div id="lote-preview-area"></div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="panel">
+        <h3><span class="dot"></span> <span id="jogador-form-title">Novo jogador</span></h3>
+        <form id="form-jogador">
+          <input type="hidden" id="jogador-id">
+          <div class="field">
+            <label>Nome do jogador</label>
+            <input type="text" id="jogador-nome" placeholder="Ex: Talles Wander" required>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>Posição</label>
+              <select id="jogador-posicao" required>
+                <option value="GK">GK — Goleiro</option>
+                <option value="LD">LD — Lateral Direito</option>
+                <option value="LE">LE — Lateral Esquerdo</option>
+                <option value="ZC">ZC — Zagueiro Central</option>
+                <option value="MC">MC — Meio-Campo</option>
+                <option value="AT">AT — Atacante</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Clube atual</label>
+              <select id="jogador-clube" required></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>Nacionalidade</label>
+              <select id="jogador-nacionalidade">
+                <option value="Brasil">Brasil</option>
+                <option value="Angola">Angola</option>
+                <option value="Cabo Verde">Cabo Verde</option>
+                <option value="Guiné-Bissau">Guiné-Bissau</option>
+                <option value="São Tomé e Príncipe">São Tomé e Príncipe</option>
+                <option value="Moçambique">Moçambique</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Colômbia">Colômbia</option>
+                <option value="Uruguai">Uruguai</option>
+                <option value="Paraguai">Paraguai</option>
+                <option value="Venezuela">Venezuela</option>
+                <option value="Espanha">Espanha</option>
+                <option value="França">França</option>
+                <option value="Nigéria">Nigéria</option>
+                <option value="Gana">Gana</option>
+                <option value="Costa do Marfim">Costa do Marfim</option>
+                <option value="Senegal">Senegal</option>
+                <option value="Mali">Mali</option>
+                <option value="Marrocos">Marrocos</option>
+                <option value="Guiné-Conacri">Guiné-Conacri</option>
+                <option value="Camarões">Camarões</option>
+                <option value="outro">Outro (digitar)</option>
+              </select>
+            </div>
+            <div class="field" id="jogador-nacionalidade-outro-wrap" style="display:none;">
+              <label>Qual?</label>
+              <input type="text" id="jogador-nacionalidade-outro" placeholder="Ex: Croácia">
+            </div>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="jogador-ativo" checked>
+            <label for="jogador-ativo">Ativo no elenco (desmarque se saiu para fora das 3 ligas)</label>
+          </div>
+          <div class="row">
+            <button type="submit" class="btn">Salvar jogador</button>
+            <button type="button" class="btn secondary" id="jogador-cancel" style="display:none;">Cancelar edição</button>
+          </div>
+        </form>
+      </div>
+      <div class="panel">
+        <h3><span class="dot"></span> Jogadores cadastrados</h3>
+        <div class="filter-bar">
+          <div class="field" style="flex:2;">
+            <label>Buscar por nome</label>
+            <input type="text" id="jogador-busca" placeholder="Digite o nome...">
+          </div>
+          <div class="field">
+            <label>Liga</label>
+            <select id="jogador-filtro-liga">
+              <option value="">Todas</option>
+              <option value="Liga Portugal">Liga Portugal</option>
+              <option value="Liga Portugal 2">Liga Portugal 2</option>
+              <option value="Liga 3">Liga 3</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Posição</label>
+            <select id="jogador-filtro-posicao">
+              <option value="">Todas</option>
+              <option value="GK">GK</option><option value="LD">LD</option><option value="LE">LE</option>
+              <option value="ZC">ZC</option><option value="MC">MC</option><option value="AT">AT</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Nacionalidade</label>
+            <select id="jogador-filtro-nacionalidade">
+              <option value="">Todas</option>
+              <option value="Brasil">Brasileiros</option>
+              <option value="estrangeiros">Estrangeiros (todos)</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap scroll-limited"><table>
+          <thead><tr><th>Jogador</th><th>Pos.</th><th>Clube</th><th>Liga</th><th>Nacionalidade</th><th>Ativo</th><th></th></tr></thead>
+          <tbody id="tbody-jogadores"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LANÇAR NOTAS ============ -->
+  <section class="view" id="view-notas">
+    <h2 class="view-title">Lançar Notas da Rodada</h2>
+    <p class="view-sub">Escolha a liga, a rodada e os dois clubes do confronto. Os brasileiros dos dois times aparecem agrupados, prontos para receber a nota.</p>
+    <div class="panel">
+      <div class="filter-bar">
+        <div class="field">
+          <label>Liga</label>
+          <select id="notas-liga">
+            <option value="Liga Portugal">Liga Portugal</option>
+            <option value="Liga Portugal 2">Liga Portugal 2</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Rodada</label>
+          <input type="number" id="notas-rodada" min="1" max="60" placeholder="Ex: 4">
+        </div>
+        <div class="field">
+          <label>Time A (mandante)</label>
+          <select id="notas-timeA"></select>
+        </div>
+        <div class="field">
+          <label>Time B (visitante)</label>
+          <select id="notas-timeB"></select>
+        </div>
+        <div class="field">
+          <label>Mostrar</label>
+          <select id="notas-filtro-nacionalidade">
+            <option value="todos">Todos</option>
+            <option value="brasil">Só brasileiros</option>
+            <option value="estrangeiro">Só estrangeiros</option>
+          </select>
+        </div>
+        <div>
+          <button class="btn" id="btn-carregar-jogo">Carregar jogadores</button>
+        </div>
+      </div>
+      <p class="hint">Notas em números inteiros (ex: nota 8.9 → digite <strong>89</strong>). Jogadores que já têm nota lançada nesta rodada aparecem preenchidos — é só editar. Notou que falta alguém? Cadastre na hora, direto no formulário abaixo do time.</p>
+      <div id="notas-jogo-area"></div>
+      <div id="notas-salvar-area" style="display:none; margin-top:14px;">
+        <button class="btn gold" id="btn-salvar-notas">Salvar notas desta rodada</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SELEÇÃO ============ -->
+  <section class="view" id="view-selecao">
+    <h2 class="view-title">Seleção da Rodada</h2>
+    <p class="view-sub">Filtre por rodada, posição e liga(s). Marque as duas ligas para ver o Combinado. Resultado ordenado por nota, do maior para o menor — use para montar seu onze ideal.</p>
+    <div class="panel">
+      <div class="filter-bar">
+        <div class="field">
+          <label>Rodada</label>
+          <input type="number" id="selecao-rodada" min="1" max="60" placeholder="Ex: 4" required>
+        </div>
+        <div class="field">
+          <label>Posição</label>
+          <select id="selecao-posicao">
+            <option value="">Todas as posições</option>
+            <option value="GK">GK — Goleiro</option>
+            <option value="LD">LD — Lateral Direito</option>
+            <option value="LE">LE — Lateral Esquerdo</option>
+            <option value="ZC">ZC — Zagueiro Central</option>
+            <option value="MC">MC — Meio-Campo</option>
+            <option value="AT">AT — Atacante</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Liga(s)</label>
+          <div class="checkbox-group" style="padding-top:6px;">
+            <label><input type="checkbox" class="selecao-liga" value="Liga Portugal" checked> Liga Portugal</label>
+            <label><input type="checkbox" class="selecao-liga" value="Liga Portugal 2" checked> Liga Portugal 2</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nacionalidade</label>
+          <select id="selecao-nacionalidade">
+            <option value="brasileiros">Brasileiros</option>
+            <option value="estrangeiros">Estrangeiros (combinado)</option>
+            <option value="todos">Todos os jogadores</option>
+          </select>
+        </div>
+        <div>
+          <button class="btn" id="btn-filtrar-selecao">Filtrar e ordenar</button>
+        </div>
+      </div>
+      <div id="selecao-resultado"></div>
+    </div>
+  </section>
+
+  <!-- ============ LIGA 3 ============ -->
+  <section class="view" id="view-liga3">
+    <h2 class="view-title">Liga 3 — Destaques da Rodada</h2>
+    <p class="view-sub">Sem notas disponíveis na Liga 3: aqui você registra gols, assistências, MVPs e clean sheets, e o sistema monta um mural de destaques por rodada.</p>
+    <div class="grid cols-2">
+      <div class="panel">
+        <h3><span class="dot"></span> Registrar destaque</h3>
+        <form id="form-destaque">
+          <div class="field">
+            <label>Jogador (Liga 3)</label>
+            <select id="destaque-jogador" required></select>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>Rodada</label>
+              <input type="number" id="destaque-rodada" min="1" max="60" required>
+            </div>
+            <div class="field">
+              <label>Tipo</label>
+              <select id="destaque-tipo" required>
+                <option value="gol">⚽ Gol</option>
+                <option value="assistencia">🎯 Assistência</option>
+                <option value="mvp">🏅 MVP da partida</option>
+                <option value="clean_sheet">🧤 Clean sheet</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn">Registrar destaque</button>
+        </form>
+      </div>
+      <div class="panel">
+        <h3><span class="dot"></span> Mural da rodada</h3>
+        <div class="filter-bar">
+          <div class="field">
+            <label>Rodada</label>
+            <input type="number" id="liga3-filtro-rodada" min="1" max="60" placeholder="Ex: 4">
+          </div>
+          <div><button class="btn secondary" id="btn-filtrar-liga3">Ver mural</button></div>
+        </div>
+        <div id="liga3-resultado"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESUMO ============ -->
+  <section class="view" id="view-resumo">
+    <h2 class="view-title">Resumo do Elenco</h2>
+    <p class="view-sub">Quantidade de jogadores <strong>ativos</strong> cadastrados por posição, separados por Liga Portugal / Liga Portugal 2 e por brasileiro/estrangeiro — dá pra conferir de cara se já tem elenco pra montar um 4-4-2, 4-3-3 etc.</p>
+    <div class="grid cols-2">
+      <div class="panel">
+        <h3><span class="dot"></span> Liga Portugal</h3>
+        <div id="resumo-liga1"></div>
+      </div>
+      <div class="panel">
+        <h3><span class="dot"></span> Liga Portugal 2</h3>
+        <div id="resumo-liga2"></div>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:16px;">
+      <span class="nota-badge" style="background:var(--accent-red);">0</span> sem jogador nessa posição ·
+      <span class="nota-badge" style="background:var(--accent-orange);">1</span> só um jogador (sem opção de troca) ·
+      <span class="nota-badge" style="background:var(--accent-green);">2+</span> tranquilo
+    </p>
+  </section>
+
+  <!-- ============ BACKUP ============ -->
+  <section class="view" id="view-backup">
+    <h2 class="view-title">Backup</h2>
+    <p class="view-sub">Tudo fica salvo no localStorage deste navegador. Exporte um arquivo .json regularmente e guarde-o — é o seu seguro contra troca de navegador, computador ou limpeza de cache.</p>
+    <div class="stat-cards" id="backup-stats"></div>
+    <div class="grid cols-2">
+      <div class="panel">
+        <h3><span class="dot"></span> Exportar</h3>
+        <p class="view-sub" style="margin-bottom:16px;">Baixa um arquivo .json com todos os clubes, jogadores, notas e destaques cadastrados.</p>
+        <button class="btn" id="btn-exportar">Baixar backup (.json)</button>
+      </div>
+      <div class="panel">
+        <h3><span class="dot"></span> Importar</h3>
+        <p class="view-sub" style="margin-bottom:16px;">Escolha um arquivo .json exportado anteriormente. <strong>Isso substitui todos os dados atuais.</strong></p>
+        <input type="file" id="input-importar" accept="application/json">
+        <div style="margin-top:12px;">
+          <button class="btn secondary" id="btn-importar">Importar arquivo</button>
+        </div>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="panel" style="border-color: rgba(229,86,107,0.3);">
+      <h3 style="color: var(--accent-red);"><span class="dot" style="background:var(--accent-red);"></span> Zona de risco</h3>
+      <p class="view-sub" style="margin-bottom:14px;">Apaga permanentemente todos os dados deste navegador. Faça um backup antes.</p>
+      <button class="btn danger" id="btn-limpar-tudo">Apagar todos os dados</button>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   ESTADO / PERSISTÊNCIA
+   ========================================================= */
+const STORAGE_KEY = 'onze_br_pt_v1';
+const LIGAS = ['Liga Portugal', 'Liga Portugal 2', 'Liga 3'];
+const POSICOES = [
+  {codigo:'GK', label:'Goleiro', classe:'gk'},
+  {codigo:'LD', label:'Lateral Direito', classe:'def'},
+  {codigo:'LE', label:'Lateral Esquerdo', classe:'def'},
+  {codigo:'ZC', label:'Zagueiro Central', classe:'def'},
+  {codigo:'MC', label:'Meio-Campo', classe:'mc'},
+  {codigo:'AT', label:'Atacante', classe:'at'}
+];
+const ORDEM_POSICOES = ['GK','LD','LE','ZC','MC','AT'];
+const DESTAQUE_LABELS = {
+  gol: {icone:'⚽', label:'Gol'},
+  assistencia: {icone:'🎯', label:'Assistência'},
+  mvp: {icone:'🏅', label:'MVP da partida'},
+  clean_sheet: {icone:'🧤', label:'Clean sheet'}
+};
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return {clubes:[], jogadores:[], notas:[], destaques:[]};
+    const parsed = JSON.parse(raw);
+    return {
+      clubes: parsed.clubes || [],
+      jogadores: (parsed.jogadores || []).map(j => ({ nacionalidade: 'Brasil', ...j })),
+      notas: parsed.notas || [],
+      destaques: parsed.destaques || []
+    };
+  }catch(e){
+    console.error('Erro ao carregar dados', e);
+    return {clubes:[], jogadores:[], notas:[], destaques:[]};
+  }
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+let state = loadState();
+
+function corDaNota(valor){
+  if(valor < 60) return '#CD0B00';
+  if(valor <= 64) return '#ED7E07';
+  if(valor <= 69) return '#D9AF00';
+  if(valor <= 79) return '#00C424';
+  if(valor <= 89) return '#00ADC4';
+  return '#374DF5'; // 90 a 100
+}
+
+function posicaoInfo(codigo){
+  return POSICOES.find(p => p.codigo === codigo) || {codigo, label:codigo, classe:'mc'};
+}
+function clubeById(id){ return state.clubes.find(c => c.id === id); }
+function jogadorById(id){ return state.jogadores.find(j => j.id === id); }
+
+function toast(msg, danger=false){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.toggle('danger', danger);
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=> el.classList.remove('show'), 2400);
+}
+
+/* =========================================================
+   NAVEGAÇÃO DE ABAS
+   ========================================================= */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('main .view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-'+btn.dataset.view).classList.add('active');
+    if(btn.dataset.view === 'backup') renderBackupStats();
+    if(btn.dataset.view === 'resumo') renderResumo();
+  });
+});
+
+/* =========================================================
+   CLUBES
+   ========================================================= */
+const formClube = document.getElementById('form-clube');
+const clubeIdInput = document.getElementById('clube-id');
+const clubeNomeInput = document.getElementById('clube-nome');
+const clubeLigaInput = document.getElementById('clube-liga');
+const clubeFormTitle = document.getElementById('clube-form-title');
+const clubeCancelBtn = document.getElementById('clube-cancel');
+
+formClube.addEventListener('submit', e=>{
+  e.preventDefault();
+  const nome = clubeNomeInput.value.trim();
+  const liga = clubeLigaInput.value;
+  if(!nome) return;
+  if(clubeIdInput.value){
+    const clube = clubeById(clubeIdInput.value);
+    clube.nome = nome; clube.liga = liga;
+    toast('Clube atualizado');
+  }else{
+    state.clubes.push({id: uid(), nome, liga});
+    toast('Clube adicionado');
+  }
+  saveState();
+  resetClubeForm();
+  renderClubes();
+  refreshAllSelects();
+});
+
+clubeCancelBtn.addEventListener('click', resetClubeForm);
+function resetClubeForm(){
+  formClube.reset();
+  clubeIdInput.value = '';
+  clubeFormTitle.textContent = 'Novo clube';
+  clubeCancelBtn.style.display = 'none';
+}
+
+document.getElementById('clube-filtro-liga').addEventListener('change', renderClubes);
+
+function renderClubes(){
+  const filtroLiga = document.getElementById('clube-filtro-liga').value;
+  const tbody = document.getElementById('tbody-clubes');
+  let lista = [...state.clubes];
+  if(filtroLiga) lista = lista.filter(c => c.liga === filtroLiga);
+  lista.sort((a,b)=> a.nome.localeCompare(b.nome));
+
+  if(lista.length === 0){
+    tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state">Nenhum clube cadastrado ainda.</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = lista.map(c=>{
+    const nJogadores = state.jogadores.filter(j=>j.clubeAtualId === c.id).length;
+    return `<tr>
+      <td><strong>${escapeHtml(c.nome)}</strong></td>
+      <td><span class="liga-tag">${c.liga}</span></td>
+      <td>${nJogadores}</td>
+      <td style="white-space:nowrap;">
+        <button class="icon-btn edit" onclick="editarClube('${c.id}')" title="Editar">✎</button>
+        <button class="icon-btn" onclick="excluirClube('${c.id}')" title="Excluir">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function editarClube(id){
+  const c = clubeById(id);
+  if(!c) return;
+  clubeIdInput.value = c.id;
+  clubeNomeInput.value = c.nome;
+  clubeLigaInput.value = c.liga;
+  clubeFormTitle.textContent = 'Editando: ' + c.nome;
+  clubeCancelBtn.style.display = 'inline-block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function excluirClube(id){
+  const c = clubeById(id);
+  const nJogadores = state.jogadores.filter(j=>j.clubeAtualId === id).length;
+  const aviso = nJogadores > 0
+    ? `Este clube tem ${nJogadores} jogador(es) vinculado(s). Excluir o clube também excluirá esses jogadores e todas as notas/destaques deles. Continuar?`
+    : `Excluir o clube "${c.nome}"?`;
+  if(!confirm(aviso)) return;
+
+  const jogadoresDoClube = state.jogadores.filter(j=>j.clubeAtualId === id).map(j=>j.id);
+  state.jogadores = state.jogadores.filter(j=>j.clubeAtualId !== id);
+  state.notas = state.notas.filter(n => !jogadoresDoClube.includes(n.jogadorId));
+  state.destaques = state.destaques.filter(d => !jogadoresDoClube.includes(d.jogadorId));
+  state.clubes = state.clubes.filter(c=>c.id !== id);
+  saveState();
+  renderClubes();
+  renderJogadores();
+  refreshAllSelects();
+  toast('Clube excluído', true);
+}
+
+/* =========================================================
+   JOGADORES
+   ========================================================= */
+const formJogador = document.getElementById('form-jogador');
+const jogadorIdInput = document.getElementById('jogador-id');
+const jogadorNomeInput = document.getElementById('jogador-nome');
+const jogadorPosicaoInput = document.getElementById('jogador-posicao');
+const jogadorClubeInput = document.getElementById('jogador-clube');
+const jogadorNacionalidadeInput = document.getElementById('jogador-nacionalidade');
+const jogadorNacionalidadeOutroWrap = document.getElementById('jogador-nacionalidade-outro-wrap');
+const jogadorNacionalidadeOutroInput = document.getElementById('jogador-nacionalidade-outro');
+const jogadorAtivoInput = document.getElementById('jogador-ativo');
+
+jogadorNacionalidadeInput.addEventListener('change', ()=>{
+  jogadorNacionalidadeOutroWrap.style.display = jogadorNacionalidadeInput.value === 'outro' ? 'block' : 'none';
+});
+function nacionalidadeSelecionada(){
+  if(jogadorNacionalidadeInput.value === 'outro'){
+    return jogadorNacionalidadeOutroInput.value.trim() || 'Outro';
+  }
+  return jogadorNacionalidadeInput.value;
+}
+const jogadorFormTitle = document.getElementById('jogador-form-title');
+const jogadorCancelBtn = document.getElementById('jogador-cancel');
+
+formJogador.addEventListener('submit', e=>{
+  e.preventDefault();
+  const nome = jogadorNomeInput.value.trim();
+  const posicao = jogadorPosicaoInput.value;
+  const clubeAtualId = jogadorClubeInput.value;
+  const ativo = jogadorAtivoInput.checked;
+  const nacionalidade = nacionalidadeSelecionada();
+  if(!nome || !clubeAtualId) return;
+
+  if(jogadorIdInput.value){
+    const j = jogadorById(jogadorIdInput.value);
+    j.nome = nome; j.posicao = posicao; j.clubeAtualId = clubeAtualId; j.ativo = ativo; j.nacionalidade = nacionalidade;
+    toast('Jogador atualizado');
+  }else{
+    state.jogadores.push({id: uid(), nome, posicao, clubeAtualId, ativo, nacionalidade});
+    toast('Jogador adicionado');
+  }
+  saveState();
+  resetJogadorForm();
+  renderClubes();
+  renderJogadores();
+  refreshAllSelects();
+});
+
+jogadorCancelBtn.addEventListener('click', resetJogadorForm);
+function resetJogadorForm(){
+  formJogador.reset();
+  jogadorIdInput.value = '';
+  jogadorAtivoInput.checked = true;
+  jogadorNacionalidadeInput.value = 'Brasil';
+  jogadorNacionalidadeOutroWrap.style.display = 'none';
+  jogadorNacionalidadeOutroInput.value = '';
+  jogadorFormTitle.textContent = 'Novo jogador';
+  jogadorCancelBtn.style.display = 'none';
+}
+
+['jogador-busca','jogador-filtro-liga','jogador-filtro-posicao','jogador-filtro-nacionalidade'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderJogadores);
+});
+
+function renderJogadores(){
+  const busca = document.getElementById('jogador-busca').value.trim().toLowerCase();
+  const filtroLiga = document.getElementById('jogador-filtro-liga').value;
+  const filtroPos = document.getElementById('jogador-filtro-posicao').value;
+  const filtroNac = document.getElementById('jogador-filtro-nacionalidade').value;
+  const tbody = document.getElementById('tbody-jogadores');
+
+  let lista = [...state.jogadores];
+  if(busca) lista = lista.filter(j=>j.nome.toLowerCase().includes(busca));
+  if(filtroPos) lista = lista.filter(j=>j.posicao === filtroPos);
+  if(filtroNac === 'Brasil') lista = lista.filter(j=>j.nacionalidade === 'Brasil');
+  if(filtroNac === 'estrangeiros') lista = lista.filter(j=>j.nacionalidade !== 'Brasil');
+  if(filtroLiga){
+    lista = lista.filter(j=>{
+      const c = clubeById(j.clubeAtualId);
+      return c && c.liga === filtroLiga;
+    });
+  }
+  lista.sort((a,b)=>{
+    const clubeA = clubeById(a.clubeAtualId);
+    const clubeB = clubeById(b.clubeAtualId);
+    const nomeClubeA = clubeA ? clubeA.nome : '';
+    const nomeClubeB = clubeB ? clubeB.nome : '';
+    return nomeClubeA.localeCompare(nomeClubeB) || a.nome.localeCompare(b.nome);
+  });
+
+  if(lista.length === 0){
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">Nenhum jogador encontrado.</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = lista.map(j=>{
+    const c = clubeById(j.clubeAtualId);
+    const pos = posicaoInfo(j.posicao);
+    return `<tr>
+      <td><strong>${escapeHtml(j.nome)}</strong></td>
+      <td><span class="pill ${pos.classe}">${pos.codigo}</span></td>
+      <td>${c ? escapeHtml(c.nome) : '<em>—</em>'}</td>
+      <td>${c ? `<span class="liga-tag">${c.liga}</span>` : ''}</td>
+      <td>${j.nacionalidade === 'Brasil' ? 'Brasil' : `<span class="liga-tag" style="border-color: var(--accent-orange); color: var(--accent-orange);">${escapeHtml(j.nacionalidade || '—')}</span>`}</td>
+      <td>${j.ativo ? '✅' : '—'}</td>
+      <td style="white-space:nowrap;">
+        <button class="icon-btn edit" onclick="editarJogador('${j.id}')" title="Editar">✎</button>
+        <button class="icon-btn" onclick="excluirJogador('${j.id}')" title="Excluir">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function editarJogador(id){
+  const j = jogadorById(id);
+  if(!j) return;
+  jogadorIdInput.value = j.id;
+  jogadorNomeInput.value = j.nome;
+  jogadorPosicaoInput.value = j.posicao;
+  jogadorClubeInput.value = j.clubeAtualId;
+  jogadorAtivoInput.checked = j.ativo;
+  const nacOptions = [...jogadorNacionalidadeInput.options].map(o=>o.value);
+  if(nacOptions.includes(j.nacionalidade)){
+    jogadorNacionalidadeInput.value = j.nacionalidade;
+    jogadorNacionalidadeOutroWrap.style.display = 'none';
+  }else{
+    jogadorNacionalidadeInput.value = 'outro';
+    jogadorNacionalidadeOutroWrap.style.display = 'block';
+    jogadorNacionalidadeOutroInput.value = j.nacionalidade || '';
+  }
+  jogadorFormTitle.textContent = 'Editando: ' + j.nome;
+  jogadorCancelBtn.style.display = 'inline-block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function excluirJogador(id){
+  const j = jogadorById(id);
+  if(!confirm(`Excluir "${j.nome}"? Isso também apaga todas as notas e destaques dele.`)) return;
+  state.jogadores = state.jogadores.filter(x=>x.id !== id);
+  state.notas = state.notas.filter(n=>n.jogadorId !== id);
+  state.destaques = state.destaques.filter(d=>d.jogadorId !== id);
+  saveState();
+  renderClubes();
+  renderJogadores();
+  refreshAllSelects();
+  toast('Jogador excluído', true);
+}
+
+/* ---------- Cadastro em lote ---------- */
+let loteRows = [];
+let loteModo = 'brasil';
+
+const PLACEHOLDER_LOTE_BRASIL = `(GK) Estevão
+(LD) Mateus Pivô
+(ZC) Davi Schuindt
+(MC) Roni Moura
+(AT) Guilherme Neiva
+(AT) Talles Wander`;
+
+const PLACEHOLDER_LOTE_ESTRANGEIRO = `(MC) Gorby (França/Haiti)
+(MC) Denis Huseinbasic (Bósnia-Herzegovina/Alemanha)
+(MC) Mario Dorgeles (Costa do Marfim)`;
+
+document.querySelectorAll('.lote-modo-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.lote-modo-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    loteModo = btn.dataset.modo;
+    document.getElementById('lote-texto').placeholder = loteModo === 'estrangeiro'
+      ? PLACEHOLDER_LOTE_ESTRANGEIRO
+      : PLACEHOLDER_LOTE_BRASIL;
+    loteRows = [];
+    document.getElementById('lote-preview-area').innerHTML = '';
+  });
+});
+
+document.getElementById('btn-lote-analisar').addEventListener('click', analisarLote);
+
+function analisarLote(){
+  const clubeId = document.getElementById('lote-clube').value;
+  const texto = document.getElementById('lote-texto').value;
+  if(!clubeId){ toast('Selecione o clube antes de analisar', true); return; }
+
+  const linhas = texto.split('\n').map(l=>l.trim()).filter(l=>l.length > 0);
+  if(linhas.length === 0){ toast('Cole a lista de jogadores primeiro', true); return; }
+
+  const nomesExistentesNoClube = state.jogadores
+    .filter(j => j.clubeAtualId === clubeId)
+    .map(j => j.nome.toLowerCase().trim());
+
+  loteRows = linhas.map((linha, idx)=>{
+    let posicao = 'MC', nome = linha, pais = (loteModo === 'estrangeiro' ? '' : 'Brasil'), reconhecida = false;
+
+    if(loteModo === 'estrangeiro'){
+      // (POS) Nome (País) — país é sempre o último parêntese da linha
+      const match = linha.match(/^\(\s*([A-Za-zÀ-ÿ]+)\s*\)\s*(.+?)\s*\(([^)]+)\)\s*$/);
+      if(match){
+        const codigo = match[1].toUpperCase();
+        const possivelNome = match[2].trim();
+        const possivelPais = match[3].trim();
+        if(ORDEM_POSICOES.includes(codigo) && possivelNome && possivelPais){
+          posicao = codigo; nome = possivelNome; pais = possivelPais; reconhecida = true;
+        }
+      }
+    }else{
+      // (POS) Nome
+      const match = linha.match(/^\(\s*([A-Za-zÀ-ÿ]+)\s*\)\s*(.+)$/);
+      if(match){
+        const codigo = match[1].toUpperCase();
+        const possivelNome = match[2].trim();
+        if(ORDEM_POSICOES.includes(codigo) && possivelNome){
+          posicao = codigo; nome = possivelNome; reconhecida = true;
+        }
+      }
+    }
+
+    const duplicado = nomesExistentesNoClube.includes(nome.toLowerCase().trim());
+    return { rowId: 'lr' + idx, nome, posicao, pais, reconhecida, duplicado, incluir: !duplicado };
+  });
+
+  renderLotePreview(clubeById(clubeId));
+}
+
+function renderLotePreview(clube){
+  const area = document.getElementById('lote-preview-area');
+  if(!clube || loteRows.length === 0){ area.innerHTML = ''; return; }
+
+  const opcoesPos = (selecionada) => ORDEM_POSICOES
+    .map(p => `<option value="${p}" ${p === selecionada ? 'selected' : ''}>${p}</option>`).join('');
+
+  const linhasHtml = loteRows.map(r=>{
+    let statusHtml;
+    if(r.duplicado){
+      statusHtml = `<span class="liga-tag" style="border-color:var(--accent-orange); color:var(--accent-orange);">já existe neste clube</span>`;
+    }else if(!r.reconhecida){
+      statusHtml = `<span class="liga-tag" style="border-color:var(--accent-red); color:var(--accent-red);">não reconhecida — confira</span>`;
+    }else{
+      statusHtml = `<span class="liga-tag" style="border-color:var(--accent-green); color:var(--accent-green);">ok</span>`;
+    }
+    return `<tr data-row-id="${r.rowId}">
+      <td><input type="checkbox" class="lote-incluir" ${r.incluir ? 'checked' : ''}></td>
+      <td><input type="text" class="lote-nome" value="${escapeHtml(r.nome)}"></td>
+      <td><select class="lote-posicao">${opcoesPos(r.posicao)}</select></td>
+      <td><input type="text" class="lote-pais" value="${escapeHtml(r.pais)}" placeholder="Nacionalidade"></td>
+      <td>${statusHtml}</td>
+    </tr>`;
+  }).join('');
+
+  const totalIncluidos = loteRows.filter(r=>r.incluir).length;
+
+  area.innerHTML = `
+    <p class="hint" style="margin-top:14px;">Confira nome, posição e nacionalidade de cada linha antes de confirmar. Desmarque as que não quiser cadastrar.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th></th><th>Nome</th><th>Posição</th><th>Nacionalidade</th><th>Status</th></tr></thead>
+      <tbody>${linhasHtml}</tbody>
+    </table></div>
+    <div class="row" style="margin-top:14px;">
+      <button type="button" class="btn gold" id="btn-lote-confirmar">Cadastrar marcados em ${escapeHtml(clube.nome)} (${totalIncluidos})</button>
+      <button type="button" class="btn secondary" id="btn-lote-cancelar">Cancelar</button>
+    </div>
+  `;
+
+  document.getElementById('btn-lote-confirmar').addEventListener('click', ()=> confirmarLote(clube.id));
+  document.getElementById('btn-lote-cancelar').addEventListener('click', ()=>{
+    loteRows = [];
+    area.innerHTML = '';
+  });
+}
+
+function confirmarLote(clubeId){
+  const area = document.getElementById('lote-preview-area');
+  const linhasDom = area.querySelectorAll('tbody tr');
+  let cadastrados = 0, ignorados = 0;
+
+  linhasDom.forEach(tr=>{
+    const incluir = tr.querySelector('.lote-incluir').checked;
+    if(!incluir){ ignorados++; return; }
+    const nome = tr.querySelector('.lote-nome').value.trim();
+    const posicao = tr.querySelector('.lote-posicao').value;
+    const nacionalidade = tr.querySelector('.lote-pais').value.trim() || 'Brasil';
+    if(!nome){ ignorados++; return; }
+    state.jogadores.push({ id: uid(), nome, posicao, clubeAtualId: clubeId, ativo: true, nacionalidade });
+    cadastrados++;
+  });
+
+  saveState();
+  loteRows = [];
+  area.innerHTML = '';
+  document.getElementById('lote-texto').value = '';
+  renderClubes();
+  renderJogadores();
+  refreshAllSelects();
+  toast(`${cadastrados} jogador(es) cadastrado(s)${ignorados ? ', ' + ignorados + ' ignorado(s)' : ''}`);
+}
+
+/* =========================================================
+   RESUMO DO ELENCO
+   ========================================================= */
+function corContagem(n){
+  if(n === 0) return 'var(--accent-red)';
+  if(n === 1) return 'var(--accent-orange)';
+  return 'var(--accent-green)';
+}
+
+function contarResumoPorLiga(liga){
+  return ORDEM_POSICOES.map(codigo=>{
+    const jogadoresPos = state.jogadores.filter(j=>{
+      if(j.posicao !== codigo || !j.ativo) return false;
+      const c = clubeById(j.clubeAtualId);
+      return c && c.liga === liga;
+    });
+    const brasileiros = jogadoresPos.filter(j => (j.nacionalidade || 'Brasil') === 'Brasil').length;
+    const estrangeiros = jogadoresPos.length - brasileiros;
+    return { codigo, brasileiros, estrangeiros, total: jogadoresPos.length };
+  });
+}
+
+function renderResumoTabela(liga, containerId){
+  const linhas = contarResumoPorLiga(liga);
+  const container = document.getElementById(containerId);
+  let html = `<div class="table-wrap"><table>
+    <thead><tr><th>Posição</th><th>Brasileiros</th><th>Estrangeiros</th><th>Total</th></tr></thead><tbody>`;
+  linhas.forEach(l=>{
+    const pos = posicaoInfo(l.codigo);
+    html += `<tr>
+      <td><span class="pill ${pos.classe}">${pos.codigo}</span> ${pos.label}</td>
+      <td><span class="nota-badge" style="background:${corContagem(l.brasileiros)};">${l.brasileiros}</span></td>
+      <td><span class="nota-badge" style="background:${corContagem(l.estrangeiros)};">${l.estrangeiros}</span></td>
+      <td><strong>${l.total}</strong></td>
+    </tr>`;
+  });
+  html += `</tbody></table></div>`;
+  container.innerHTML = html;
+}
+
+function renderResumo(){
+  renderResumoTabela('Liga Portugal', 'resumo-liga1');
+  renderResumoTabela('Liga Portugal 2', 'resumo-liga2');
+}
+
+function refreshAllSelects(){
+  // select de clube no form de jogador (agrupado por liga)
+  fillClubeSelect(jogadorClubeInput);
+  // select de clube no cadastro em lote (agrupado por liga)
+  fillClubeSelect(document.getElementById('lote-clube'));
+  // selects de time A / time B no lançamento de notas
+  fillClubeSelectPorLiga(document.getElementById('notas-timeA'), document.getElementById('notas-liga').value);
+  fillClubeSelectPorLiga(document.getElementById('notas-timeB'), document.getElementById('notas-liga').value);
+  // select de clube-filtro-liga já é fixo (não precisa)
+  // select de jogador na Liga 3
+  fillJogadorLiga3Select();
+}
+
+function fillClubeSelect(selectEl){
+  const atual = selectEl.value;
+  let html = '';
+  LIGAS.forEach(liga=>{
+    const clubesDaLiga = state.clubes.filter(c=>c.liga === liga).sort((a,b)=>a.nome.localeCompare(b.nome));
+    if(clubesDaLiga.length){
+      html += `<optgroup label="${liga}">` + clubesDaLiga.map(c=>`<option value="${c.id}">${escapeHtml(c.nome)}</option>`).join('') + `</optgroup>`;
+    }
+  });
+  selectEl.innerHTML = html || `<option value="">Cadastre um clube primeiro</option>`;
+  if(atual) selectEl.value = atual;
+}
+
+function fillClubeSelectPorLiga(selectEl, liga){
+  const clubesDaLiga = state.clubes.filter(c=>c.liga === liga).sort((a,b)=>a.nome.localeCompare(b.nome));
+  selectEl.innerHTML = clubesDaLiga.length
+    ? clubesDaLiga.map(c=>`<option value="${c.id}">${escapeHtml(c.nome)}</option>`).join('')
+    : `<option value="">Nenhum clube nesta liga</option>`;
+}
+
+/* =========================================================
+   LANÇAR NOTAS
+   ========================================================= */
+document.getElementById('notas-liga').addEventListener('change', ()=>{
+  fillClubeSelectPorLiga(document.getElementById('notas-timeA'), document.getElementById('notas-liga').value);
+  fillClubeSelectPorLiga(document.getElementById('notas-timeB'), document.getElementById('notas-liga').value);
+});
+
+const OPCOES_POSICAO_HTML = ORDEM_POSICOES.map(p=>`<option value="${p}">${p}</option>`).join('');
+
+function jogadorPassaFiltroNac(j, filtro){
+  const eBrasileiro = (j.nacionalidade || 'Brasil') === 'Brasil';
+  if(filtro === 'brasil') return eBrasileiro;
+  if(filtro === 'estrangeiro') return !eBrasileiro;
+  return true; // todos
+}
+
+function montarBlocoTime(clube, liga, rodada, filtroNac){
+  const jogadoresTime = state.jogadores
+    .filter(j => j.clubeAtualId === clube.id && j.ativo && jogadorPassaFiltroNac(j, filtroNac))
+    .sort((a,b)=> ORDEM_POSICOES.indexOf(a.posicao) - ORDEM_POSICOES.indexOf(b.posicao) || a.nome.localeCompare(b.nome));
+
+  const linhas = jogadoresTime.map(j=>{
+    const pos = posicaoInfo(j.posicao);
+    const notaExistente = state.notas.find(n => n.jogadorId === j.id && n.liga === liga && n.rodada === rodada);
+    const naoBrasileiro = (j.nacionalidade || 'Brasil') !== 'Brasil';
+    const tagNacionalidade = naoBrasileiro ? `<span class="liga-tag">${escapeHtml(j.nacionalidade)}</span>` : '';
+    return `<div class="player-row" data-jogador-id="${j.id}">
+      <span class="pill ${pos.classe}">${pos.codigo}</span>
+      <span class="name">${escapeHtml(j.nome)} ${tagNacionalidade}</span>
+      <input type="number" class="input-nota" placeholder="—" value="${notaExistente ? notaExistente.valor : ''}">
+    </div>`;
+  }).join('');
+
+  const listaHtml = jogadoresTime.length
+    ? linhas
+    : `<div class="empty-state">Nenhum jogador nesse filtro, neste clube.</div>`;
+
+  const quickAddHtml = `
+    <div class="quick-add-jogador" data-clube-id="${clube.id}">
+      <div class="row">
+        <div class="field">
+          <label>Pos.</label>
+          <select class="qa-posicao">${OPCOES_POSICAO_HTML}</select>
+        </div>
+        <div class="field">
+          <label>Nome do jogador</label>
+          <input type="text" class="qa-nome" placeholder="Ex: Fulano da Silva">
+        </div>
+        <div class="field">
+          <label>Origem</label>
+          <select class="qa-tipo">
+            <option value="brasil">Brasileiro</option>
+            <option value="estrangeiro">Estrangeiro</option>
+          </select>
+        </div>
+        <div class="field qa-pais-wrap" style="display:none;">
+          <label>País</label>
+          <input type="text" class="qa-pais" placeholder="Ex: Argentina">
+        </div>
+        <div>
+          <button type="button" class="btn secondary small qa-add-btn">+ Cadastrar</button>
+        </div>
+      </div>
+    </div>`;
+
+  return `<div class="team-block">
+    <h4>${escapeHtml(clube.nome)} <span class="liga-tag">${jogadoresTime.length} jogador(es)</span></h4>
+    <div class="qa-lista-jogadores">${listaHtml}</div>
+    ${quickAddHtml}
+  </div>`;
+}
+
+function ativarQuickAdd(area){
+  area.querySelectorAll('.qa-tipo').forEach(select=>{
+    select.addEventListener('change', ()=>{
+      const wrap = select.closest('.quick-add-jogador').querySelector('.qa-pais-wrap');
+      wrap.style.display = select.value === 'estrangeiro' ? 'block' : 'none';
+    });
+  });
+
+  area.querySelectorAll('.qa-add-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const bloco = btn.closest('.quick-add-jogador');
+      const clubeId = bloco.dataset.clubeId;
+      const posicao = bloco.querySelector('.qa-posicao').value;
+      const nomeInput = bloco.querySelector('.qa-nome');
+      const nome = nomeInput.value.trim();
+      const tipo = bloco.querySelector('.qa-tipo').value;
+      const paisInput = bloco.querySelector('.qa-pais');
+
+      if(!nome){ toast('Digite o nome do jogador', true); return; }
+
+      const nacionalidade = tipo === 'estrangeiro'
+        ? (paisInput.value.trim() || 'Estrangeiro')
+        : 'Brasil';
+
+      const novoJogador = { id: uid(), nome, posicao, clubeAtualId: clubeId, ativo: true, nacionalidade };
+      state.jogadores.push(novoJogador);
+      saveState();
+
+      // insere a linha do jogador direto na lista, sem recarregar o time todo (preserva notas já digitadas)
+      const teamBlock = bloco.closest('.team-block');
+      const lista = teamBlock.querySelector('.qa-lista-jogadores');
+      const vazio = lista.querySelector('.empty-state');
+      if(vazio) vazio.remove();
+
+      const pos = posicaoInfo(posicao);
+      const tagNacionalidadeNovo = nacionalidade !== 'Brasil' ? `<span class="liga-tag">${escapeHtml(nacionalidade)}</span>` : '';
+      const linhaEl = document.createElement('div');
+      linhaEl.className = 'player-row';
+      linhaEl.dataset.jogadorId = novoJogador.id;
+      linhaEl.innerHTML = `
+        <span class="pill ${pos.classe}">${pos.codigo}</span>
+        <span class="name">${escapeHtml(nome)} ${tagNacionalidadeNovo}</span>
+        <input type="number" class="input-nota" placeholder="—">
+      `;
+      lista.appendChild(linhaEl);
+
+      const contadorEl = teamBlock.querySelector('.liga-tag');
+      if(contadorEl){
+        const n = lista.querySelectorAll('.player-row').length;
+        contadorEl.textContent = `${n} jogador(es)`;
+      }
+
+      nomeInput.value = '';
+      paisInput.value = '';
+      linhaEl.querySelector('.input-nota').focus();
+
+      renderClubes();
+      renderJogadores();
+      refreshAllSelects();
+      toast(`${nome} cadastrado — já dá pra lançar a nota`);
+    });
+  });
+}
+
+document.getElementById('btn-carregar-jogo').addEventListener('click', ()=>{
+  const liga = document.getElementById('notas-liga').value;
+  const rodada = parseInt(document.getElementById('notas-rodada').value, 10);
+  const timeAId = document.getElementById('notas-timeA').value;
+  const timeBId = document.getElementById('notas-timeB').value;
+  const filtroNac = document.getElementById('notas-filtro-nacionalidade').value;
+
+  if(!rodada){ toast('Informe o número da rodada', true); return; }
+  if(!timeAId || !timeBId){ toast('Selecione os dois clubes', true); return; }
+  if(timeAId === timeBId){ toast('Escolha dois clubes diferentes', true); return; }
+
+  const area = document.getElementById('notas-jogo-area');
+  const timeA = clubeById(timeAId), timeB = clubeById(timeBId);
+
+  area.innerHTML = montarBlocoTime(timeA, liga, rodada, filtroNac) + montarBlocoTime(timeB, liga, rodada, filtroNac);
+  area.dataset.liga = liga;
+  area.dataset.rodada = rodada;
+  ativarQuickAdd(area);
+  document.getElementById('notas-salvar-area').style.display = 'block';
+});
+
+document.getElementById('btn-salvar-notas').addEventListener('click', ()=>{
+  const area = document.getElementById('notas-jogo-area');
+  const liga = area.dataset.liga;
+  const rodada = parseInt(area.dataset.rodada, 10);
+  let salvos = 0;
+
+  area.querySelectorAll('.player-row').forEach(row=>{
+    const jogadorId = row.dataset.jogadorId;
+    const input = row.querySelector('.input-nota');
+    const valorStr = input.value.trim();
+    if(valorStr === '') return;
+    const valor = parseInt(valorStr, 10);
+    if(isNaN(valor)) return;
+
+    const existente = state.notas.find(n => n.jogadorId === jogadorId && n.liga === liga && n.rodada === rodada);
+    if(existente){
+      existente.valor = valor;
+    }else{
+      state.notas.push({id: uid(), jogadorId, liga, rodada, valor});
+    }
+    salvos++;
+  });
+
+  saveState();
+  toast(`${salvos} nota(s) salva(s) — Rodada ${rodada}`);
+});
+
+/* =========================================================
+   SELEÇÃO DA RODADA
+   ========================================================= */
+document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
+  const rodada = parseInt(document.getElementById('selecao-rodada').value, 10);
+  const posicaoFiltro = document.getElementById('selecao-posicao').value;
+  const ligasSelecionadas = [...document.querySelectorAll('.selecao-liga:checked')].map(c=>c.value);
+  const resultado = document.getElementById('selecao-resultado');
+
+  if(!rodada){ toast('Informe a rodada para filtrar', true); return; }
+  if(ligasSelecionadas.length === 0){ toast('Marque ao menos uma liga', true); return; }
+
+  let notasFiltradas = state.notas.filter(n => n.rodada === rodada && ligasSelecionadas.includes(n.liga));
+
+  const linhas = notasFiltradas.map(n=>{
+    const j = jogadorById(n.jogadorId);
+    if(!j) return null;
+    if(posicaoFiltro && j.posicao !== posicaoFiltro) return null;
+    const c = clubeById(j.clubeAtualId);
+    return {jogador:j, clube:c, liga:n.liga, valor:n.valor};
+  }).filter(Boolean);
+
+  if(linhas.length === 0){
+    resultado.innerHTML = `<div class="empty-state">Nenhuma nota encontrada para esses filtros.</div>`;
+    return;
+  }
+
+  const posicoesParaExibir = posicaoFiltro ? [posicaoFiltro] : ORDEM_POSICOES;
+  let html = '';
+  posicoesParaExibir.forEach(codigoPos=>{
+    const doGrupo = linhas.filter(l => l.jogador.posicao === codigoPos).sort((a,b)=> b.valor - a.valor);
+    if(doGrupo.length === 0) return;
+    const pos = posicaoInfo(codigoPos);
+    html += `<div class="group-header"><span class="pill ${pos.classe}">${pos.codigo}</span> ${pos.label} <span class="count">${doGrupo.length} jogador(es)</span></div>`;
+    html += `<div class="table-wrap"><table><thead><tr><th>#</th><th>Jogador</th><th>Clube</th><th>Liga</th><th>Nota</th></tr></thead><tbody>`;
+    doGrupo.forEach((l, idx)=>{
+      html += `<tr>
+        <td>${idx+1}</td>
+        <td><strong>${escapeHtml(l.jogador.nome)}</strong></td>
+        <td>${l.clube ? escapeHtml(l.clube.nome) : '—'}</td>
+        <td><span class="liga-tag">${l.liga}</span></td>
+        <td><span class="nota-badge" style="background:${corDaNota(l.valor)};">${l.valor}</span></td>
+      </tr>`;
+    });
+    html += `</tbody></table></div>`;
+  });
+  resultado.innerHTML = html || `<div class="empty-state">Nenhuma nota encontrada para esses filtros.</div>`;
+});
+
+/* =========================================================
+   LIGA 3 — DESTAQUES
+   ========================================================= */
+function fillJogadorLiga3Select(){
+  const select = document.getElementById('destaque-jogador');
+  const jogadoresLiga3 = state.jogadores.filter(j=>{
+    const c = clubeById(j.clubeAtualId);
+    return c && c.liga === 'Liga 3';
+  }).sort((a,b)=> a.nome.localeCompare(b.nome));
+
+  select.innerHTML = jogadoresLiga3.length
+    ? jogadoresLiga3.map(j=>{
+        const c = clubeById(j.clubeAtualId);
+        return `<option value="${j.id}">${escapeHtml(j.nome)} — ${escapeHtml(c.nome)}</option>`;
+      }).join('')
+    : `<option value="">Cadastre jogadores na Liga 3 primeiro</option>`;
+}
+
+document.getElementById('form-destaque').addEventListener('submit', e=>{
+  e.preventDefault();
+  const jogadorId = document.getElementById('destaque-jogador').value;
+  const rodada = parseInt(document.getElementById('destaque-rodada').value, 10);
+  const tipo = document.getElementById('destaque-tipo').value;
+  if(!jogadorId || !rodada) { toast('Preencha jogador e rodada', true); return; }
+
+  state.destaques.push({id: uid(), jogadorId, rodada, tipo});
+  saveState();
+  toast('Destaque registrado');
+  document.getElementById('destaque-rodada').value = '';
+});
+
+document.getElementById('btn-filtrar-liga3').addEventListener('click', renderMuralLiga3);
+
+function renderMuralLiga3(){
+  const rodada = parseInt(document.getElementById('liga3-filtro-rodada').value, 10);
+  const resultado = document.getElementById('liga3-resultado');
+  let lista = [...state.destaques];
+  if(rodada) lista = lista.filter(d=>d.rodada === rodada);
+  lista.sort((a,b)=> b.rodada - a.rodada);
+
+  if(lista.length === 0){
+    resultado.innerHTML = `<div class="empty-state">Nenhum destaque registrado ${rodada ? 'nesta rodada' : 'ainda'}.</div>`;
+    return;
+  }
+
+  resultado.innerHTML = lista.map(d=>{
+    const j = jogadorById(d.jogadorId);
+    const c = j ? clubeById(j.clubeAtualId) : null;
+    const info = DESTAQUE_LABELS[d.tipo];
+    return `<div class="destaque-card">
+      <div class="desc">
+        <span class="destaque-icon">${info.icone}</span>
+        <strong>${j ? escapeHtml(j.nome) : '(jogador removido)'}</strong>
+        ${c ? `— ${escapeHtml(c.nome)}` : ''}
+        &nbsp;·&nbsp;<span class="tipo-tag">${info.label} · Rodada ${d.rodada}</span>
+      </div>
+      <button class="icon-btn" onclick="excluirDestaque('${d.id}')" title="Excluir">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function excluirDestaque(id){
+  state.destaques = state.destaques.filter(d=>d.id !== id);
+  saveState();
+  renderMuralLiga3();
+  toast('Destaque removido', true);
+}
+
+/* =========================================================
+   BACKUP
+   ========================================================= */
+function renderBackupStats(){
+  document.getElementById('backup-stats').innerHTML = `
+    <div class="stat-card"><div class="num">${state.clubes.length}</div><div class="lbl">Clubes</div></div>
+    <div class="stat-card"><div class="num">${state.jogadores.length}</div><div class="lbl">Jogadores</div></div>
+    <div class="stat-card"><div class="num">${state.notas.length}</div><div class="lbl">Notas lançadas</div></div>
+    <div class="stat-card"><div class="num">${state.destaques.length}</div><div class="lbl">Destaques (Liga 3)</div></div>
+  `;
+}
+
+document.getElementById('btn-exportar').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const hoje = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `onze-br-backup-${hoje}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('Backup baixado');
+});
+
+document.getElementById('btn-importar').addEventListener('click', ()=>{
+  const fileInput = document.getElementById('input-importar');
+  const file = fileInput.files[0];
+  if(!file){ toast('Escolha um arquivo .json', true); return; }
+  if(!confirm('Isso vai substituir TODOS os dados atuais pelo conteúdo do arquivo. Continuar?')) return;
+
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const importado = JSON.parse(e.target.result);
+      state = {
+        clubes: importado.clubes || [],
+        jogadores: importado.jogadores || [],
+        notas: importado.notas || [],
+        destaques: importado.destaques || []
+      };
+      saveState();
+      renderAll();
+      toast('Dados importados com sucesso');
+    }catch(err){
+      console.error(err);
+      toast('Arquivo inválido — não foi possível importar', true);
+    }
+  };
+  reader.onerror = ()=> toast('Erro ao ler o arquivo', true);
+  reader.readAsText(file);
+});
+
+document.getElementById('btn-limpar-tudo').addEventListener('click', ()=>{
+  if(!confirm('Apagar TODOS os dados (clubes, jogadores, notas, destaques)? Esta ação não pode ser desfeita.')) return;
+  if(!confirm('Tem certeza mesmo? Considere exportar um backup antes.')) return;
+  state = {clubes:[], jogadores:[], notas:[], destaques:[]};
+  saveState();
+  renderAll();
+  toast('Todos os dados foram apagados', true);
+});
+
+/* =========================================================
+   HELPERS / BOOT
+   ========================================================= */
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function renderAll(){
+  renderClubes();
+  renderJogadores();
+  refreshAllSelects();
+  renderBackupStats();
+  document.getElementById('notas-jogo-area').innerHTML = '';
+  document.getElementById('notas-salvar-area').style.display = 'none';
+  document.getElementById('selecao-resultado').innerHTML = '';
+  document.getElementById('liga3-resultado').innerHTML = '';
+}
+
+renderAll();
+</script>
+</body>
+</html>

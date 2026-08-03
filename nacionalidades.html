@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nacionalidades — Ligas de Futebol</title>
+<style>
+  :root{
+    --bg: #12181A;
+    --panel: #1A2226;
+    --panel-alt: #202A2F;
+    --border: #2B363B;
+    --text: #E7EEEF;
+    --muted: #8CA0A6;
+    --green: #3FA34D;
+    --green-dim: #2C7B39;
+    --amber: #E8A33D;
+    --red: #D9534F;
+    --mono: 'SF Mono', 'Consolas', 'Menlo', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+    display:flex; min-height:100vh;
+  }
+  ::selection{ background:var(--green-dim); color:#fff; }
+
+  /* Sidebar */
+  nav.sidebar{
+    width:220px; background:var(--panel); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; flex-shrink:0; position:sticky; top:0; height:100vh;
+  }
+  .brand{
+    padding:20px 18px 14px; border-bottom:1px solid var(--border);
+  }
+  .brand .title{ font-weight:700; font-size:15px; letter-spacing:0.3px; }
+  .brand .sub{ font-size:11px; color:var(--muted); margin-top:2px; }
+  .nav-items{ padding:10px; display:flex; flex-direction:column; gap:2px; flex:1; }
+  .nav-item{
+    display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:6px;
+    cursor:pointer; color:var(--muted); font-size:13.5px; font-weight:500; user-select:none;
+    border:1px solid transparent;
+  }
+  .nav-item:hover{ background:var(--panel-alt); color:var(--text); }
+  .nav-item.active{ background:var(--panel-alt); color:var(--text); border-color:var(--border); }
+  .nav-item .dot{ width:6px; height:6px; border-radius:50%; background:var(--muted); flex-shrink:0; }
+  .nav-item.active .dot{ background:var(--green); }
+  .sidebar-footer{ padding:14px 18px; border-top:1px solid var(--border); }
+  .backup-buttons{ display:flex; gap:6px; }
+  .btn-mini{
+    flex:1; font-size:11px; padding:6px 8px; background:var(--panel-alt); border:1px solid var(--border);
+    color:var(--muted); border-radius:5px; cursor:pointer; text-align:center;
+  }
+  .btn-mini:hover{ color:var(--text); border-color:var(--muted); }
+
+  /* Main */
+  main{ flex:1; padding:28px 36px 60px; max-width:1180px; }
+  .scoreboard{
+    display:flex; gap:14px; margin-bottom:26px; flex-wrap:wrap;
+  }
+  .score-box{
+    background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:12px 18px; min-width:130px;
+  }
+  .score-box .num{ font-family:var(--mono); font-size:26px; font-weight:700; color:var(--green); line-height:1; }
+  .score-box .label{ font-size:11px; color:var(--muted); margin-top:6px; text-transform:uppercase; letter-spacing:0.5px; }
+
+  h1{ font-size:20px; margin:0 0 4px; }
+  .page-desc{ color:var(--muted); font-size:13px; margin:0 0 22px; }
+
+  .panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .panel h2{ font-size:14px; margin:0 0 14px; color:var(--text); font-weight:600; }
+  .panel h3{ font-size:12.5px; margin:0 0 10px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.4px; }
+
+  label{ display:block; font-size:12px; color:var(--muted); margin-bottom:5px; font-weight:500; }
+  input[type=text], input[type=number], select, textarea{
+    width:100%; background:var(--panel-alt); border:1px solid var(--border); color:var(--text);
+    padding:9px 11px; border-radius:6px; font-size:13.5px; font-family:var(--sans);
+  }
+  textarea{ font-family:var(--mono); font-size:12.5px; min-height:160px; resize:vertical; line-height:1.5; }
+  input:focus, select:focus, textarea:focus{ outline:2px solid var(--green-dim); outline-offset:1px; border-color:var(--green-dim); }
+  .field{ margin-bottom:14px; }
+  .row{ display:flex; gap:14px; }
+  .row > .field{ flex:1; }
+
+  button{
+    background:var(--green); color:#0C1210; border:none; padding:10px 18px; border-radius:6px;
+    font-size:13px; font-weight:600; cursor:pointer;
+  }
+  button:hover{ background:#4EBB5D; }
+  button.secondary{ background:var(--panel-alt); color:var(--text); border:1px solid var(--border); }
+  button.secondary:hover{ border-color:var(--muted); }
+  button.danger{ background:transparent; color:var(--red); border:1px solid var(--red); }
+  button.danger:hover{ background:rgba(217,83,79,0.12); }
+  button:disabled{ opacity:0.4; cursor:not-allowed; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  th, td{ text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); }
+  th{ color:var(--muted); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:0.3px; }
+  td.num, th.num{ font-family:var(--mono); text-align:right; }
+  tr:hover td{ background:rgba(255,255,255,0.02); }
+  .table-wrap{ overflow-x:auto; }
+
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; background:var(--panel-alt); border:1px solid var(--border);
+    padding:4px 10px; border-radius:100px; font-size:12px; color:var(--muted); cursor:pointer; user-select:none;
+  }
+  .pill.checked{ border-color:var(--green-dim); color:var(--text); background:rgba(63,163,77,0.1); }
+  .pill input{ display:none; }
+  .pill-group{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+
+  .empty-state{ padding:30px 10px; text-align:center; color:var(--muted); font-size:13px; }
+  .empty-state .big{ font-size:28px; margin-bottom:8px; }
+
+  .badge{ font-size:10.5px; padding:2px 7px; border-radius:100px; background:var(--panel-alt); color:var(--muted); border:1px solid var(--border); }
+  .badge.new{ color:var(--amber); border-color:var(--amber); }
+  .badge.edit{ color:var(--green); border-color:var(--green-dim); }
+
+  .muted{ color:var(--muted); }
+  .mono{ font-family:var(--mono); }
+  .flex-between{ display:flex; align-items:center; justify-content:space-between; }
+  .actions{ display:flex; gap:8px; margin-top:14px; }
+  .hint{ font-size:11.5px; color:var(--muted); margin-top:4px; }
+  .divider{ height:1px; background:var(--border); margin:18px 0; }
+
+  .club-list{ display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .club-row{
+    display:flex; justify-content:space-between; align-items:center; padding:8px 12px;
+    background:var(--panel-alt); border:1px solid var(--border); border-radius:6px; font-size:13px; cursor:pointer;
+  }
+  .club-row:hover{ border-color:var(--muted); }
+  .club-row .meta{ font-size:11px; color:var(--muted); }
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:100;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:24px;
+    width:480px; max-width:92vw; max-height:80vh; overflow-y:auto;
+  }
+  .modal h3{ margin-top:0; font-size:15px; color:var(--text); text-transform:none; letter-spacing:0; }
+  .new-nation-row{ display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+  .new-nation-row .name{ flex:1; font-size:13px; }
+  .new-nation-row select{ flex:1; }
+
+  .toast{
+    position:fixed; bottom:24px; right:24px; background:var(--panel); border:1px solid var(--green-dim);
+    color:var(--text); padding:12px 18px; border-radius:8px; font-size:13px; z-index:200; display:none;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  }
+  .toast.show{ display:block; }
+
+  @media (max-width:800px){
+    body{ flex-direction:column; }
+    nav.sidebar{ width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; }
+    .nav-items{ flex-direction:row; }
+    main{ padding:20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="brand">
+    <div class="title">⚽ Nacionalidades</div>
+    <div class="sub">Análise por liga e clube</div>
+  </div>
+  <div class="nav-items">
+    <div class="nav-item active" data-page="ligas"><span class="dot"></span>Ligas</div>
+    <div class="nav-item" data-page="times"><span class="dot"></span>Times</div>
+    <div class="nav-item" data-page="nacoes"><span class="dot"></span>Nações</div>
+    <div class="nav-item" data-page="analise"><span class="dot"></span>Análise</div>
+    <div class="nav-item" data-page="tabela"><span class="dot"></span>Tabela</div>
+  </div>
+  <div class="sidebar-footer">
+    <label style="margin-bottom:8px;">Backup dos dados</label>
+    <div class="backup-buttons">
+      <div class="btn-mini" id="btnExport">Exportar</div>
+      <div class="btn-mini" id="btnImport">Importar</div>
+    </div>
+    <input type="file" id="fileImport" accept="application/json" style="display:none;">
+  </div>
+</nav>
+
+<main>
+  <div class="scoreboard" id="scoreboard"></div>
+  <div id="page-content"></div>
+</main>
+
+<div class="modal-overlay" id="newNationModal">
+  <div class="modal">
+    <h3>Nações não cadastradas encontradas</h3>
+    <p class="hint" style="margin-bottom:16px;">Defina o continente de cada uma para adicioná-las à lista antes de salvar o time.</p>
+    <div id="newNationList"></div>
+    <div class="actions">
+      <button id="confirmNewNations">Adicionar e salvar time</button>
+      <button class="secondary" id="cancelNewNations">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==================== DATA LAYER ==================== */
+const STORAGE_KEY = 'nacionalidades_db_v1';
+const CONTINENTS = ['Europa','América do Sul','América do Norte','América Central','Caribe','África','Ásia','Oceania'];
+
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){ console.error('Erro ao carregar dados', e); }
+  return { leagues: [], clubs: [], nations: [] };
+}
+function saveDB(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
+let db = loadDB();
+
+function uid(){
+  return (crypto.randomUUID ? crypto.randomUUID() : 'id_'+Date.now()+'_'+Math.random().toString(36).slice(2));
+}
+
+/* ==================== HELPERS ==================== */
+function normKey(str){
+  return str.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');
+}
+const LOWER_WORDS = ['de','da','do','das','dos','e'];
+function toTitleCase(str){
+  return str.trim().split(/\s+/).map((w,i)=>{
+    const lw = w.toLowerCase();
+    if(i>0 && LOWER_WORDS.includes(lw)) return lw;
+    return lw.charAt(0).toUpperCase()+lw.slice(1);
+  }).join(' ');
+}
+function parseNationsText(text){
+  const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const results = [];
+  const re = /^(.+?)[\t ]+(\d+)/;
+  for(const line of lines){
+    const m = line.match(re);
+    if(m){
+      const rawName = m[1].trim();
+      const qty = parseInt(m[2],10);
+      if(rawName && !isNaN(qty)) results.push({ rawName, qty });
+    }
+  }
+  return results;
+}
+function findNation(name){
+  const key = normKey(name);
+  return db.nations.find(n => normKey(n.name) === key) || null;
+}
+function findLeague(id){ return db.leagues.find(l=>l.id===id) || null; }
+function clubsInLeague(leagueId){ return db.clubs.filter(c=>c.leagueId===leagueId); }
+
+function formatDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(()=> t.classList.remove('show'), 2600);
+}
+
+/* ==================== SCOREBOARD ==================== */
+function renderScoreboard(){
+  const totalPlayers = db.clubs.reduce((sum,c)=> sum + Object.values(c.nations).reduce((a,b)=>a+b,0), 0);
+  const boxes = [
+    { label:'Ligas', value: db.leagues.length },
+    { label:'Clubes cadastrados', value: db.clubs.length },
+    { label:'Nações na base', value: db.nations.length },
+    { label:'Jogadores somados', value: totalPlayers },
+  ];
+  document.getElementById('scoreboard').innerHTML = boxes.map(b=>`
+    <div class="score-box"><div class="num">${b.value}</div><div class="label">${b.label}</div></div>
+  `).join('');
+}
+
+/* ==================== NAV ==================== */
+const pages = {};
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+    renderPage(item.dataset.page);
+  });
+});
+function renderPage(name){
+  renderScoreboard();
+  document.getElementById('page-content').innerHTML = pages[name]();
+  attachPageEvents(name);
+}
+
+/* ==================== PAGE: LIGAS ==================== */
+pages.ligas = function(){
+  const rows = db.leagues.map(l=>{
+    const count = clubsInLeague(l.id).length;
+    return `<tr>
+      <td>${l.name}</td>
+      <td class="num">${count}</td>
+      <td class="num"><button class="danger" style="padding:4px 10px;font-size:11.5px;" data-del-league="${l.id}">Remover</button></td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <h1>Ligas</h1>
+  <p class="page-desc">Cadastre as ligas que você acompanha. Depois, use a aba Times para adicionar os clubes de cada uma.</p>
+
+  <div class="panel">
+    <h2>Nova liga</h2>
+    <div class="row">
+      <div class="field">
+        <label>Nome da liga</label>
+        <input type="text" id="newLeagueName" placeholder="Ex: Liga Portugal">
+      </div>
+    </div>
+    <button id="btnAddLeague">Salvar liga</button>
+  </div>
+
+  <div class="panel">
+    <h2>Ligas cadastradas</h2>
+    ${db.leagues.length === 0 ? `
+      <div class="empty-state"><div class="big">📋</div>Nenhuma liga cadastrada ainda.<br>Crie a primeira liga acima para começar.</div>
+    ` : `
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nome</th><th class="num">Clubes</th><th class="num">Ações</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+    `}
+  </div>
+  `;
+};
+
+/* ==================== PAGE: TIMES ==================== */
+let timesFormState = { leagueId:'', clubId:null, manualEdits:{} };
+
+pages.times = function(){
+  if(db.leagues.length === 0){
+    return `<h1>Times</h1><p class="page-desc">Cadastre times e cole as listas de nacionalidades copiadas do ogol/zerozero.</p>
+      <div class="panel"><div class="empty-state"><div class="big">⚠️</div>Você precisa cadastrar ao menos uma liga antes de adicionar times.</div></div>`;
+  }
+
+  const leagueOptions = db.leagues.map(l=>`<option value="${l.id}" ${l.id===timesFormState.leagueId?'selected':''}>${l.name}</option>`).join('');
+  const currentClubs = timesFormState.leagueId ? clubsInLeague(timesFormState.leagueId) : [];
+  const datalist = currentClubs.map(c=>`<option value="${c.name}">`).join('');
+
+  const existingClub = timesFormState.clubId ? db.clubs.find(c=>c.id===timesFormState.clubId) : null;
+
+  let editSection = '';
+  if(existingClub){
+    const entries = Object.entries(existingClub.nations).sort((a,b)=>b[1]-a[1]);
+    const total = entries.reduce((s,[,q])=>s+q,0);
+    const rows = entries.map(([name,qty])=>`
+      <tr>
+        <td>${name}</td>
+        <td class="num"><input type="number" min="0" style="width:70px;text-align:right;" data-manual-qty="${name}" value="${qty}"></td>
+      </tr>`).join('');
+    editSection = `
+      <div class="panel">
+        <div class="flex-between">
+          <h2>Editando: ${existingClub.name} <span class="badge edit">JÁ CADASTRADO</span></h2>
+          <span class="hint">Última atualização: ${formatDate(existingClub.updatedAt)}</span>
+        </div>
+        <h3>Ajuste manual (ex: uma contratação isolada)</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Nação</th><th class="num">Quantidade</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+        <div class="actions">
+          <button id="btnSaveManual">Salvar alterações manuais</button>
+          <span class="hint mono" style="align-self:center;">Total atual: ${total} jogadores</span>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+  <h1>Times</h1>
+  <p class="page-desc">Selecione a liga, digite o nome do clube e cole a lista de nacionalidades copiada do ogol/zerozero.</p>
+
+  <div class="panel">
+    <h2>Selecionar / cadastrar time</h2>
+    <div class="row">
+      <div class="field">
+        <label>Liga</label>
+        <select id="selLeague">
+          <option value="">Selecione a liga</option>
+          ${leagueOptions}
+        </select>
+      </div>
+      <div class="field">
+        <label>Nome do time</label>
+        <input type="text" id="clubName" list="clubDatalist" placeholder="Ex: Braga" value="${existingClub ? existingClub.name : ''}" ${!timesFormState.leagueId?'disabled':''}>
+        <datalist id="clubDatalist">${datalist}</datalist>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Colar lista de nacionalidades (copiada do ogol/zerozero)${existingClub ? ' — isso substitui a lista completa deste time' : ''}</label>
+      <textarea id="pasteArea" placeholder="Portugal&#9;10 (40,0%)&#10;Brasil&#9;5 (20,0%)&#10;Espanha&#9;3 (12,0%)"></textarea>
+      <p class="hint">Cole exatamente como veio do site — nome, quantidade e percentual. O percentual é ignorado automaticamente.</p>
+    </div>
+
+    <div class="actions">
+      <button id="btnProcessPaste">${existingClub ? 'Substituir com nova colagem' : 'Processar e salvar novo time'}</button>
+      ${existingClub ? `<button class="danger" id="btnDeleteClub">Remover time</button>` : ''}
+    </div>
+  </div>
+
+  ${editSection}
+
+  <div class="panel">
+    <h2>Times cadastrados ${timesFormState.leagueId ? 'nesta liga' : ''}</h2>
+    ${!timesFormState.leagueId ? `<p class="hint">Selecione uma liga acima para ver os times.</p>` :
+      currentClubs.length === 0 ? `<div class="empty-state"><div class="big">🏟️</div>Nenhum time cadastrado nesta liga ainda.</div>` :
+      `<div class="club-list">${currentClubs.map(c=>{
+        const total = Object.values(c.nations).reduce((a,b)=>a+b,0);
+        return `<div class="club-row" data-select-club="${c.id}">
+          <span>${c.name}</span>
+          <span class="meta">${total} jogadores · atualizado ${formatDate(c.updatedAt)}</span>
+        </div>`;
+      }).join('')}</div>`
+    }
+  </div>
+  `;
+};
+
+/* Pending paste data, used while modal for new nations is open */
+let pendingSave = null;
+
+function attachTimesEvents(){
+  const selLeague = document.getElementById('selLeague');
+  if(selLeague){
+    selLeague.addEventListener('change', e=>{
+      timesFormState.leagueId = e.target.value;
+      timesFormState.clubId = null;
+      renderPage('times');
+    });
+  }
+  const clubNameInput = document.getElementById('clubName');
+  if(clubNameInput){
+    clubNameInput.addEventListener('change', e=>{
+      const typedName = e.target.value;
+      const pasteAreaEl = document.getElementById('pasteArea');
+      const typedPaste = pasteAreaEl ? pasteAreaEl.value : '';
+      const key = normKey(typedName);
+      const match = clubsInLeague(timesFormState.leagueId).find(c=>normKey(c.name)===key);
+      timesFormState.clubId = match ? match.id : null;
+      renderPage('times');
+      // Preserve what the user typed/pasted through the re-render triggered above.
+      const newClubInput = document.getElementById('clubName');
+      if(newClubInput && !match) newClubInput.value = typedName;
+      const newPasteArea = document.getElementById('pasteArea');
+      if(newPasteArea && typedPaste) newPasteArea.value = typedPaste;
+    });
+  }
+  document.querySelectorAll('[data-select-club]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      timesFormState.clubId = el.dataset.selectClub;
+      renderPage('times');
+    });
+  });
+  const btnProcess = document.getElementById('btnProcessPaste');
+  if(btnProcess){
+    btnProcess.addEventListener('click', handleProcessPaste);
+  }
+  const btnSaveManual = document.getElementById('btnSaveManual');
+  if(btnSaveManual){
+    btnSaveManual.addEventListener('click', handleSaveManual);
+  }
+  const btnDeleteClub = document.getElementById('btnDeleteClub');
+  if(btnDeleteClub){
+    btnDeleteClub.addEventListener('click', ()=>{
+      const existingClub = db.clubs.find(c=>c.id===timesFormState.clubId);
+      if(existingClub && confirm(`Remover "${existingClub.name}" e todos os seus dados?`)){
+        db.clubs = db.clubs.filter(c=>c.id!==existingClub.id);
+        timesFormState.clubId = null;
+        saveDB();
+        showToast('Time removido.');
+        renderPage('times');
+      }
+    });
+  }
+}
+
+function handleProcessPaste(){
+  const leagueId = timesFormState.leagueId;
+  if(!leagueId){ showToast('Selecione uma liga primeiro.'); return; }
+  const rawClubName = document.getElementById('clubName').value.trim();
+  if(!rawClubName){ showToast('Digite o nome do time.'); return; }
+  const clubName = toTitleCase(rawClubName);
+  const text = document.getElementById('pasteArea').value;
+  const parsed = parseNationsText(text);
+  if(parsed.length === 0){ showToast('Não encontrei nenhuma nação válida no texto colado.'); return; }
+
+  // Separate known vs unknown nations
+  const unknown = [];
+  const nationsMap = {};
+  for(const {rawName, qty} of parsed){
+    const existing = findNation(rawName);
+    if(existing){
+      nationsMap[existing.name] = (nationsMap[existing.name]||0) + qty;
+    } else {
+      const nameKey = normKey(rawName);
+      if(!unknown.find(u=>normKey(u.name)===nameKey)){
+        unknown.push({ name: toTitleCase(rawName) });
+      }
+    }
+  }
+
+  pendingSave = { leagueId, clubName, parsed, nationsMap };
+
+  if(unknown.length > 0){
+    openNewNationModal(unknown);
+  } else {
+    finalizeSaveClub();
+  }
+}
+
+function finalizeSaveClub(){
+  if(!pendingSave) return;
+  const { leagueId, clubName, parsed } = pendingSave;
+  // rebuild nationsMap now that all nations are guaranteed to exist
+  const nationsMap = {};
+  for(const {rawName, qty} of parsed){
+    const nation = findNation(rawName);
+    if(nation) nationsMap[nation.name] = (nationsMap[nation.name]||0) + qty;
+  }
+
+  const key = normKey(clubName);
+  let club = db.clubs.find(c=>c.leagueId===leagueId && normKey(c.name)===key);
+  if(club){
+    club.nations = nationsMap;
+    club.updatedAt = new Date().toISOString();
+  } else {
+    club = { id: uid(), leagueId, name: clubName, nations: nationsMap, updatedAt: new Date().toISOString() };
+    db.clubs.push(club);
+  }
+  saveDB();
+  timesFormState.clubId = club.id;
+  pendingSave = null;
+  showToast(`${clubName} salvo com sucesso.`);
+  renderPage('times');
+}
+
+function handleSaveManual(){
+  const club = db.clubs.find(c=>c.id===timesFormState.clubId);
+  if(!club) return;
+  document.querySelectorAll('[data-manual-qty]').forEach(input=>{
+    const name = input.dataset.manualQty;
+    const val = parseInt(input.value,10);
+    club.nations[name] = isNaN(val) ? 0 : val;
+  });
+  club.updatedAt = new Date().toISOString();
+  saveDB();
+  showToast('Alterações manuais salvas.');
+  renderPage('times');
+}
+
+/* ==================== MODAL: NEW NATIONS ==================== */
+function openNewNationModal(unknownList){
+  const modal = document.getElementById('newNationModal');
+  const list = document.getElementById('newNationList');
+  list.innerHTML = unknownList.map((u,i)=>`
+    <div class="new-nation-row">
+      <span class="name">${u.name}</span>
+      <select data-new-nation-continent="${u.name}">
+        <option value="">Selecione o continente</option>
+        ${CONTINENTS.map(c=>`<option value="${c}">${c}</option>`).join('')}
+      </select>
+    </div>
+  `).join('');
+  modal.classList.add('open');
+}
+document.getElementById('confirmNewNations').addEventListener('click', ()=>{
+  const selects = document.querySelectorAll('[data-new-nation-continent]');
+  let allFilled = true;
+  const toAdd = [];
+  selects.forEach(sel=>{
+    if(!sel.value) allFilled = false;
+    toAdd.push({ name: sel.dataset.newNationContinent, continent: sel.value });
+  });
+  if(!allFilled){ showToast('Selecione o continente de todas as nações.'); return; }
+  toAdd.forEach(n=>{
+    if(!findNation(n.name)) db.nations.push({ name: n.name, continent: n.continent });
+  });
+  saveDB();
+  document.getElementById('newNationModal').classList.remove('open');
+  finalizeSaveClub();
+});
+document.getElementById('cancelNewNations').addEventListener('click', ()=>{
+  document.getElementById('newNationModal').classList.remove('open');
+  pendingSave = null;
+});
+
+/* ==================== PAGE: NAÇÕES ==================== */
+pages.nacoes = function(){
+  const sorted = [...db.nations].sort((a,b)=>a.name.localeCompare(b.name));
+  const rows = sorted.map(n=>{
+    const total = db.clubs.reduce((sum,c)=> sum + (c.nations[n.name]||0), 0);
+    return `<tr>
+      <td>${n.name}</td>
+      <td>
+        <select data-change-continent="${n.name}">
+          ${CONTINENTS.map(c=>`<option value="${c}" ${c===n.continent?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </td>
+      <td class="num">${total}</td>
+      <td class="num"><button class="danger" style="padding:4px 10px;font-size:11.5px;" data-del-nation="${n.name}">Remover</button></td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <h1>Nações</h1>
+  <p class="page-desc">Somente nações que já apareceram nos seus levantamentos ficam cadastradas aqui. Novas nações são adicionadas automaticamente ao colar uma lista com um país ainda não conhecido.</p>
+
+  <div class="panel">
+    <h2>Adicionar nação manualmente</h2>
+    <div class="row">
+      <div class="field">
+        <label>Nome da nação</label>
+        <input type="text" id="manualNationName" placeholder="Ex: Curaçao">
+      </div>
+      <div class="field">
+        <label>Continente</label>
+        <select id="manualNationContinent">
+          <option value="">Selecione</option>
+          ${CONTINENTS.map(c=>`<option value="${c}">${c}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <button id="btnAddNation">Adicionar nação</button>
+  </div>
+
+  <div class="panel">
+    <h2>Nações cadastradas (${db.nations.length})</h2>
+    ${db.nations.length === 0 ? `
+      <div class="empty-state"><div class="big">🌍</div>Nenhuma nação cadastrada ainda.<br>Elas aparecerão aqui automaticamente conforme você processa os times.</div>
+    ` : `
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nação</th><th>Continente</th><th class="num">Jogadores (total)</th><th class="num">Ações</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+    `}
+  </div>
+  `;
+};
+
+/* ==================== PAGE: ANÁLISE ==================== */
+let analiseState = { selectedLeagues: new Set(db.leagues.map(l=>l.id)), mode:'ranking', selectedNations: [], selectedContinent:'' };
+
+pages.analise = function(){
+  if(db.leagues.length === 0){
+    return `<h1>Análise</h1><p class="page-desc">Cadastre ligas e times primeiro para gerar análises.</p>`;
+  }
+
+  const leaguePills = db.leagues.map(l=>`
+    <label class="pill ${analiseState.selectedLeagues.has(l.id)?'checked':''}">
+      <input type="checkbox" data-league-toggle="${l.id}" ${analiseState.selectedLeagues.has(l.id)?'checked':''}>
+      ${l.name}
+    </label>
+  `).join('');
+
+  const relevantClubs = db.clubs.filter(c=>analiseState.selectedLeagues.has(c.leagueId));
+
+  let body = '';
+  if(analiseState.mode === 'ranking'){
+    const totals = {};
+    relevantClubs.forEach(c=>{
+      Object.entries(c.nations).forEach(([name,qty])=>{
+        totals[name] = (totals[name]||0) + qty;
+      });
+    });
+    const sorted = Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+    const grand = sorted.reduce((s,[,q])=>s+q,0);
+    body = sorted.length === 0 ? `<p class="hint">Nenhum dado para as ligas selecionadas.</p>` : `
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nação</th><th class="num">Jogadores</th><th class="num">%</th></tr></thead>
+        <tbody>${sorted.map(([name,qty])=>`
+          <tr><td>${name}</td><td class="num">${qty}</td><td class="num">${((qty/grand)*100).toFixed(1)}%</td></tr>
+        `).join('')}</tbody>
+        <tfoot><tr><th>Total</th><th class="num">${grand}</th><th></th></tr></tfoot>
+      </table></div>
+    `;
+  } else if(analiseState.mode === 'nacoes'){
+    const options = db.nations.map(n=>`<option value="${n.name}" ${analiseState.selectedNations.includes(n.name)?'selected':''}>${n.name}</option>`).join('');
+    let result = '';
+    if(analiseState.selectedNations.length > 0){
+      const perNation = analiseState.selectedNations.map(name=>{
+        const total = relevantClubs.reduce((sum,c)=> sum + (c.nations[name]||0), 0);
+        const perLeague = db.leagues.filter(l=>analiseState.selectedLeagues.has(l.id)).map(l=>{
+          const lt = clubsInLeague(l.id).reduce((sum,c)=> sum + (c.nations[name]||0), 0);
+          return { league:l.name, total:lt };
+        }).filter(x=>x.total>0);
+        return { name, total, perLeague };
+      });
+      const grandTotal = perNation.reduce((s,n)=>s+n.total,0);
+      result = `
+        <div class="panel" style="background:var(--panel-alt);border-style:dashed;">
+          <div class="score-box" style="display:inline-block;"><div class="num">${grandTotal}</div><div class="label">Total combinado (${perNation.map(n=>n.name).join(' + ')})</div></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Nação</th><th class="num">Total</th><th>Por liga</th></tr></thead>
+          <tbody>${perNation.map(n=>`
+            <tr>
+              <td>${n.name}</td>
+              <td class="num">${n.total}</td>
+              <td class="muted" style="font-size:12px;">${n.perLeague.map(l=>`${l.league}: ${l.total}`).join(' · ') || '—'}</td>
+            </tr>
+          `).join('')}</tbody>
+        </table></div>
+      `;
+    } else {
+      result = `<p class="hint">Selecione até 3 nações acima para ver o total combinado.</p>`;
+    }
+    body = `
+      <div class="field">
+        <label>Selecione até 3 nações (Ctrl/Cmd + clique para múltiplas)</label>
+        <select id="selNations" multiple size="6">${options}</select>
+      </div>
+      ${result}
+    `;
+  } else if(analiseState.mode === 'continente'){
+    const options = CONTINENTS.map(c=>`<option value="${c}" ${c===analiseState.selectedContinent?'selected':''}>${c}</option>`).join('');
+    let result = '';
+    if(analiseState.selectedContinent){
+      const nationsInContinent = db.nations.filter(n=>n.continent===analiseState.selectedContinent).map(n=>n.name);
+      const total = relevantClubs.reduce((sum,c)=>{
+        return sum + nationsInContinent.reduce((s2,name)=> s2 + (c.nations[name]||0), 0);
+      }, 0);
+      const breakdown = nationsInContinent.map(name=>{
+        const t = relevantClubs.reduce((sum,c)=> sum + (c.nations[name]||0), 0);
+        return { name, t };
+      }).filter(x=>x.t>0).sort((a,b)=>b.t-a.t);
+      result = `
+        <div class="panel" style="background:var(--panel-alt);border-style:dashed;">
+          <div class="score-box" style="display:inline-block;"><div class="num">${total}</div><div class="label">Jogadores de ${analiseState.selectedContinent}</div></div>
+        </div>
+        ${breakdown.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>Nação</th><th class="num">Jogadores</th></tr></thead>
+          <tbody>${breakdown.map(b=>`<tr><td>${b.name}</td><td class="num">${b.t}</td></tr>`).join('')}</tbody>
+        </table></div>` : ''}
+      `;
+    } else {
+      result = `<p class="hint">Selecione um continente acima.</p>`;
+    }
+    body = `
+      <div class="field">
+        <label>Continente</label>
+        <select id="selContinent">
+          <option value="">Selecione</option>
+          ${options}
+        </select>
+      </div>
+      ${result}
+    `;
+  }
+
+  return `
+  <h1>Análise</h1>
+  <p class="page-desc">Selecione as ligas e o tipo de análise. Os totais são recalculados na hora.</p>
+
+  <div class="panel">
+    <h3>Ligas incluídas</h3>
+    <div class="pill-group">${leaguePills}</div>
+    <div class="divider"></div>
+    <h3>Tipo de análise</h3>
+    <div class="pill-group">
+      <label class="pill ${analiseState.mode==='ranking'?'checked':''}"><input type="radio" name="mode" data-mode="ranking" ${analiseState.mode==='ranking'?'checked':''}>Ranking geral</label>
+      <label class="pill ${analiseState.mode==='nacoes'?'checked':''}"><input type="radio" name="mode" data-mode="nacoes" ${analiseState.mode==='nacoes'?'checked':''}>Nações específicas (até 3)</label>
+      <label class="pill ${analiseState.mode==='continente'?'checked':''}"><input type="radio" name="mode" data-mode="continente" ${analiseState.mode==='continente'?'checked':''}>Por continente</label>
+    </div>
+  </div>
+
+  <div class="panel">
+    ${body}
+  </div>
+  `;
+};
+
+/* ==================== PAGE: TABELA (matriz estilo planilha) ==================== */
+let tabelaState = { leagueId: db.leagues[0] ? db.leagues[0].id : '' };
+
+pages.tabela = function(){
+  if(db.leagues.length === 0){
+    return `<h1>Tabela</h1><p class="page-desc">Cadastre uma liga primeiro.</p>`;
+  }
+  const leagueOptions = db.leagues.map(l=>`<option value="${l.id}" ${l.id===tabelaState.leagueId?'selected':''}>${l.name}</option>`).join('');
+  const clubs = tabelaState.leagueId ? clubsInLeague(tabelaState.leagueId) : [];
+  const allNations = new Set();
+  clubs.forEach(c=> Object.keys(c.nations).forEach(n=>allNations.add(n)));
+  const nationsSorted = [...allNations].sort((a,b)=>{
+    const totalA = clubs.reduce((s,c)=>s+(c.nations[a]||0),0);
+    const totalB = clubs.reduce((s,c)=>s+(c.nations[b]||0),0);
+    return totalB - totalA;
+  });
+
+  let tableHtml = '';
+  if(clubs.length === 0 || nationsSorted.length === 0){
+    tableHtml = `<div class="empty-state"><div class="big">📊</div>Nenhum dado para exibir nesta liga ainda.</div>`;
+  } else {
+    const colTotals = clubs.map(c=> Object.values(c.nations).reduce((a,b)=>a+b,0));
+    const grand = colTotals.reduce((a,b)=>a+b,0);
+    tableHtml = `
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nação</th>
+            ${clubs.map(c=>`<th class="num">${c.name}</th>`).join('')}
+            <th class="num">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${nationsSorted.map(nation=>{
+            const rowTotal = clubs.reduce((s,c)=>s+(c.nations[nation]||0),0);
+            return `<tr>
+              <td>${nation}</td>
+              ${clubs.map(c=>`<td class="num">${c.nations[nation]||''}</td>`).join('')}
+              <td class="num" style="font-weight:700;">${rowTotal}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Total</th>
+            ${colTotals.map(t=>`<th class="num">${t}</th>`).join('')}
+            <th class="num">${grand}</th>
+          </tr>
+        </tfoot>
+      </table>
+      </div>
+    `;
+  }
+
+  return `
+  <h1>Tabela</h1>
+  <p class="page-desc">Visão em matriz — igual à sua planilha original — gerada automaticamente a partir dos dados salvos.</p>
+  <div class="panel">
+    <div class="field" style="max-width:300px;">
+      <label>Liga</label>
+      <select id="selTabelaLeague">${leagueOptions}</select>
+    </div>
+    ${tableHtml}
+  </div>
+  `;
+};
+
+/* ==================== EVENT ATTACHMENT ==================== */
+function attachPageEvents(name){
+  if(name === 'ligas'){
+    document.getElementById('btnAddLeague').addEventListener('click', ()=>{
+      const input = document.getElementById('newLeagueName');
+      const name = input.value.trim();
+      if(!name){ showToast('Digite o nome da liga.'); return; }
+      const key = normKey(name);
+      if(db.leagues.find(l=>normKey(l.name)===key)){ showToast('Essa liga já existe.'); return; }
+      db.leagues.push({ id: uid(), name: toTitleCase(name) });
+      saveDB();
+      showToast('Liga salva.');
+      renderPage('ligas');
+    });
+    document.querySelectorAll('[data-del-league]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.dataset.delLeague;
+        const league = findLeague(id);
+        const clubCount = clubsInLeague(id).length;
+        const msg = clubCount > 0
+          ? `Remover "${league.name}"? Isso também apagará ${clubCount} time(s) cadastrado(s) nela.`
+          : `Remover "${league.name}"?`;
+        if(confirm(msg)){
+          db.leagues = db.leagues.filter(l=>l.id!==id);
+          db.clubs = db.clubs.filter(c=>c.leagueId!==id);
+          saveDB();
+          showToast('Liga removida.');
+          renderPage('ligas');
+        }
+      });
+    });
+  }
+  if(name === 'times'){
+    attachTimesEvents();
+  }
+  if(name === 'nacoes'){
+    document.getElementById('btnAddNation').addEventListener('click', ()=>{
+      const nameInput = document.getElementById('manualNationName');
+      const contSelect = document.getElementById('manualNationContinent');
+      const name = nameInput.value.trim();
+      const cont = contSelect.value;
+      if(!name || !cont){ showToast('Preencha nome e continente.'); return; }
+      if(findNation(name)){ showToast('Essa nação já está cadastrada.'); return; }
+      db.nations.push({ name: toTitleCase(name), continent: cont });
+      saveDB();
+      showToast('Nação adicionada.');
+      renderPage('nacoes');
+    });
+    document.querySelectorAll('[data-change-continent]').forEach(sel=>{
+      sel.addEventListener('change', ()=>{
+        const nation = db.nations.find(n=>n.name===sel.dataset.changeContinent);
+        if(nation){ nation.continent = sel.value; saveDB(); showToast('Continente atualizado.'); }
+      });
+    });
+    document.querySelectorAll('[data-del-nation]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const name = btn.dataset.delNation;
+        if(confirm(`Remover "${name}" da lista de nações? Isso não apaga os dados já salvos nos times, apenas a nação some da lista de referência.`)){
+          db.nations = db.nations.filter(n=>n.name!==name);
+          saveDB();
+          renderPage('nacoes');
+        }
+      });
+    });
+  }
+  if(name === 'analise'){
+    document.querySelectorAll('[data-league-toggle]').forEach(cb=>{
+      cb.addEventListener('change', ()=>{
+        const id = cb.dataset.leagueToggle;
+        if(cb.checked) analiseState.selectedLeagues.add(id); else analiseState.selectedLeagues.delete(id);
+        renderPage('analise');
+      });
+    });
+    document.querySelectorAll('[name=mode]').forEach(radio=>{
+      radio.addEventListener('change', ()=>{
+        analiseState.mode = radio.dataset.mode;
+        renderPage('analise');
+      });
+    });
+    const selNations = document.getElementById('selNations');
+    if(selNations){
+      selNations.addEventListener('change', ()=>{
+        let vals = Array.from(selNations.selectedOptions).map(o=>o.value);
+        if(vals.length > 3){
+          showToast('Máximo de 3 nações. Mantendo as 3 primeiras selecionadas.');
+          vals = vals.slice(0,3);
+        }
+        analiseState.selectedNations = vals;
+        renderPage('analise');
+      });
+    }
+    const selContinent = document.getElementById('selContinent');
+    if(selContinent){
+      selContinent.addEventListener('change', ()=>{
+        analiseState.selectedContinent = selContinent.value;
+        renderPage('analise');
+      });
+    }
+  }
+  if(name === 'tabela'){
+    const sel = document.getElementById('selTabelaLeague');
+    if(sel){
+      sel.addEventListener('change', ()=>{
+        tabelaState.leagueId = sel.value;
+        renderPage('tabela');
+      });
+    }
+  }
+}
+
+/* ==================== BACKUP: EXPORT / IMPORT ==================== */
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(db, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `nacionalidades_backup_${date}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Backup exportado.');
+});
+document.getElementById('btnImport').addEventListener('click', ()=>{
+  document.getElementById('fileImport').click();
+});
+document.getElementById('fileImport').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const imported = JSON.parse(reader.result);
+      if(!imported.leagues || !imported.clubs || !imported.nations) throw new Error('Formato inválido');
+      if(confirm('Importar este arquivo vai SUBSTITUIR todos os dados atuais. Continuar?')){
+        db = imported;
+        saveDB();
+        showToast('Dados importados com sucesso.');
+        renderPage('ligas');
+        document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+        document.querySelector('[data-page=ligas]').classList.add('active');
+      }
+    }catch(err){
+      showToast('Arquivo inválido. Verifique se é um backup exportado por este sistema.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+/* ==================== INIT ==================== */
+renderPage('ligas');
+</script>
+</body>
+</html>
