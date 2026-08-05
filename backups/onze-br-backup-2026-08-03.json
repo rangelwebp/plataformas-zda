@@ -1,0 +1,2092 @@
+{
+  "clubes": [
+    {
+      "id": "ms6sxa9jgeq3c8",
+      "nome": "AVS",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "ms6syk6p2uvd3e",
+      "nome": "Académica de Coimbra",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "ms7c7ub4y2q7kl",
+      "nome": "Desportivo de Chaves",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "ms7dmo4bojgomq",
+      "nome": "Farense",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbktt94grcxsd",
+      "nome": "Amarante",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbkul7aduyvmv",
+      "nome": "Benfica B",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbkxl4997pvrh",
+      "nome": "Feirense",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbkzjbbqsotaa",
+      "nome": "Felgueiras",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbl022yhiogy6",
+      "nome": "UD Leiria",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbl1lulyip8r2",
+      "nome": "Leixões",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbl9zz79k3v6a",
+      "nome": "Lusitânia de Lourosa",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbldeqczo5x8x",
+      "nome": "Portimonense",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbldhu7xihswx",
+      "nome": "Penafiel",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msblesomgd91fq",
+      "nome": "Porto B",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbljgmixf1fbs",
+      "nome": "Sporting B",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbllao4fmzgl7",
+      "nome": "Tondela",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msblm64hja6isx",
+      "nome": "Torreense",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msblo1cyn531ma",
+      "nome": "Vizela",
+      "liga": "Liga Portugal 2"
+    },
+    {
+      "id": "msbnvyg11siw4m",
+      "nome": "Académico de Viseu",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbnxudw76j2hh",
+      "nome": "Casa Pia",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbnzicqfd2jqz",
+      "nome": "Est. Amadora",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo2kwxf0sddq",
+      "nome": "Estoril Praia",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo2yp4fqywip",
+      "nome": "Alverca",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo61a4mpj78c",
+      "nome": "Arouca",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo6lqtfjk58j",
+      "nome": "Famalicão",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo8js3jjinpa",
+      "nome": "Porto",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo8lzixkbce0",
+      "nome": "Benfica",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbo9mtq8yebie",
+      "nome": "Gil Vicente",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbp991ds39pzv",
+      "nome": "Marítimo",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpa1rm6pm4gm",
+      "nome": "Moreirense",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpe9y4cuoyf3",
+      "nome": "Nacional",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpeqgb2d7ux5",
+      "nome": "Rio Ave",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpghdi9dl2k4",
+      "nome": "Santa Clara",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpke2ek2l5o2",
+      "nome": "SC Braga",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpm47c9kwixf",
+      "nome": "Sporting",
+      "liga": "Liga Portugal"
+    },
+    {
+      "id": "msbpnn895lx6pa",
+      "nome": "Vitória SC",
+      "liga": "Liga Portugal"
+    }
+  ],
+  "jogadores": [
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6sxlk4xgkn2h",
+      "nome": "Estevão",
+      "posicao": "GK",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6sxlk46o9rqe",
+      "nome": "Mateus Pivô",
+      "posicao": "LD",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6sxlk4pkmpsd",
+      "nome": "Davi Schuindt",
+      "posicao": "ZC",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6sxlk4zutjny",
+      "nome": "Roni Moura",
+      "posicao": "MC",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6sxlk4wvlijz",
+      "nome": "Guilherme Neiva",
+      "posicao": "AT",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6sxlk480fmok",
+      "nome": "Talles Wander",
+      "posicao": "AT",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6szkvvow6ddp",
+      "nome": "Édson Farias",
+      "posicao": "LD",
+      "clubeAtualId": "ms6syk6p2uvd3e",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6szkvw8irz1z",
+      "nome": "Guilherme Silva",
+      "posicao": "ZC",
+      "clubeAtualId": "ms6syk6p2uvd3e",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6szkvwghrgt5",
+      "nome": "Kauan Conceição",
+      "posicao": "ZC",
+      "clubeAtualId": "ms6syk6p2uvd3e",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms6szkvw4c7wfn",
+      "nome": "Marcos Paulo",
+      "posicao": "MC",
+      "clubeAtualId": "ms6syk6p2uvd3e",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7c91bmjrslce",
+      "nome": "Léo Alaba",
+      "posicao": "LD",
+      "clubeAtualId": "ms7c7ub4y2q7kl",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7c91bmdbgfhp",
+      "nome": "Ktatau",
+      "posicao": "MC",
+      "clubeAtualId": "ms7c7ub4y2q7kl",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7c91bmcafwfk",
+      "nome": "Marquinhos",
+      "posicao": "AT",
+      "clubeAtualId": "ms7c7ub4y2q7kl",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7dmv3putfhza",
+      "nome": "Derick Poloni",
+      "posicao": "LE",
+      "clubeAtualId": "ms7dmo4bojgomq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7dmv3pfvumb4",
+      "nome": "Matteus Oliveira",
+      "posicao": "MC",
+      "clubeAtualId": "ms7dmo4bojgomq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7dmv3pzuqh5i",
+      "nome": "Cláudio Falcão",
+      "posicao": "ZC",
+      "clubeAtualId": "ms7dmo4bojgomq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "ms7dmv3pgmbz94",
+      "nome": "Gabriel Barbosa",
+      "posicao": "AT",
+      "clubeAtualId": "ms7dmo4bojgomq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbku3w60sr11g",
+      "nome": "Tokinho Dória",
+      "posicao": "MC",
+      "clubeAtualId": "msbktt94grcxsd",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkuwvrb7fpi2",
+      "nome": "Felipe Lima",
+      "posicao": "AT",
+      "clubeAtualId": "msbkul7aduyvmv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkvw8meuar1v",
+      "nome": "Rodrigo Moura",
+      "posicao": "GK",
+      "clubeAtualId": "ms7c7ub4y2q7kl",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkvw8mwvohjt",
+      "nome": "GB",
+      "posicao": "AT",
+      "clubeAtualId": "ms7c7ub4y2q7kl",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkyje46spdmu",
+      "nome": "Luiz Gustavo",
+      "posicao": "LD",
+      "clubeAtualId": "msbkxl4997pvrh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkyje4ei3v3g",
+      "nome": "Kaiquy Luiz",
+      "posicao": "ZC",
+      "clubeAtualId": "msbkxl4997pvrh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkyje4yf1r00",
+      "nome": "Isaac Valença",
+      "posicao": "MC",
+      "clubeAtualId": "msbkxl4997pvrh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkyje4xrnpxd",
+      "nome": "Arthur Viana",
+      "posicao": "AT",
+      "clubeAtualId": "msbkxl4997pvrh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkzogri8vlay",
+      "nome": "Mateus Pasinato",
+      "posicao": "GK",
+      "clubeAtualId": "msbkzjbbqsotaa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkzogrw26s1y",
+      "nome": "Gustavo Mendes",
+      "posicao": "AT",
+      "clubeAtualId": "msbkzjbbqsotaa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbkzogr0yy09c",
+      "nome": "Lucas Duarte",
+      "posicao": "AT",
+      "clubeAtualId": "msbkzjbbqsotaa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl0x3gl41p52",
+      "nome": "Marcelo",
+      "posicao": "ZC",
+      "clubeAtualId": "msbl022yhiogy6",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl0x3ggvtgy2",
+      "nome": "Tharlley",
+      "posicao": "MC",
+      "clubeAtualId": "msbl022yhiogy6",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl0x3gyronp5",
+      "nome": "Jair da Silva",
+      "posicao": "AT",
+      "clubeAtualId": "msbl022yhiogy6",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl345am9pexe",
+      "nome": "Simão Bertelli",
+      "posicao": "GK",
+      "clubeAtualId": "msbl1lulyip8r2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl345av9a37l",
+      "nome": "Caio Secco",
+      "posicao": "GK",
+      "clubeAtualId": "msbl1lulyip8r2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl345a09ijq0",
+      "nome": "Matheus Costa",
+      "posicao": "ZC",
+      "clubeAtualId": "msbl1lulyip8r2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl345acezoto",
+      "nome": "Arthur Baggio",
+      "posicao": "MC",
+      "clubeAtualId": "msbl1lulyip8r2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl345a9qh44e",
+      "nome": "Luccas Paraizo",
+      "posicao": "AT",
+      "clubeAtualId": "msbl1lulyip8r2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbl345a5c8dd4",
+      "nome": "Kaique",
+      "posicao": "AT",
+      "clubeAtualId": "msbl1lulyip8r2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblatzc7wdqwk",
+      "nome": "Gabriel Souza",
+      "posicao": "GK",
+      "clubeAtualId": "msbl9zz79k3v6a",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblatzcukatcj",
+      "nome": "Vitor Hugo",
+      "posicao": "GK",
+      "clubeAtualId": "msbl9zz79k3v6a",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblatzcu1p0zm",
+      "nome": "Danny",
+      "posicao": "MC",
+      "clubeAtualId": "msbl9zz79k3v6a",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbldmrp7md3yg",
+      "nome": "Wellington",
+      "posicao": "GK",
+      "clubeAtualId": "msbldeqczo5x8x",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbldmrp0dtuto",
+      "nome": "Edney",
+      "posicao": "LD",
+      "clubeAtualId": "msbldeqczo5x8x",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbldmrp9e48yk",
+      "nome": "Thauan Lara",
+      "posicao": "LE",
+      "clubeAtualId": "msbldeqczo5x8x",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbldmrp7dz45c",
+      "nome": "Jarleysom",
+      "posicao": "ZC",
+      "clubeAtualId": "msbldeqczo5x8x",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbldmrpttaudu",
+      "nome": "Welington Jr.",
+      "posicao": "AT",
+      "clubeAtualId": "msbldeqczo5x8x",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblfj1o3w7xs0",
+      "nome": "Kaio Henrique",
+      "posicao": "LE",
+      "clubeAtualId": "msblesomgd91fq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblfj1o3bm8u0",
+      "nome": "Felipe Silva",
+      "posicao": "ZC",
+      "clubeAtualId": "msblesomgd91fq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblfj1oww5kzj",
+      "nome": "Kauê Rodrigues",
+      "posicao": "MC",
+      "clubeAtualId": "msblesomgd91fq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblk0ghmprov8",
+      "nome": "Bruno Ramos",
+      "posicao": "ZC",
+      "clubeAtualId": "msbljgmixf1fbs",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblk0ghmotvwv",
+      "nome": "Kauã Oliveira",
+      "posicao": "MC",
+      "clubeAtualId": "msbljgmixf1fbs",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbllh109zqkgh",
+      "nome": "Carlão",
+      "posicao": "GK",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbllh10zpms12",
+      "nome": "Bebeto",
+      "posicao": "LD",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbllh10md2xul",
+      "nome": "Zé Ricardo",
+      "posicao": "LE",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbllh10p8zd56",
+      "nome": "Cícero",
+      "posicao": "MC",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbllh10rcnplo",
+      "nome": "João Marcos",
+      "posicao": "AT",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbllh10rva4fn",
+      "nome": "Richarllyson",
+      "posicao": "AT",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7k7av1a1",
+      "nome": "Lucas Paes",
+      "posicao": "GK",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7k657513",
+      "nome": "Adriel",
+      "posicao": "GK",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7k7g9q8z",
+      "nome": "Danilo Ferreira",
+      "posicao": "LD",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7kj81sk8",
+      "nome": "Léo Azevedo",
+      "posicao": "MC",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7krjniuc",
+      "nome": "Zé Breno",
+      "posicao": "MC",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7kyj8j07",
+      "nome": "Marquinhos",
+      "posicao": "MC",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblng7krdhg8d",
+      "nome": "João Chagas",
+      "posicao": "AT",
+      "clubeAtualId": "msblm64hja6isx",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblolpb1zequ6",
+      "nome": "Ítalo Henrique",
+      "posicao": "LD",
+      "clubeAtualId": "msblo1cyn531ma",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msblolpb146qix",
+      "nome": "Ângelo Neto",
+      "posicao": "MC",
+      "clubeAtualId": "msblo1cyn531ma",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnx7qor7jg41",
+      "nome": "Ewerton",
+      "posicao": "GK",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnx7qo5gw89l",
+      "nome": "Pedro Barcelos",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnx7qoz0utt5",
+      "nome": "Igor Milioransa",
+      "posicao": "LE",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnx7qo36lnid",
+      "nome": "André Clóvis",
+      "posicao": "AT",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnx7qo9za4sw",
+      "nome": "João Guilherme",
+      "posicao": "AT",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnywrlw71vab",
+      "nome": "Kaique Rocha",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnywrl1soahp",
+      "nome": "David Sousa",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbnywrlr2109k",
+      "nome": "Cassiano",
+      "posicao": "AT",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo1wmw614fci",
+      "nome": "Léo Linck",
+      "posicao": "GK",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo1wmwai5trs",
+      "nome": "Luan Patrick",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo1wmwqja97t",
+      "nome": "Bernardo Schappo",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo1wmwfwost5",
+      "nome": "Robinho",
+      "posicao": "MC",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo1wmwgc53lj",
+      "nome": "Alisson Souza",
+      "posicao": "AT",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo541ljggthl",
+      "nome": "Matheus Mendes",
+      "posicao": "GK",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo541l78zatn",
+      "nome": "Jhonatan Luiz",
+      "posicao": "GK",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo541lne2vfc",
+      "nome": "Mateus",
+      "posicao": "GK",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo541l6jir6o",
+      "nome": "Ikker Julian",
+      "posicao": "LE",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo541l8348q7",
+      "nome": "Figueiredo",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo7v8ypepnum",
+      "nome": "Gabriel Cabral",
+      "posicao": "GK",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo7v8y35zapv",
+      "nome": "Gustavo Garcia",
+      "posicao": "LD",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo7v8ybt1ap7",
+      "nome": "Matheus Mattara",
+      "posicao": "ZC",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo7v8yta76as",
+      "nome": "Sorriso",
+      "posicao": "AT",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo97gdn4qpy2",
+      "nome": "William Gomes",
+      "posicao": "AT",
+      "clubeAtualId": "msbo8js3jjinpa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbo97gdeokm2q",
+      "nome": "Pepê",
+      "posicao": "AT",
+      "clubeAtualId": "msbo8js3jjinpa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msboaoj93zggly",
+      "nome": "Lucão",
+      "posicao": "GK",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msboaoj9lhccf4",
+      "nome": "Weverson Costa",
+      "posicao": "LE",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msboaoj91xoo5d",
+      "nome": "Murilo Souza",
+      "posicao": "AT",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msboaoj9kcsamo",
+      "nome": "Walace França",
+      "posicao": "AT",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msboaoj9xyq3fq",
+      "nome": "Carlos Eduardo",
+      "posicao": "AT",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbp9ohy2al3wf",
+      "nome": "Igor Julião",
+      "posicao": "LD",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf8pkl7w9",
+      "nome": "Aranha",
+      "posicao": "GK",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf8l4bi07",
+      "nome": "Maracás",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf84xcfwi",
+      "nome": "Kevyn",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf8oce4ks",
+      "nome": "Janderson",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf8wf0wjn",
+      "nome": "Guilherme Liberato",
+      "posicao": "MC",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf8k7e8fn",
+      "nome": "Landerson",
+      "posicao": "AT",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpbsf8axwjop",
+      "nome": "Yan Lincon",
+      "posicao": "AT",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkk3tl6l",
+      "nome": "Renato Marin",
+      "posicao": "GK",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrknbx8vb",
+      "nome": "Kevyn",
+      "posicao": "GK",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkufep0t",
+      "nome": "Zé Vitor",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkjs9h05",
+      "nome": "Léo Santos",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrknwh38k",
+      "nome": "Wesley Gasolina",
+      "posicao": "LD",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkipaccn",
+      "nome": "Matheus Iseppe",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkhjrx7b",
+      "nome": "Liziero",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrk04wiwi",
+      "nome": "Daniel Jr.",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkuypgft",
+      "nome": "Matheus Dias",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkn70sqd",
+      "nome": "Deivison",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpefrkhligd7",
+      "nome": "Pablo Ruan",
+      "posicao": "AT",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpfuhocyno2d",
+      "nome": "Caike",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpfuho2wgfm6",
+      "nome": "Gustavo Mancha",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpfuhoedr1i6",
+      "nome": "Ryan Guilherme",
+      "posicao": "MC",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpfuhoqkf0ud",
+      "nome": "Diogo Bezerra",
+      "posicao": "AT",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpfuhod52kbp",
+      "nome": "Samuel",
+      "posicao": "AT",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpfuhoi9lxla",
+      "nome": "Rafael Lobato",
+      "posicao": "AT",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrzkbfam",
+      "nome": "Lucas França",
+      "posicao": "GK",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqr7s231j",
+      "nome": "Cadu Neves",
+      "posicao": "GK",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrtnkibe",
+      "nome": "Neneca",
+      "posicao": "GK",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqr8qdgkl",
+      "nome": "Lucas Soares",
+      "posicao": "LD",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrw5y0bu",
+      "nome": "MT",
+      "posicao": "LE",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrxl6b8z",
+      "nome": "Sidney Lima",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrnjo3gg",
+      "nome": "Andrey",
+      "posicao": "MC",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqr2icbwv",
+      "nome": "Hiago",
+      "posicao": "MC",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqre7a26b",
+      "nome": "Daniel Borges",
+      "posicao": "MC",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqr9tsfl6",
+      "nome": "Vitinho",
+      "posicao": "MC",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrqx4jvz",
+      "nome": "Vinicius Lopes",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrr8qta4",
+      "nome": "Fernando",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrkjcrl7",
+      "nome": "Welinton Torrão",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqr7kq1um",
+      "nome": "Rildo",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrwinkb5",
+      "nome": "Brenner Lucas",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrodrshm",
+      "nome": "Rildo",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpiuqrm67i3q",
+      "nome": "Luiz Salles/Sorriso",
+      "posicao": "AT",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbplqrq4i8rho",
+      "nome": "Bernardo Fontes",
+      "posicao": "GK",
+      "clubeAtualId": "msbpke2ek2l5o2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbplqrquwo8lg",
+      "nome": "Vitor Carvalho",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpke2ek2l5o2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbplqrq0wpadm",
+      "nome": "Gabriel Silva",
+      "posicao": "AT",
+      "clubeAtualId": "msbpke2ek2l5o2",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpnf4lvyf67m",
+      "nome": "Pedro Lima",
+      "posicao": "MC",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpnf4lzoymmb",
+      "nome": "Luís Guilherme",
+      "posicao": "AT",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpp3ffg8orm4",
+      "nome": "Charles",
+      "posicao": "GK",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpp3ff18pdz8",
+      "nome": "Thiago Balieiro",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msbpp3ffumwkqz",
+      "nome": "Gustavo Silva",
+      "posicao": "AT",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argentina",
+      "id": "msc0x14fl7jgql",
+      "nome": "Cristian Ferreira",
+      "posicao": "MC",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa Rica",
+      "id": "msc0x14f3u14gt",
+      "nome": "Álvaro Zamora",
+      "posicao": "AT",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim",
+      "id": "msc0x14fcy6txy",
+      "nome": "Lorougnon Gohi",
+      "posicao": "AT",
+      "clubeAtualId": "msbnvyg11siw4m",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Gâmbia",
+      "id": "msc4bqixqmrlpb",
+      "nome": "Yaya Bojang",
+      "posicao": "ZC",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Honduras",
+      "id": "msc4bqix0d3on9",
+      "nome": "Julián Martínez",
+      "posicao": "ZC",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Nigéria",
+      "id": "msc4bqixf11aw9",
+      "nome": "Isaac James",
+      "posicao": "LE",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Gana",
+      "id": "msc4bqixzof7ny",
+      "nome": "Sabit Abdulai",
+      "posicao": "MC",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim/França",
+      "id": "msc4bqixkzd7xj",
+      "nome": "Davy Gui",
+      "posicao": "MC",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Marrocos",
+      "id": "msc4bqixiofxr1",
+      "nome": "Zakaria Kassary",
+      "posicao": "MC",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Marrocos/Espanha",
+      "id": "msc4bqixzt27pl",
+      "nome": "Nabil Touaizi",
+      "posicao": "MC",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "França/Camarões",
+      "id": "msc4bqix3u7ib0",
+      "nome": "Marco Essimi",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim/França",
+      "id": "msc4bqixh7i87z",
+      "nome": "Stéphane Diarra",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Líbano/Colômbia",
+      "id": "msc4bqix0791y2",
+      "nome": "Samy Jr. Merheg",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Espanha/Senegal",
+      "id": "msc4bqix63grrr",
+      "nome": "Armando Jr",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2yp4fqywip",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai/Espanha",
+      "id": "mscar2bau7lnd0",
+      "nome": "Ignacio de Arruabarrena",
+      "posicao": "GK",
+      "clubeAtualId": "msbo61a4mpj78c",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "França/Argélia",
+      "id": "mscar2bamdu6pc",
+      "nome": "Naïs Djouahra",
+      "posicao": "AT",
+      "clubeAtualId": "msbo61a4mpj78c",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "id": "mscar2bam33q0l",
+      "nome": "Brian Mansilla",
+      "posicao": "AT",
+      "clubeAtualId": "msbo61a4mpj78c",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai/Itália",
+      "id": "mscar2bast3pv7",
+      "nome": "Alfonso Trezza",
+      "posicao": "AT",
+      "clubeAtualId": "msbo61a4mpj78c",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "id": "mscar2baoclsk7",
+      "nome": "Dylan Nandín",
+      "posicao": "AT",
+      "clubeAtualId": "msbo61a4mpj78c",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Colômbia",
+      "id": "mscav2cgosm5no",
+      "nome": "Richard Ríos",
+      "posicao": "MC",
+      "clubeAtualId": "msbo8lzixkbce0",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argentina",
+      "id": "mscav2cg030u4v",
+      "nome": "Enzo Barrenechea",
+      "posicao": "MC",
+      "clubeAtualId": "msbo8lzixkbce0",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argentina/Itália",
+      "id": "mscav2cgtyzxfe",
+      "nome": "Gianluca Prestianni",
+      "posicao": "AT",
+      "clubeAtualId": "msbo8lzixkbce0",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Colômbia",
+      "id": "mscav2cga6ht1b",
+      "nome": "Jhon Durán",
+      "posicao": "AT",
+      "clubeAtualId": "msbo8lzixkbce0",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa Rica/Espanha",
+      "id": "mscawlk52w1e3q",
+      "nome": "Patrick Sequeira",
+      "posicao": "GK",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Angola",
+      "id": "mscawlk5ee94t3",
+      "nome": "Kaly",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Colômbia",
+      "id": "mscawlk5uz0bxu",
+      "nome": "Seba Pérez",
+      "posicao": "MC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Comores/França",
+      "id": "mscawlk557u9go",
+      "nome": "Iyad Mohamed",
+      "posicao": "MC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Gana",
+      "id": "mscawlk5s239eh",
+      "nome": "Lawrence Ofori",
+      "posicao": "MC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "id": "mscawlk53yasta",
+      "nome": "Kevin Prieto",
+      "posicao": "MC",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "França/RD do Congo",
+      "id": "mscawlk5yh7p30",
+      "nome": "Kelian Nsona",
+      "posicao": "AT",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Estados Unidos/Nigéria",
+      "id": "mscawlk5wzki5a",
+      "nome": "Korede Osundina",
+      "posicao": "AT",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Gâmbia",
+      "id": "mscawlk5ssi4r2",
+      "nome": "Alassana Jatta",
+      "posicao": "AT",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Guiné Bissau/Espanha",
+      "id": "mscawlk5631dwh",
+      "nome": "Clau Mendes",
+      "posicao": "AT",
+      "clubeAtualId": "msbnxudw76j2hh",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Mali/França",
+      "id": "mscb0ig70eqdpm",
+      "nome": "Issiar Dramé",
+      "posicao": "ZC",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim/França",
+      "id": "mscb0ig73zqzdd",
+      "nome": "Eddy Doué",
+      "posicao": "MC",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Nigéria",
+      "id": "mscb0ig75yqedw",
+      "nome": "Abraham Marcus",
+      "posicao": "AT",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Porto Rico/Espanha",
+      "id": "mscb0ig73awrqp",
+      "nome": "Leandro Antonetti",
+      "posicao": "AT",
+      "clubeAtualId": "msbnzicqfd2jqz",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Equador",
+      "id": "mscb35p59u4a4y",
+      "nome": "Léo Realpe",
+      "posicao": "ZC",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Angola",
+      "id": "mscb35p5t5ss0b",
+      "nome": "Pedro Bondo",
+      "posicao": "LE",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "França/Martinica",
+      "id": "mscb35p5zce2vv",
+      "nome": "Mathis Jangéal",
+      "posicao": "MC",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Nigéria",
+      "id": "mscb35p5qg4zi0",
+      "nome": "Umar Abubakar",
+      "posicao": "AT",
+      "clubeAtualId": "msbo6lqtfjk58j",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argélia/França",
+      "id": "mscdov44qt5qq5",
+      "nome": "Rafik Guitane",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2kwxf0sddq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Cabo Verde",
+      "id": "mscdov44snyzw1",
+      "nome": "Fabrício Garcia",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2kwxf0sddq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Marrocos/França",
+      "id": "mscdov44xb11nb",
+      "nome": "Yanis Begraoui",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2kwxf0sddq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Jamaica/Inglaterra",
+      "id": "mscdov449ae79n",
+      "nome": "Khayon Edwards",
+      "posicao": "AT",
+      "clubeAtualId": "msbo2kwxf0sddq",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Angola/Bélgica",
+      "id": "mscdu8pscc6xg2",
+      "nome": "Buatu",
+      "posicao": "ZC",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim",
+      "id": "mscdu8psyqhj28",
+      "nome": "Ghislain Konan",
+      "posicao": "LE",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim",
+      "id": "mscdu8ptws1mzy",
+      "nome": "Mohamed Bamba",
+      "posicao": "MC",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argentina",
+      "id": "mscdu8ptqri7ri",
+      "nome": "Facundo Cáseres",
+      "posicao": "MC",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "id": "mscdu8ptd26u68",
+      "nome": "Martín Fernández",
+      "posicao": "MC",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Perú",
+      "id": "mscdu8ptpjywiw",
+      "nome": "Bassco Soyer",
+      "posicao": "AT",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "id": "mscdu8ptrf1wk0",
+      "nome": "Agustín Moreira",
+      "posicao": "AT",
+      "clubeAtualId": "msbo9mtq8yebie",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Moçambique",
+      "id": "msce3tjoo4kh54",
+      "nome": "Kimiss Zavala",
+      "posicao": "GK",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Inglaterra/Nigéria",
+      "id": "msce3tjon5zpgh",
+      "nome": "Nathanael Ogbeta",
+      "posicao": "LE",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Nigéria",
+      "id": "msce3tjommq8jp",
+      "nome": "Israel Isaac Ayuma",
+      "posicao": "MC",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Marrocos/Espanha",
+      "id": "msce3tjoxm6fbd",
+      "nome": "Simo Bouzaidi",
+      "posicao": "AT",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Venezuela/Alemanha",
+      "id": "msce3tjo4e3bnh",
+      "nome": "Enrique Peña Zauner",
+      "posicao": "AT",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Alemanha/Gana",
+      "id": "msce3tjoxtah1a",
+      "nome": "Maurice Boakye",
+      "posicao": "AT",
+      "clubeAtualId": "msbp991ds39pzv",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Guiné-Bissau",
+      "id": "mscefp0nnk421g",
+      "nome": "Gilberto Batista",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Espanha/Guiné Equatorial",
+      "id": "mscefp0n5hcnff",
+      "nome": "Michael Dacosta",
+      "posicao": "AT",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Martinica/França",
+      "id": "mscefp0n5t7b1j",
+      "nome": "Alexandre Parsemain",
+      "posicao": "AT",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Inglaterra/Nigéria",
+      "id": "mscefp0n1xlfkm",
+      "nome": "Koby Mottoh",
+      "posicao": "AT",
+      "clubeAtualId": "msbpa1rm6pm4gm",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Equador",
+      "id": "mscelaaglrcxn4",
+      "nome": "Daniel de la Cruz",
+      "posicao": "LD",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Tunísia",
+      "id": "mscelaaga2iens",
+      "nome": "Chiheb Labidi",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Camarões",
+      "id": "mscelaagmxded1",
+      "nome": "Danel Dongmo",
+      "posicao": "MC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Tunísia",
+      "id": "mscelaag9c6q12",
+      "nome": "Motez Nourani",
+      "posicao": "AT",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Venezuela",
+      "id": "mscelaag6fra9n",
+      "nome": "Jesús Ramírez",
+      "posicao": "AT",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Cabo Verde",
+      "id": "mscen8l2hyyfvf",
+      "nome": "Ivanildo Fernandes",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpe9y4cuoyf3",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa Rica/Nicarágua",
+      "id": "mscexz9at3hdrr",
+      "nome": "Kevin Chamorro",
+      "posicao": "GK",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argentina",
+      "id": "mscexz9ab9zi5z",
+      "nome": "Francisco Petrasso",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Senegal",
+      "id": "mscexz9a6kez2k",
+      "nome": "Antoine Wenck",
+      "posicao": "MC",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa Rica",
+      "id": "mscexz9a8ism65",
+      "nome": "Brandon Aguilera",
+      "posicao": "MC",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Argentina",
+      "id": "mscexz9a3a08si",
+      "nome": "Tobías Medina",
+      "posicao": "AT",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Holanda/Marrocos",
+      "id": "mscexz9abivfol",
+      "nome": "Amine Rehmi",
+      "posicao": "AT",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Guiné-Bissau",
+      "id": "mscexz9aqk5v9c",
+      "nome": "Tamble Monteiro",
+      "posicao": "AT",
+      "clubeAtualId": "msbpeqgb2d7ux5",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Moçambique",
+      "id": "mscf1jaio3akxd",
+      "nome": "Diogo Calila",
+      "posicao": "LD",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Cabo Verde",
+      "id": "mscf1jaizg39oj",
+      "nome": "Djé Tavares",
+      "posicao": "MC",
+      "clubeAtualId": "msbpghdi9dl2k4",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Colômbia",
+      "id": "mscf4o0m77otfz",
+      "nome": "Juan Castillo",
+      "posicao": "GK",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai/Espanha",
+      "id": "mscf4o0mofze5o",
+      "nome": "Rodrigo Abascal",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Colômbia",
+      "id": "mscf4o0m93kfuw",
+      "nome": "Yeimar Mosquera",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Burkina Faso/França",
+      "id": "mscf4o0m997csf",
+      "nome": "Lohann Doucet",
+      "posicao": "MC",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Angola",
+      "id": "mscf4o0mad2hfq",
+      "nome": "Beni Mukendi",
+      "posicao": "MC",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Guiné Bissau",
+      "id": "mscf4o0md9agni",
+      "nome": "Vando Félix",
+      "posicao": "AT",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Senegal",
+      "id": "mscf4o0mmxno97",
+      "nome": "Alioune Ndoye",
+      "posicao": "AT",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim",
+      "id": "mscf4o0m4hkpt2",
+      "nome": "Patrick Ouotro",
+      "posicao": "AT",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Cabo Verde",
+      "id": "mscf4o0me6fz4p",
+      "nome": "Telmo Arcanjo",
+      "posicao": "AT",
+      "clubeAtualId": "msbpnn895lx6pa",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Costa do Marfim",
+      "id": "mscf7td11hqalj",
+      "nome": "Ousmane Diomande",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Senegal",
+      "id": "mscf7td1nebuwy",
+      "nome": "Ibrahima Ba",
+      "posicao": "ZC",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "id": "mscf7td1d3u1e6",
+      "nome": "Maxi Araújo",
+      "posicao": "LE",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Uruguai/Espanha",
+      "id": "mscf7td1wttken",
+      "nome": "Rodrigo Zalazar",
+      "posicao": "MC",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Moçambique",
+      "id": "mscf7td11mr4zr",
+      "nome": "Geny Catamo",
+      "posicao": "AT",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Colômbia/Espanha",
+      "id": "mscf7td1pzygj1",
+      "nome": "Luis Suárez",
+      "posicao": "AT",
+      "clubeAtualId": "msbpm47c9kwixf",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msdpf0n14v23dy",
+      "nome": "Mateus Sarará",
+      "posicao": "ZC",
+      "clubeAtualId": "msbllao4fmzgl7",
+      "ativo": true
+    },
+    {
+      "nacionalidade": "Brasil",
+      "id": "msduxy5uxoyb8p",
+      "nome": "Rodrigo Pinho",
+      "posicao": "AT",
+      "clubeAtualId": "ms6sxa9jgeq3c8",
+      "ativo": true
+    }
+  ],
+  "notas": [],
+  "destaques": []
+}
