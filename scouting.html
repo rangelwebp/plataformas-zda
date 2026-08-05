@@ -48,15 +48,23 @@
   .liga-map-row input[type="text"]{flex:1; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:4px; padding:6px 8px; font-size:13px;}
   .liga-map-row input[type="number"]{width:70px; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:4px; padding:6px 8px; font-family:var(--font-mono);}
 
-  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;}
-  .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:16px; cursor:pointer; transition:.15s;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px;}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:16px; cursor:pointer; transition:.15s; text-align:center;}
   .card:hover{border-color:var(--accent); transform:translateY(-2px);}
-  .card .row1{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+  .card .avatar-xl{width:96px; height:96px; border-radius:10px; object-fit:cover; background:var(--surface-2); border:1px solid var(--line); margin:0 auto 12px;}
+  .card .avatar-xl-placeholder{width:96px; height:96px; border-radius:10px; background:var(--surface-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:26px; color:var(--text-muted); margin:0 auto 12px;}
   .card h3{margin:0; font-family:var(--font-display); font-size:16px; font-weight:600;}
-  .card .meta{color:var(--text-muted); font-size:12.5px; margin-top:3px;}
+  .card h3 .age{color:var(--text-muted); font-weight:500; font-size:14px;}
+  .card .meta{color:var(--text-muted); font-size:12.5px; margin-top:4px;}
   .card .meta span{display:block;}
-  .card .badges{display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; align-items:center;}
+  .card .badges{display:flex; gap:6px; margin-top:12px; flex-wrap:wrap; justify-content:center;}
   .flag{font-size:15px; margin-right:4px;}
+  .card .know-line{display:flex; align-items:center; gap:8px; margin-top:10px;}
+  .card .know-line .know-bar-mini{flex:1; margin-top:0;}
+  .card .know-line .know-pct-mini{font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted); min-width:28px; text-align:right;}
+  .avatar{width:40px; height:40px; border-radius:6px; object-fit:cover; background:var(--surface-2); border:1px solid var(--line); flex-shrink:0;}
+  .avatar-placeholder{width:40px; height:40px; border-radius:6px; background:var(--surface-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:14px; color:var(--text-muted); flex-shrink:0;}
+  .avatar-lg{width:64px; height:64px; border-radius:8px; object-fit:cover; background:var(--surface-2); border:1px solid var(--line);}
   .stamp{font-family:var(--font-mono); font-size:11px; font-weight:600; border:2px solid; border-radius:3px; padding:2px 8px; transform:rotate(-3deg); display:inline-block; text-transform:uppercase;}
   .stamp.ntc-A{color:var(--teal); border-color:var(--teal);}
   .stamp.ntc-B{color:#7fbf8f; border-color:#7fbf8f;}
@@ -159,6 +167,7 @@
       <option value="A">NTC A</option><option value="B">NTC B</option><option value="C">NTC C</option><option value="D">NTC D</option><option value="E">NTC E</option>
     </select>
     <select id="fNacionalidade" onchange="renderGrid()"><option value="">Todas as nacionalidades</option></select>
+    <select id="fLiga" onchange="renderGrid()"><option value="">Todas as ligas</option></select>
     <div class="spacer"></div>
     <button class="primary" onclick="openModal()">+ Novo atleta</button>
   </div>
@@ -210,6 +219,7 @@
           <legend>Dados objetivos</legend>
           <div class="field-row">
             <div class="field"><label>Nome</label><input type="text" id="fNome" required></div>
+            <div class="field narrow"><label>Data de nascimento</label><input type="date" id="fDataNascimento" onchange="calcIdade()"></div>
             <div class="field narrow"><label>Idade</label><input type="number" id="fIdade" min="14" max="45"></div>
             <div class="field narrow"><label>Altura (cm)</label><input type="number" id="fAltura" min="150" max="215"></div>
             <div class="field"><label>Categoria</label><select id="fCategoria"><option>Profissional</option><option>Sub-23 / Base</option></select></div>
@@ -244,6 +254,19 @@
             <div class="field"><label>Pé dominante</label><select id="fPe"><option>Direito</option><option>Esquerdo</option><option>Ambidestro</option></select></div>
             <div class="field"><label>Fonte de descoberta</label>
               <select id="fFonte"><option>Garimpo (Football Manager)</option><option>Indicação</option><option>Observação direta</option><option>Agente/empresário</option></select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Foto</legend>
+          <div class="field-row" style="align-items:flex-end;">
+            <div class="field"><label>URL da foto (ogol, Transfermarkt, rede social...)</label>
+              <input type="text" id="fFotoUrl" placeholder="https://..." oninput="updateFotoPreview()">
+              <span class="hint">Só o link — a imagem continua hospedada no site de origem, não é baixada nem guardada aqui. Se o link cair, a foto some (troque por outro).</span>
+            </div>
+            <div class="field narrow" style="align-items:center;">
+              <img class="avatar-lg" id="fotoPreview" style="display:none;" onerror="this.style.display='none'; document.getElementById('fotoPreviewPlaceholder').style.display='flex';">
+              <div class="avatar-placeholder" id="fotoPreviewPlaceholder" style="width:64px; height:64px; font-size:11px;">sem foto</div>
             </div>
           </div>
         </fieldset>
@@ -526,6 +549,30 @@ function populateCountrySelects(){
   document.getElementById('fNacionalidade2').innerHTML = '<option value="">—</option>' + opts;
 }
 
+function updateFotoPreview(){
+  const url = document.getElementById('fFotoUrl').value.trim();
+  const img = document.getElementById('fotoPreview');
+  const ph = document.getElementById('fotoPreviewPlaceholder');
+  if(!url){ img.style.display='none'; img.src=''; ph.style.display='flex'; ph.textContent='sem foto'; return; }
+  ph.textContent = '...';
+  ph.style.display = 'flex';
+  img.onload = () => { img.style.display='block'; ph.style.display='none'; };
+  img.onerror = () => { img.style.display='none'; ph.style.display='flex'; ph.textContent='falhou'; };
+  img.src = url;
+}
+function initialsFor(name){
+  return (name||'').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+function calcIdade(){
+  const val = document.getElementById('fDataNascimento').value;
+  if(!val) return;
+  const nasc = new Date(val); const hoje = new Date();
+  let idade = hoje.getFullYear() - nasc.getFullYear();
+  const m = hoje.getMonth() - nasc.getMonth();
+  if(m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
+  document.getElementById('fIdade').value = idade;
+}
+
 /* ---------------- Tabs ---------------- */
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab===name));
@@ -666,6 +713,9 @@ function openModal(id){
   onPositionChange();
   renderStatList();
   computeNTC();
+  document.getElementById('fFotoUrl').value = '';
+  updateFotoPreview();
+  document.getElementById('fDataNascimento').value = '';
 
   if(id){
     const a = athletes.find(x => x.id === id);
@@ -673,6 +723,7 @@ function openModal(id){
       document.getElementById('modalTitle').textContent = a.nome || 'Editar atleta';
       document.getElementById('fId').value = a.id;
       document.getElementById('fNome').value = a.nome || '';
+      document.getElementById('fDataNascimento').value = a.dataNascimento || '';
       document.getElementById('fIdade').value = a.idade || '';
       document.getElementById('fAltura').value = a.altura || '';
       document.getElementById('fCategoria').value = a.categoria || 'Profissional';
@@ -689,6 +740,8 @@ function openModal(id){
       document.getElementById('fOgol').value = a.ogol || '';
       document.getElementById('fTransfermarkt').value = a.transfermarkt || '';
       document.getElementById('fRedeSocial').value = a.redeSocial || '';
+      document.getElementById('fFotoUrl').value = a.fotoUrl || '';
+      updateFotoPreview();
 
       document.getElementById('fContrato').value = a.contrato || '';
       document.getElementById('fFimContrato').value = a.fimContrato || '';
@@ -753,13 +806,14 @@ function saveAthlete(){
 
   const data = {
     id: id || uid(), createdAt: existing ? existing.createdAt : now, updatedAt: now,
-    nome, idade: document.getElementById('fIdade').value, altura: document.getElementById('fAltura').value,
+    nome, idade: document.getElementById('fIdade').value, dataNascimento: document.getElementById('fDataNascimento').value, altura: document.getElementById('fAltura').value,
     categoria: document.getElementById('fCategoria').value, porte: document.getElementById('fPorte').value,
     nacionalidade1: document.getElementById('fNacionalidade1').value, nacionalidade2: document.getElementById('fNacionalidade2').value,
     clube: document.getElementById('fClube').value.trim(), competicao: document.getElementById('fCompeticao').value.trim(),
     posPrincipal: document.getElementById('fPosPrincipal').value, posSecundaria: document.getElementById('fPosSecundaria').value.trim(),
     pe: document.getElementById('fPe').value, fonte: document.getElementById('fFonte').value,
     ogol: document.getElementById('fOgol').value.trim(), transfermarkt: document.getElementById('fTransfermarkt').value.trim(), redeSocial: document.getElementById('fRedeSocial').value.trim(),
+    fotoUrl: document.getElementById('fFotoUrl').value.trim(),
 
     contrato: document.getElementById('fContrato').value.trim(), fimContrato: document.getElementById('fFimContrato').value,
     valorMercado: document.getElementById('fValorMercado').value.trim(), clausula: document.getElementById('fClausula').value.trim(),
@@ -791,7 +845,7 @@ function saveAthlete(){
   };
 
   if(existing){ Object.assign(existing, data); } else { athletes.push(data); }
-  saveAthletesToStorage(); closeModal(); renderGrid(); renderDashboard(); populateNationalityFilter();
+  saveAthletesToStorage(); closeModal(); renderGrid(); renderDashboard(); populateNationalityFilter(); populateLigaFilter();
 }
 
 function deleteAthlete(){
@@ -799,7 +853,7 @@ function deleteAthlete(){
   if(!id) return;
   if(!confirm('Excluir este atleta do banco de dados? Essa ação não pode ser desfeita.')) return;
   athletes = athletes.filter(a => a.id !== id);
-  saveAthletesToStorage(); closeModal(); renderGrid(); renderDashboard(); populateNationalityFilter();
+  saveAthletesToStorage(); closeModal(); renderGrid(); renderDashboard(); populateNationalityFilter(); populateLigaFilter();
 }
 
 /* ---------------- Modo contagem (agora inline, escreve na lista dinâmica) ---------------- */
@@ -941,6 +995,14 @@ function populateNationalityFilter(){
   sel.innerHTML = '<option value="">Todas as nacionalidades</option>' + list.map(c => `<option value="${c.code}">${c.flag} ${c.name}</option>`).join('');
   if(list.some(c=>c.code===current)) sel.value = current;
 }
+function populateLigaFilter(){
+  const sel = document.getElementById('fLiga'); const current = sel.value;
+  const ligas = new Set();
+  athletes.forEach(a => { if(a.competicao && a.competicao.trim()) ligas.add(a.competicao.trim()); });
+  const list = Array.from(ligas).sort((a,b)=>a.localeCompare(b));
+  sel.innerHTML = '<option value="">Todas as ligas</option>' + list.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
+  if(list.includes(current)) sel.value = current;
+}
 
 function renderGrid(){
   const search = stripAccents(document.getElementById('fSearch').value);
@@ -948,6 +1010,7 @@ function renderGrid(){
   const posicao = document.getElementById('fPosicao').value;
   const nivel = document.getElementById('fNivel').value;
   const nac = document.getElementById('fNacionalidade').value;
+  const liga = document.getElementById('fLiga').value;
 
   const filtered = athletes.filter(a => {
     if(search && !stripAccents(a.nome).includes(search)) return false;
@@ -955,6 +1018,7 @@ function renderGrid(){
     if(posicao && a.posPrincipal !== posicao) return false;
     if(nivel && a.nivel !== nivel) return false;
     if(nac && a.nacionalidade1 !== nac && a.nacionalidade2 !== nac) return false;
+    if(liga && (a.competicao||'').trim() !== liga) return false;
     return true;
   }).sort((a,b) => (b.updatedAt||'').localeCompare(a.updatedAt||''));
 
@@ -963,22 +1027,20 @@ function renderGrid(){
 
   grid.innerHTML = filtered.map(a => `
     <div class="card" onclick="openModal('${a.id}')">
-      <div class="row1">
-        <div>
-          <h3><span class="flag">${flagFor(a.nacionalidade1)}</span>${escapeHtml(a.nome)}</h3>
-          <div class="meta">
-            <span>${a.idade?a.idade+' anos · ':''}${escapeHtml(nameFor(a.nacionalidade1))}${a.nacionalidade2?' / '+flagFor(a.nacionalidade2)+' '+escapeHtml(nameFor(a.nacionalidade2)):''}</span>
-            <span>${escapeHtml(a.clube||'')}${a.competicao?' — '+escapeHtml(a.competicao):''}</span>
-            <span>${escapeHtml(a.posPrincipal||'')}${a.pe?' · '+a.pe:''}</span>
-          </div>
-        </div>
-        <span class="stage-tag">${a.estagio}</span>
+      ${a.fotoUrl ? `<img class="avatar-xl" src="${escapeHtml(a.fotoUrl)}" loading="lazy" onerror="this.outerHTML='<div class=&quot;avatar-xl-placeholder&quot;>${initialsFor(a.nome)}</div>';">` : `<div class="avatar-xl-placeholder">${initialsFor(a.nome)}</div>`}
+      <h3>${escapeHtml(a.nome)}${a.idade ? ` <span class="age">(${a.idade})</span>` : ''}</h3>
+      <div class="meta">
+        <span><span class="flag">${flagFor(a.nacionalidade1)}</span>${escapeHtml(nameFor(a.nacionalidade1))}${a.nacionalidade2?' / '+flagFor(a.nacionalidade2)+' '+escapeHtml(nameFor(a.nacionalidade2)):''}</span>
+        <span>${escapeHtml(a.clube||'—')}</span>
+        <span>${escapeHtml(a.competicao||'—')}</span>
       </div>
       <div class="badges">
         <span class="stamp ${a.nivel ? 'ntc-'+a.nivel : 'ntc-none'}">${a.nivel ? 'NTC '+a.nivel+(a.notaFinal?' ('+Number(a.notaFinal).toFixed(2)+')':'') : 'sem NTC'}</span>
-        ${a.custo ? `<span class="chip cost-${a.custo}">${a.custo}</span>` : ''}
       </div>
-      <div class="know-bar-mini"><i style="width:${a.conhecimentoPct||0}%;"></i></div>
+      <div class="know-line">
+        <div class="know-bar-mini"><i style="width:${a.conhecimentoPct||0}%;"></i></div>
+        <span class="know-pct-mini">${a.conhecimentoPct||0}%</span>
+      </div>
     </div>`).join('');
 }
 
@@ -999,14 +1061,14 @@ function importJSON(event){
       if(!confirm(`Isso vai substituir os dados atuais por ${(data.athletes||[]).length} atleta(s) do backup. Continuar?`)) return;
       athletes = data.athletes || []; ligaMap = data.ligaMap || DEFAULT_LIGA_MAP.slice();
       saveAthletesToStorage(); saveLigaMapToStorage();
-      renderLigaMap(); renderGrid(); renderDashboard(); populateNationalityFilter();
+      renderLigaMap(); renderGrid(); renderDashboard(); populateNationalityFilter(); populateLigaFilter();
     }catch(err){ alert('Arquivo inválido. Confira se é um JSON exportado por esta ferramenta.'); }
   };
   reader.readAsText(file); event.target.value = '';
 }
 
 /* ---------------- Init ---------------- */
-loadData(); renderLigaMap(); renderGrid(); renderDashboard(); populateNationalityFilter();
+loadData(); renderLigaMap(); renderGrid(); renderDashboard(); populateNationalityFilter(); populateLigaFilter();
 document.getElementById('athleteForm').addEventListener('input', () => computeConhecimento());
 document.getElementById('athleteForm').addEventListener('change', () => computeConhecimento());
 document.addEventListener('DOMContentLoaded', refreshCountButtons);
