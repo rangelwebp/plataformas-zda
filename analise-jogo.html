@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Ficha de Observação de Jogo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap');
+
+  :root{
+    --bg:#0A1512;
+    --bg-2:#0D1B16;
+    --surface:#101F1A;
+    --surface-2:#152C24;
+    --surface-hover:#1B362C;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.16);
+    --text:#EDF3EF;
+    --text-dim:#8FA39A;
+    --text-faint:#5C7268;
+
+    --ofensiva:#FF8A3D;
+    --ofensiva-bg:rgba(255,138,61,0.10);
+    --transof:#C4E86D;
+    --transof-bg:rgba(196,232,109,0.10);
+    --transdef:#FF5D5D;
+    --transdef-bg:rgba(255,93,93,0.10);
+    --bp:#5EC8FF;
+    --bp-bg:rgba(94,200,255,0.10);
+    --defensiva:#8C9EFF;
+    --defensiva-bg:rgba(140,158,255,0.10);
+
+    --success:#4ADE80;
+    --error:#F87171;
+
+    --font-display:'Barlow Condensed', 'Arial Narrow', 'Segoe UI Condensed', sans-serif;
+    --font-body:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, #14261F 0%, transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.4;
+    padding-bottom:calc(72px + var(--safe-bottom));
+    min-height:100vh;
+  }
+
+  .app{max-width:720px;margin:0 auto;padding:0 0 24px;}
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:rgba(10,21,18,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    padding:10px 14px;
+  }
+  .topbar-row{display:flex; align-items:baseline; justify-content:space-between; gap:8px;}
+  .score-line{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:0.3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .score-line .vs{color:var(--text-faint); font-weight:600; margin:0 4px;}
+  .score-line .analisado{color:var(--ofensiva);}
+  .meta-line{
+    font-size:11.5px;
+    color:var(--text-dim);
+    margin-top:2px;
+    display:flex; gap:10px; flex-wrap:wrap;
+  }
+  .meta-line b{color:var(--text-dim); font-weight:600;}
+  .edit-link{
+    background:none;border:none;color:var(--text-faint);
+    font-size:11px; text-decoration:underline; padding:4px; cursor:pointer;
+    flex-shrink:0;
+  }
+  .total-badge{
+    font-family:var(--font-display);
+    font-size:12px; color:var(--text-faint);
+    margin-top:4px;
+  }
+
+  /* ---------- Match setup ---------- */
+  .setup-wrap{padding:12px 14px 0;}
+  .setup-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+  }
+  .setup-card h2{
+    font-family:var(--font-display);
+    font-size:15px; text-transform:uppercase; letter-spacing:0.6px;
+    margin:0 0 12px; color:var(--text-dim); font-weight:700;
+  }
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;}
+  .field-row.three{grid-template-columns:1fr 1fr;}
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field label{font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.4px;}
+  .field input, .field select{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:9px;
+    padding:11px 10px;
+    font-size:16px;
+    font-family:var(--font-body);
+    width:100%;
+  }
+  .field input:focus, .field select:focus{outline:none; border-color:var(--ofensiva);}
+  .placar-field input{text-align:center; font-family:var(--font-display); font-weight:700; font-size:18px;}
+  .analisado-toggle{display:flex; gap:8px; margin-top:4px;}
+  .analisado-chip{
+    flex:1; text-align:center; padding:10px 8px; border-radius:9px;
+    border:1.5px solid var(--border); background:var(--surface-2);
+    color:var(--text-dim); font-size:13px; font-weight:600; cursor:pointer;
+    transition:all .12s ease;
+  }
+  .analisado-chip.active{
+    border-color:var(--ofensiva); color:var(--ofensiva); background:var(--ofensiva-bg);
+  }
+  .setup-actions{display:flex; justify-content:flex-end; margin-top:12px;}
+  .btn-confirm{
+    background:var(--ofensiva); color:#1A0F04; border:none; border-radius:9px;
+    padding:10px 18px; font-weight:700; font-size:14px; cursor:pointer;
+  }
+
+  /* ---------- Quick read ---------- */
+  .quickread{padding:12px 14px 0;}
+  .quickread-title{
+    font-size:11px; text-transform:uppercase; letter-spacing:0.5px;
+    color:var(--text-faint); margin-bottom:6px; font-weight:600;
+  }
+  .quickread-grid{display:flex; flex-direction:column; gap:6px;}
+  .qr-item{
+    background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--ofensiva);
+    border-radius:8px; padding:9px 11px;
+  }
+  .qr-item .qr-label{font-size:11.5px; color:var(--text-dim); margin-bottom:3px;}
+  .qr-item .qr-value{font-size:14px; font-weight:700;}
+  .qr-item .qr-bar{
+    height:5px; border-radius:3px; background:var(--surface-2); margin-top:6px; overflow:hidden; display:flex;
+  }
+  .qr-item .qr-bar > span{height:100%; background:var(--ofensiva);}
+  .qr-empty{font-size:12.5px; color:var(--text-faint); font-style:italic;}
+
+  /* ---------- Phases ---------- */
+  #phases{padding:14px 14px 0;}
+  .phase{
+    margin-bottom:12px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    overflow:hidden;
+    background:var(--surface);
+  }
+  .phase > summary{
+    list-style:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:13px 14px;
+    -webkit-user-select:none; user-select:none;
+  }
+  .phase > summary::-webkit-details-marker{display:none;}
+  .phase-title-wrap{display:flex; align-items:center; gap:9px;}
+  .phase-dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+  .phase-title{font-family:var(--font-display); font-weight:700; font-size:16.5px; text-transform:uppercase; letter-spacing:0.4px;}
+  .phase-hint{font-size:10.5px; color:var(--text-faint); margin-top:1px;}
+  .phase-chevron{font-size:12px; color:var(--text-faint); transition:transform .15s ease;}
+  .phase[open] > summary .phase-chevron{transform:rotate(180deg);}
+  .phase-body{padding:2px 12px 12px;}
+
+  .phase-ofensiva > summary{background:var(--ofensiva-bg);}
+  .phase-ofensiva .phase-dot{background:var(--ofensiva);}
+  .phase-transof > summary{background:var(--transof-bg);}
+  .phase-transof .phase-dot{background:var(--transof);}
+  .phase-transdef > summary{background:var(--transdef-bg);}
+  .phase-transdef .phase-dot{background:var(--transdef);}
+  .phase-bp > summary{background:var(--bp-bg);}
+  .phase-bp .phase-dot{background:var(--bp);}
+  .phase-defensiva > summary{background:var(--defensiva-bg);}
+  .phase-defensiva .phase-dot{background:var(--defensiva);}
+
+  .cat-block{margin-top:12px;}
+  .cat-label{
+    font-size:11.5px; color:var(--text-dim); font-weight:600;
+    text-transform:uppercase; letter-spacing:0.3px; margin-bottom:7px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .cat-hint{font-weight:400; text-transform:none; color:var(--text-faint); font-size:10.5px;}
+
+  .btn-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .event-btn{
+    position:relative;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:10px;
+    padding:12px 10px; min-height:52px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-size:13.5px; font-weight:600; cursor:pointer;
+    transition:background .1s ease, transform .06s ease;
+  }
+  .event-btn:active{transform:scale(0.96); background:var(--surface-hover);}
+  .event-btn .count{
+    position:absolute; top:-6px; right:-6px;
+    background:var(--text); color:var(--bg);
+    font-family:var(--font-display); font-weight:700; font-size:12px;
+    min-width:20px; height:20px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; padding:0 5px;
+  }
+  .event-btn.leading{border-color:currentColor;}
+  .phase-ofensiva .event-btn.leading{color:var(--ofensiva); box-shadow:inset 0 0 0 1.5px var(--ofensiva);}
+  .phase-transof .event-btn.leading{color:var(--transof); box-shadow:inset 0 0 0 1.5px var(--transof);}
+  .phase-transdef .event-btn.leading{color:var(--transdef); box-shadow:inset 0 0 0 1.5px var(--transdef);}
+  .phase-bp .event-btn.leading{color:var(--bp); box-shadow:inset 0 0 0 1.5px var(--bp);}
+  .event-btn.leading .count{background:currentColor; color:var(--bg);}
+
+  .result-list{display:flex; flex-direction:column; gap:6px;}
+  .result-row{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:10px;
+    padding:9px 10px;
+  }
+  .result-row.leading{box-shadow:inset 0 0 0 1.5px var(--ofensiva);}
+  .phase-ofensiva .result-row.leading{box-shadow:inset 0 0 0 1.5px var(--ofensiva);}
+  .result-label{font-size:13px; font-weight:600; flex:1; padding-right:8px;}
+  .result-btns{display:flex; gap:6px;}
+  .result-btn{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-width:52px; min-height:44px; border-radius:8px; cursor:pointer;
+    font-size:10px; font-weight:700; gap:1px;
+    transition:transform .06s ease;
+  }
+  .result-btn:active{transform:scale(0.94);}
+  .result-btn.success{background:rgba(74,222,128,0.12); color:var(--success);}
+  .result-btn.error{background:rgba(248,113,113,0.12); color:var(--error);}
+  .result-btn .symbol{font-size:15px; line-height:1;}
+  .result-btn .count{font-family:var(--font-display); font-size:12px;}
+
+  .state-group{margin-bottom:10px;}
+  .state-group-label{font-size:11.5px; color:var(--text-dim); font-weight:600; margin-bottom:6px;}
+  .state-group-label .hint{display:block; font-weight:400; color:var(--text-faint); font-size:10.5px; margin-top:1px;}
+  .state-btn-row{display:flex; gap:7px; flex-wrap:wrap;}
+  .state-btn{
+    flex:1 1 auto; min-width:70px; text-align:center;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:9px;
+    padding:9px 8px; font-size:12.5px; font-weight:600; cursor:pointer; position:relative;
+  }
+  .state-btn.active{border-color:var(--defensiva); color:var(--defensiva); background:var(--defensiva-bg);}
+  .state-btn .count{
+    position:absolute; top:-6px; right:-6px;
+    background:var(--text); color:var(--bg); font-family:var(--font-display); font-weight:700;
+    font-size:11px; min-width:18px; height:18px; border-radius:9px;
+    display:flex; align-items:center; justify-content:center; padding:0 4px;
+  }
+  .state-btn.active .count{background:var(--defensiva); color:#0A1512;}
+
+  /* ---------- Last action toast ---------- */
+  .last-action{
+    text-align:center; font-size:12px; color:var(--text-faint);
+    padding:10px 14px 4px; min-height:20px;
+  }
+
+  /* ---------- Bottom bar ---------- */
+  .bottombar{
+    position:fixed; bottom:0; left:0; right:0; z-index:30;
+    background:rgba(13,27,22,0.96); backdrop-filter:blur(10px);
+    border-top:1px solid var(--border);
+    display:flex; padding:8px 10px calc(8px + var(--safe-bottom));
+    gap:8px;
+  }
+  .bb-btn{
+    flex:1; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+    border-radius:11px; padding:11px 6px; font-size:12.5px; font-weight:700;
+    display:flex; flex-direction:column; align-items:center; gap:2px; cursor:pointer;
+  }
+  .bb-btn .ic{font-size:17px;}
+  .bb-btn:active{background:var(--surface-hover);}
+  .bb-btn.primary{background:var(--ofensiva); color:#1A0F04; border-color:var(--ofensiva);}
+
+  /* ---------- Sheets / Modals ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:50;
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .15s ease;
+  }
+  .modal-overlay.open{opacity:1; pointer-events:auto;}
+  .modal-overlay.center{align-items:center;}
+  .modal{
+    background:var(--surface); border:1px solid var(--border-strong);
+    border-radius:16px 16px 0 0; width:100%; max-width:720px;
+    max-height:85vh; overflow-y:auto; padding:18px;
+    transform:translateY(20px); transition:transform .15s ease;
+  }
+  .modal-overlay.open .modal{transform:translateY(0);}
+  .modal-overlay.center .modal{border-radius:16px;}
+  .modal h2{font-family:var(--font-display); font-size:19px; margin:0 0 14px; text-transform:uppercase; letter-spacing:0.4px;}
+  .modal p{color:var(--text-dim); font-size:13.5px;}
+  .sheet-option{
+    display:flex; align-items:center; gap:12px; width:100%;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:11px;
+    padding:13px 14px; margin-bottom:8px; font-size:14.5px; font-weight:600; color:var(--text);
+    cursor:pointer; text-align:left;
+  }
+  .sheet-option .ic{font-size:18px; width:22px; text-align:center;}
+  .sheet-option.danger{color:var(--error);}
+  .modal-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:14px;}
+  .modal-actions button{
+    border:none; border-radius:9px; padding:10px 16px; font-weight:700; font-size:14px; cursor:pointer;
+  }
+  .modal-actions .cancel{background:var(--surface-2); color:var(--text-dim);}
+  .modal-actions .confirm{background:var(--error); color:#fff;}
+  .modal-close-x{
+    position:sticky; top:0; float:right; background:none; border:none; color:var(--text-faint);
+    font-size:20px; cursor:pointer;
+  }
+  .summary-row{display:flex; justify-content:space-between; font-size:13px; padding:5px 0; border-bottom:1px solid var(--border);}
+  .summary-cat-title{
+    font-family:var(--font-display); font-size:13px; text-transform:uppercase; letter-spacing:0.4px;
+    margin:14px 0 4px; font-weight:700;
+  }
+  .copy-btn{
+    width:100%; background:var(--ofensiva); color:#1A0F04; border:none; border-radius:10px;
+    padding:13px; font-weight:700; font-size:14.5px; margin-top:14px; cursor:pointer;
+  }
+
+  @media (min-width:520px){
+    .btn-grid{grid-template-columns:1fr 1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="topbar-row">
+      <div>
+        <div class="score-line" id="scoreLine">Configure a partida abaixo ▾</div>
+        <div class="meta-line" id="metaLine"></div>
+      </div>
+      <button class="edit-link" id="editMatchBtn" style="display:none;">editar</button>
+    </div>
+    <div class="total-badge" id="totalBadge"></div>
+  </header>
+
+  <div class="setup-wrap">
+    <details class="setup-card" id="setupCard" open>
+      <summary style="list-style:none; cursor:pointer;">
+        <h2 style="display:inline;">Dados da partida</h2>
+      </summary>
+      <div class="field-row">
+        <div class="field">
+          <label>Time A</label>
+          <input type="text" id="timeA" placeholder="Nome do time A">
+        </div>
+        <div class="field placar-field">
+          <label>Placar A</label>
+          <input type="number" id="placarA" placeholder="0" min="0">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Time B</label>
+          <input type="text" id="timeB" placeholder="Nome do time B">
+        </div>
+        <div class="field placar-field">
+          <label>Placar B</label>
+          <input type="number" id="placarB" placeholder="0" min="0">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Clube analisado</label>
+        <div class="analisado-toggle">
+          <div class="analisado-chip" id="chipA" onclick="setAnalisado('A')">Time A</div>
+          <div class="analisado-chip" id="chipB" onclick="setAnalisado('B')">Time B</div>
+        </div>
+      </div>
+
+      <div class="field-row" style="margin-top:10px;">
+        <div class="field">
+          <label>Treinador (clube analisado)</label>
+          <input type="text" id="treinador" placeholder="Nome do treinador">
+        </div>
+        <div class="field">
+          <label>Campeonato</label>
+          <input type="text" id="campeonato" placeholder="Ex: Brasileirão Série A">
+        </div>
+      </div>
+
+      <div class="setup-actions">
+        <button class="btn-confirm" onclick="confirmSetup()">Confirmar e começar</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="quickread" id="quickReadWrap" style="display:none;">
+    <div class="quickread-title">Leitura rápida</div>
+    <div class="quickread-grid" id="quickReadGrid"></div>
+  </div>
+
+  <main id="phases"></main>
+
+  <div class="last-action" id="lastAction"></div>
+</div>
+
+<nav class="bottombar">
+  <div class="bb-btn" onclick="undo()"><span class="ic">↺</span>Desfazer</div>
+  <div class="bb-btn primary" onclick="showSummary()"><span class="ic">▤</span>Resumo</div>
+  <div class="bb-btn" onclick="openMenu()"><span class="ic">≡</span>Mais</div>
+</nav>
+
+<!-- Menu sheet -->
+<div class="modal-overlay" id="menuOverlay" onclick="if(event.target===this)closeMenu()">
+  <div class="modal">
+    <h2>Opções</h2>
+    <div class="sheet-option" onclick="closeMenu(); saveJSON();"><span class="ic">⇩</span> Salvar análise (.json)</div>
+    <div class="sheet-option" onclick="closeMenu(); document.getElementById('fileInput').click();"><span class="ic">⇧</span> Abrir análise (.json)</div>
+    <div class="sheet-option" onclick="closeMenu(); toggleSetup();"><span class="ic">✎</span> Editar dados da partida</div>
+    <div class="sheet-option danger" onclick="closeMenu(); confirmReset();"><span class="ic">⨯</span> Zerar todas as contagens</div>
+    <div class="modal-actions"><button class="cancel" onclick="closeMenu()">Fechar</button></div>
+  </div>
+</div>
+
+<!-- Summary modal -->
+<div class="modal-overlay center" id="summaryOverlay" onclick="if(event.target===this)closeSummary()">
+  <div class="modal">
+    <button class="modal-close-x" onclick="closeSummary()">×</button>
+    <h2 id="summaryTitle">Resumo</h2>
+    <div id="summaryBody"></div>
+    <button class="copy-btn" id="copyBtn" onclick="copySummary()">Copiar texto para o slide</button>
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal-overlay center" id="confirmOverlay" onclick="if(event.target===this)closeConfirm()">
+  <div class="modal">
+    <h2>Confirmar</h2>
+    <p id="confirmMessage"></p>
+    <div class="modal-actions">
+      <button class="cancel" onclick="closeConfirm()">Cancelar</button>
+      <button class="confirm" onclick="confirmYes()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="application/json" style="display:none;" onchange="loadJSON(event)">
+
+<script>
+/* ============================================================
+   CONFIG: categorias por evento
+   ============================================================ */
+const CATEGORIES = {
+  build: {
+    label:'Saída de bola', hasResult:true,
+    resultLabels:{success:'Certo', error:'Errado'},
+    events:[
+      {id:'curta_dir', label:'Curta - lado direito'},
+      {id:'curta_centro', label:'Curta - centro'},
+      {id:'curta_esq', label:'Curta - lado esquerdo'},
+      {id:'longa', label:'Bola longa'},
+    ]
+  },
+  construcao: {
+    label:'Quem participa da construção', hasResult:false,
+    events:[
+      {id:'zagueiros', label:'Zagueiros'},
+      {id:'volante', label:'Volante desce'},
+      {id:'goleiro', label:'Goleiro participa'},
+      {id:'lateral_sobe', label:'Lateral sobe cedo'},
+    ]
+  },
+  progressao: {
+    label:'Via de progressão', hasResult:true,
+    resultLabels:{success:'Chegou limpo', error:'Perdeu no percurso'},
+    events:[
+      {id:'prog_dir', label:'Pelo lado direito'},
+      {id:'prog_centro', label:'Pelo meio'},
+      {id:'prog_esq', label:'Pelo lado esquerdo'},
+    ]
+  },
+  virada: {
+    label:'Virada de jogo', hasResult:true,
+    resultLabels:{success:'Certa', error:'Errada'},
+    events:[
+      {id:'virada_dir_esq', label:'Direita → Esquerda'},
+      {id:'virada_esq_dir', label:'Esquerda → Direita'},
+    ]
+  },
+  volume_area: {
+    label:'Volume ofensivo na área', hasResult:false,
+    events:[
+      {id:'poucos', label:'Poucos jogadores (1-2)'},
+      {id:'medio', label:'Médio (3-4)'},
+      {id:'muitos', label:'Muitos (5+)'},
+    ]
+  },
+  cruzamento: {
+    label:'Cruzamento', hasResult:true,
+    resultLabels:{success:'Certo', error:'Errado'},
+    events:[
+      {id:'fundo_dir', label:'Linha de fundo (direita)'},
+      {id:'fundo_esq', label:'Linha de fundo (esquerda)'},
+      {id:'primeiro_poste', label:'Primeiro poste'},
+      {id:'segundo_poste', label:'Segundo poste'},
+      {id:'longo', label:'Cruzamento longo'},
+      {id:'sem_cruzar', label:'Preferiu jogar por dentro (sem cruzar)'},
+    ]
+  },
+  finalizacao: {
+    label:'Finalização', hasResult:true,
+    resultLabels:{success:'No alvo/gol', error:'Fora/bloqueada'},
+    events:[
+      {id:'dentro_area', label:'De dentro da área'},
+      {id:'fora_area', label:'De fora da área'},
+      {id:'cabeca', label:'De cabeça'},
+    ]
+  },
+  recuperacao: {
+    label:'Ao recuperar a bola', hasResult:false,
+    events:[
+      {id:'sai_jogando', label:'Sai jogando (posse)'},
+      {id:'contra_ataque', label:'Vai pro contra-ataque'},
+      {id:'bola_longa_alivio', label:'Alívio / bola longa'},
+    ]
+  },
+  perda: {
+    label:'Ao perder a bola', hasResult:false,
+    events:[
+      {id:'recompoe_rapido', label:'Recompõe rápido (contenção)'},
+      {id:'sofre_contra', label:'Sofre contra-ataque'},
+      {id:'falta_tatica', label:'Comete falta tática'},
+    ]
+  },
+  escanteio: {
+    label:'Escanteio', hasResult:true,
+    resultLabels:{success:'Finalização', error:'Sem perigo'},
+    events:[
+      {id:'primeiro_poste_esc', label:'Primeiro poste'},
+      {id:'segundo_poste_esc', label:'Segundo poste'},
+      {id:'curto', label:'Cobrança curta'},
+      {id:'area_recuo', label:'Recuo / entrada de área'},
+    ]
+  },
+};
+
+const STATE_GROUPS = {
+  modelo_jogo: {
+    label:'Modelo de jogo predominante',
+    hint:'Posicional = constrói com calma; Direto = verticaliza rápido; Contra-ataque = espera e ataca na transição',
+    options:[
+      {id:'posicional', label:'Posicional'},
+      {id:'direto', label:'Direto'},
+      {id:'contra_ataque', label:'Contra-ataque'},
+      {id:'misto', label:'Misto'},
+    ]
+  },
+  linha: {
+    label:'Altura da linha defensiva',
+    hint:'Onde fica a última linha de zagueiros',
+    options:[
+      {id:'alta', label:'Alta'},
+      {id:'media', label:'Média'},
+      {id:'baixa', label:'Baixa'},
+    ]
+  },
+  marcacao: {
+    label:'Tipo de marcação',
+    hint:'Zona = cobre o espaço; Homem = segue o adversário',
+    options:[
+      {id:'zona', label:'Zona'},
+      {id:'homem', label:'Homem a homem'},
+      {id:'mista', label:'Mista'},
+    ]
+  },
+  pressao: {
+    label:'Zona de pressão',
+    hint:'Em que parte do campo o time começa a marcar',
+    options:[
+      {id:'ofensivo', label:'Campo ofensivo'},
+      {id:'meio', label:'Meio-campo'},
+      {id:'defensivo', label:'Campo defensivo'},
+    ]
+  }
+};
+
+const PHASES = [
+  {id:'ofensiva', cls:'phase-ofensiva', label:'Organização ofensiva', hint:'O time com a bola', cats:['build','construcao','progressao','virada','volume_area','cruzamento','finalizacao']},
+  {id:'transof', cls:'phase-transof', label:'Transição ofensiva', hint:'Acabou de recuperar a bola', cats:['recuperacao']},
+  {id:'transdef', cls:'phase-transdef', label:'Transição defensiva', hint:'Acabou de perder a bola', cats:['perda']},
+  {id:'bp', cls:'phase-bp', label:'Bolas paradas', hint:'Jogadas ensaiadas a favor', cats:['escanteio']},
+  {id:'defensiva', cls:'phase-defensiva', label:'Organização defensiva', hint:'O time sem a bola', cats:[], stateGroups:true},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state = {
+  matchInfo:{timeA:'', placarA:'', timeB:'', placarB:'', analisadoSide:'A', treinador:'', campeonato:''},
+  counts:{},
+  defenseCounts:{},
+  defenseActive:{},
+};
+let actionLog = [];
+
+function initCounts(){
+  const c = {};
+  Object.keys(CATEGORIES).forEach(cat=>{
+    const cfg = CATEGORIES[cat];
+    cfg.events.forEach(ev=>{
+      if(cfg.hasResult){ c[cat+':'+ev.id+':success']=0; c[cat+':'+ev.id+':error']=0; }
+      else{ c[cat+':'+ev.id]=0; }
+    });
+  });
+  return c;
+}
+function initDefenseCounts(){
+  const c = {};
+  Object.keys(STATE_GROUPS).forEach(g=>{
+    STATE_GROUPS[g].options.forEach(opt=>{ c[g+':'+opt.id]=0; });
+  });
+  return c;
+}
+state.counts = initCounts();
+state.defenseCounts = initDefenseCounts();
+
+/* ============================================================
+   MATCH SETUP
+   ============================================================ */
+function setAnalisado(side){
+  state.matchInfo.analisadoSide = side;
+  document.getElementById('chipA').classList.toggle('active', side==='A');
+  document.getElementById('chipB').classList.toggle('active', side==='B');
+}
+setAnalisado('A');
+
+function confirmSetup(){
+  const mi = state.matchInfo;
+  mi.timeA = document.getElementById('timeA').value.trim() || 'Time A';
+  mi.placarA = document.getElementById('placarA').value;
+  mi.timeB = document.getElementById('timeB').value.trim() || 'Time B';
+  mi.placarB = document.getElementById('placarB').value;
+  mi.treinador = document.getElementById('treinador').value.trim();
+  mi.campeonato = document.getElementById('campeonato').value.trim();
+  document.getElementById('setupCard').open = false;
+  buildPhases();
+  renderAll();
+}
+
+function toggleSetup(){
+  const el = document.getElementById('setupCard');
+  el.open = true;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function clubeAnalisadoNome(){
+  const mi = state.matchInfo;
+  return mi.analisadoSide==='A' ? mi.timeA : mi.timeB;
+}
+
+function updateHeader(){
+  const mi = state.matchInfo;
+  const hasData = mi.timeA && mi.timeB;
+  const scoreLine = document.getElementById('scoreLine');
+  const metaLine = document.getElementById('metaLine');
+  const editBtn = document.getElementById('editMatchBtn');
+
+  if(!hasData){
+    scoreLine.textContent = 'Configure a partida abaixo ▾';
+    metaLine.innerHTML = '';
+    editBtn.style.display = 'none';
+    return;
+  }
+  editBtn.style.display = 'inline-block';
+  editBtn.onclick = toggleSetup;
+
+  const nomeA = mi.analisadoSide==='A' ? '<span class="analisado">'+mi.timeA+'</span>' : mi.timeA;
+  const nomeB = mi.analisadoSide==='B' ? '<span class="analisado">'+mi.timeB+'</span>' : mi.timeB;
+  const pA = mi.placarA !== '' ? ' ('+mi.placarA+')' : '';
+  const pB = mi.placarB !== '' ? ' ('+mi.placarB+')' : '';
+  scoreLine.innerHTML = nomeA + pA + '<span class="vs">×</span>' + nomeB + pB;
+
+  const bits = [];
+  bits.push('<span><b>Analisando:</b> '+clubeAnalisadoNome()+'</span>');
+  if(mi.treinador) bits.push('<span><b>Treinador:</b> '+mi.treinador+'</span>');
+  if(mi.campeonato) bits.push('<span><b>Campeonato:</b> '+mi.campeonato+'</span>');
+  metaLine.innerHTML = bits.join('');
+
+  document.getElementById('quickReadWrap').style.display = 'block';
+}
+
+/* ============================================================
+   RENDER: phases + categories
+   ============================================================ */
+function buildPhases(){
+  const root = document.getElementById('phases');
+  root.innerHTML = '';
+  PHASES.forEach(phase=>{
+    const details = document.createElement('details');
+    details.className = 'phase ' + phase.cls;
+    details.open = (phase.id === 'ofensiva');
+
+    const summary = document.createElement('summary');
+    summary.innerHTML =
+      '<div class="phase-title-wrap"><span class="phase-dot"></span>'+
+      '<div><div class="phase-title">'+phase.label+'</div><div class="phase-hint">'+phase.hint+'</div></div></div>'+
+      '<span class="phase-chevron">▾</span>';
+    details.appendChild(summary);
+
+    const body = document.createElement('div');
+    body.className = 'phase-body';
+
+    if(phase.stateGroups){
+      body.id = 'grid-defense';
+    } else {
+      phase.cats.forEach(catId=>{
+        const cfg = CATEGORIES[catId];
+        const block = document.createElement('div');
+        block.className = 'cat-block';
+        block.innerHTML = '<div class="cat-label">'+cfg.label+'</div>';
+        const grid = document.createElement('div');
+        grid.id = 'grid-'+catId;
+        block.appendChild(grid);
+        body.appendChild(block);
+      });
+    }
+    details.appendChild(body);
+    root.appendChild(details);
+  });
+  renderDefenseSkeleton();
+}
+
+function renderDefenseSkeleton(){
+  const container = document.getElementById('grid-defense');
+  if(!container) return;
+  container.innerHTML = '';
+  Object.keys(STATE_GROUPS).forEach(g=>{
+    const group = document.createElement('div');
+    group.className = 'state-group';
+    group.innerHTML = '<div class="state-group-label">'+STATE_GROUPS[g].label+
+      (STATE_GROUPS[g].hint ? '<span class="hint">'+STATE_GROUPS[g].hint+'</span>' : '')+'</div>';
+    const row = document.createElement('div');
+    row.className = 'state-btn-row';
+    row.id = 'staterow-'+g;
+    group.appendChild(row);
+    container.appendChild(group);
+  });
+}
+
+function renderAll(){
+  updateHeader();
+  Object.keys(CATEGORIES).forEach(cat=>{
+    const cfg = CATEGORIES[cat];
+    const grid = document.getElementById('grid-'+cat);
+    if(!grid) return;
+    grid.innerHTML = '';
+
+    if(cfg.hasResult){
+      grid.className = 'result-list';
+      // find leading event by total
+      let leadKey=null, leadVal=0;
+      cfg.events.forEach(ev=>{
+        const s = state.counts[cat+':'+ev.id+':success']||0;
+        const e = state.counts[cat+':'+ev.id+':error']||0;
+        const total = s+e;
+        if(total>leadVal){leadVal=total; leadKey=ev.id;}
+      });
+      cfg.events.forEach(ev=>{
+        const s = state.counts[cat+':'+ev.id+':success']||0;
+        const e = state.counts[cat+':'+ev.id+':error']||0;
+        const row = document.createElement('div');
+        row.className = 'result-row' + (leadKey===ev.id && leadVal>0 ? ' leading' : '');
+        row.innerHTML =
+          '<div class="result-label">'+ev.label+'</div>'+
+          '<div class="result-btns">'+
+            '<div class="result-btn success" onclick="tap(\''+cat+'\',\''+ev.id+'\',\''+escLabel(ev.label)+'\',\'success\')">'+
+              '<span class="symbol">✓</span><span class="count">'+s+'</span></div>'+
+            '<div class="result-btn error" onclick="tap(\''+cat+'\',\''+ev.id+'\',\''+escLabel(ev.label)+'\',\'error\')">'+
+              '<span class="symbol">✗</span><span class="count">'+e+'</span></div>'+
+          '</div>';
+        grid.appendChild(row);
+      });
+    } else {
+      grid.className = 'btn-grid';
+      let leadKey=null, leadVal=0;
+      cfg.events.forEach(ev=>{
+        const v = state.counts[cat+':'+ev.id]||0;
+        if(v>leadVal){leadVal=v; leadKey=ev.id;}
+      });
+      cfg.events.forEach(ev=>{
+        const v = state.counts[cat+':'+ev.id]||0;
+        const btn = document.createElement('div');
+        btn.className = 'event-btn' + (leadKey===ev.id && leadVal>0 ? ' leading' : '');
+        btn.onclick = ()=>tap(cat, ev.id, ev.label);
+        btn.innerHTML = ev.label + '<span class="count">'+v+'</span>';
+        grid.appendChild(btn);
+      });
+    }
+  });
+
+  Object.keys(STATE_GROUPS).forEach(g=>{
+    const row = document.getElementById('staterow-'+g);
+    if(!row) return;
+    row.innerHTML = '';
+    STATE_GROUPS[g].options.forEach(opt=>{
+      const key = g+':'+opt.id;
+      const v = state.defenseCounts[key]||0;
+      const btn = document.createElement('div');
+      btn.className = 'state-btn' + (state.defenseActive[g]===opt.id ? ' active' : '');
+      btn.onclick = ()=>tapDefense(g, opt.id, opt.label, STATE_GROUPS[g].label);
+      btn.innerHTML = opt.label + '<span class="count">'+v+'</span>';
+      row.appendChild(btn);
+    });
+  });
+
+  updateQuickRead();
+  updateTotalBadge();
+}
+
+function escLabel(s){ return s.replace(/'/g, "\\'"); }
+
+/* ============================================================
+   QUICK READ (insights ao vivo)
+   ============================================================ */
+function pctSplit(catId){
+  const cfg = CATEGORIES[catId];
+  const items = cfg.events.map(ev=>{
+    const v = cfg.hasResult
+      ? (state.counts[catId+':'+ev.id+':success']||0) + (state.counts[catId+':'+ev.id+':error']||0)
+      : (state.counts[catId+':'+ev.id]||0);
+    return {label:ev.label, v};
+  });
+  const total = items.reduce((a,b)=>a+b.v,0);
+  return {items, total};
+}
+
+function updateQuickRead(){
+  const grid = document.getElementById('quickReadGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const focusCats = ['build','progressao','cruzamento','finalizacao'];
+  let anyData = false;
+  focusCats.forEach(catId=>{
+    const cfg = CATEGORIES[catId];
+    const {items, total} = pctSplit(catId);
+    const div = document.createElement('div');
+    div.className = 'qr-item';
+    if(total===0){
+      div.innerHTML = '<div class="qr-label">'+cfg.label+'</div><div class="qr-empty">Ainda sem dados</div>';
+    } else {
+      anyData = true;
+      const top = items.slice().sort((a,b)=>b.v-a.v)[0];
+      const pct = Math.round((top.v/total)*100);
+      div.innerHTML =
+        '<div class="qr-label">'+cfg.label+'</div>'+
+        '<div class="qr-value">Prioriza: '+top.label+' — '+pct+'%</div>'+
+        '<div class="qr-bar"><span style="width:'+pct+'%"></span></div>';
+    }
+    grid.appendChild(div);
+  });
+}
+
+function updateTotalBadge(){
+  let total = 0;
+  Object.values(state.counts).forEach(v=>total+=v);
+  Object.values(state.defenseCounts).forEach(v=>total+=v);
+  document.getElementById('totalBadge').textContent = total>0 ? total+' eventos registrados' : '';
+}
+
+/* ============================================================
+   TAP / UNDO
+   ============================================================ */
+function tap(cat, evId, label, result){
+  const cfg = CATEGORIES[cat];
+  let logEntry;
+  if(cfg.hasResult && result){
+    const key = cat+':'+evId+':'+result;
+    state.counts[key] = (state.counts[key]||0)+1;
+    logEntry = {result:true, cat, evId, resultType:result};
+    const rl = result==='success' ? cfg.resultLabels.success : cfg.resultLabels.error;
+    setLastAction((result==='success'?'✓ ':'✗ ')+label+' — '+rl);
+  } else {
+    const key = cat+':'+evId;
+    state.counts[key] = (state.counts[key]||0)+1;
+    logEntry = key;
+    setLastAction('✓ '+label+' registrado');
+  }
+  actionLog.push(logEntry);
+  renderAll();
+}
+
+function tapDefense(group, optId, label, groupLabel){
+  const key = group+':'+optId;
+  const prevActive = state.defenseActive[group] || null;
+  state.defenseCounts[key] = (state.defenseCounts[key]||0)+1;
+  state.defenseActive[group] = optId;
+  actionLog.push({defense:group, optId, prevActive});
+  setLastAction('✓ '+groupLabel+': '+label);
+  renderAll();
+}
+
+function undo(){
+  const last = actionLog.pop();
+  if(!last){ setLastAction('Nada para desfazer'); return; }
+  if(typeof last === 'string'){
+    state.counts[last] = Math.max(0,(state.counts[last]||0)-1);
+  } else if(last.defense){
+    const key = last.defense+':'+last.optId;
+    state.defenseCounts[key] = Math.max(0,(state.defenseCounts[key]||0)-1);
+    state.defenseActive[last.defense] = last.prevActive;
+  } else if(last.result){
+    const key = last.cat+':'+last.evId+':'+last.resultType;
+    state.counts[key] = Math.max(0,(state.counts[key]||0)-1);
+  }
+  setLastAction('Última ação desfeita');
+  renderAll();
+}
+
+function setLastAction(msg){
+  document.getElementById('lastAction').textContent = msg;
+}
+
+/* ============================================================
+   MENU / CONFIRM
+   ============================================================ */
+function openMenu(){ document.getElementById('menuOverlay').classList.add('open'); }
+function closeMenu(){ document.getElementById('menuOverlay').classList.remove('open'); }
+
+let pendingConfirmAction = null;
+function showConfirm(msg, action){
+  document.getElementById('confirmMessage').textContent = msg;
+  pendingConfirmAction = action;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm(){
+  document.getElementById('confirmOverlay').classList.remove('open');
+  pendingConfirmAction = null;
+}
+function confirmYes(){
+  const a = pendingConfirmAction;
+  closeConfirm();
+  if(a) a();
+}
+function confirmReset(){
+  showConfirm('Zerar todas as contagens deste jogo? Os dados da partida (times, treinador, campeonato) são mantidos. Isso não pode ser desfeito.', ()=>{
+    state.counts = initCounts();
+    state.defenseCounts = initDefenseCounts();
+    state.defenseActive = {};
+    actionLog = [];
+    renderAll();
+    setLastAction('Contagens zeradas');
+  });
+}
+
+/* ============================================================
+   SUMMARY MODAL
+   ============================================================ */
+function showSummary(){
+  document.getElementById('summaryTitle').textContent = 'Resumo — ' + (clubeAnalisadoNome() || 'jogo atual');
+  const body = document.getElementById('summaryBody');
+  body.innerHTML = '';
+
+  PHASES.forEach(phase=>{
+    const phaseTitle = document.createElement('div');
+    phaseTitle.className = 'summary-cat-title';
+    phaseTitle.style.color = getComputedStyle(document.documentElement).getPropertyValue(
+      phase.id==='ofensiva'?'--ofensiva':phase.id==='transof'?'--transof':phase.id==='transdef'?'--transdef':phase.id==='bp'?'--bp':'--defensiva'
+    );
+    phaseTitle.textContent = phase.label;
+    body.appendChild(phaseTitle);
+
+    if(phase.stateGroups){
+      Object.keys(STATE_GROUPS).forEach(g=>{
+        const gDiv = document.createElement('div');
+        gDiv.style.fontWeight='600'; gDiv.style.fontSize='12.5px'; gDiv.style.margin='8px 0 2px'; gDiv.style.color='var(--text-dim)';
+        gDiv.textContent = STATE_GROUPS[g].label;
+        body.appendChild(gDiv);
+        let total=0;
+        STATE_GROUPS[g].options.forEach(opt=>{ total += state.defenseCounts[g+':'+opt.id]||0; });
+        STATE_GROUPS[g].options.forEach(opt=>{
+          const v = state.defenseCounts[g+':'+opt.id]||0;
+          const pct = total>0 ? Math.round((v/total)*100) : 0;
+          const row = document.createElement('div');
+          row.className='summary-row';
+          row.innerHTML = '<span>'+opt.label+'</span><span>'+v+(total>0?' ('+pct+'%)':'')+'</span>';
+          body.appendChild(row);
+        });
+      });
+      return;
+    }
+
+    phase.cats.forEach(catId=>{
+      const cfg = CATEGORIES[catId];
+      const catTitle = document.createElement('div');
+      catTitle.style.fontSize='12.5px'; catTitle.style.fontWeight='600'; catTitle.style.margin='8px 0 2px'; catTitle.style.color='var(--text-dim)';
+      catTitle.textContent = cfg.label;
+      body.appendChild(catTitle);
+
+      if(cfg.hasResult){
+        cfg.events.forEach(ev=>{
+          const s = state.counts[catId+':'+ev.id+':success']||0;
+          const e = state.counts[catId+':'+ev.id+':error']||0;
+          const total = s+e;
+          const pct = total>0 ? Math.round((s/total)*100) : 0;
+          const row = document.createElement('div');
+          row.className='summary-row';
+          row.innerHTML = '<span>'+ev.label+'</span><span>'+total+(total>0?' — '+pct+'% sucesso':'')+'</span>';
+          body.appendChild(row);
+        });
+      } else {
+        let total=0;
+        cfg.events.forEach(ev=>{ total += state.counts[catId+':'+ev.id]||0; });
+        cfg.events.forEach(ev=>{
+          const v = state.counts[catId+':'+ev.id]||0;
+          const pct = total>0 ? Math.round((v/total)*100) : 0;
+          const row = document.createElement('div');
+          row.className='summary-row';
+          row.innerHTML = '<span>'+ev.label+'</span><span>'+v+(total>0?' ('+pct+'%)':'')+'</span>';
+          body.appendChild(row);
+        });
+      }
+    });
+  });
+
+  document.getElementById('summaryOverlay').classList.add('open');
+}
+function closeSummary(){ document.getElementById('summaryOverlay').classList.remove('open'); }
+
+function buildSummaryText(){
+  const mi = state.matchInfo;
+  let lines = [];
+  lines.push((mi.timeA||'Time A')+' ('+(mi.placarA||'0')+') x ('+(mi.placarB||'0')+') '+(mi.timeB||'Time B'));
+  lines.push('Clube analisado: '+clubeAnalisadoNome());
+  if(mi.treinador) lines.push('Treinador: '+mi.treinador);
+  if(mi.campeonato) lines.push('Campeonato: '+mi.campeonato);
+  lines.push('');
+
+  PHASES.forEach(phase=>{
+    lines.push('== '+phase.label.toUpperCase()+' ==');
+    if(phase.stateGroups){
+      Object.keys(STATE_GROUPS).forEach(g=>{
+        lines.push('  '+STATE_GROUPS[g].label+':');
+        let total=0;
+        STATE_GROUPS[g].options.forEach(opt=>{ total += state.defenseCounts[g+':'+opt.id]||0; });
+        STATE_GROUPS[g].options.forEach(opt=>{
+          const v = state.defenseCounts[g+':'+opt.id]||0;
+          const pct = total>0 ? Math.round((v/total)*100) : 0;
+          lines.push('    '+opt.label+': '+v+(total>0?' ('+pct+'%)':''));
+        });
+      });
+      lines.push('');
+      return;
+    }
+    phase.cats.forEach(catId=>{
+      const cfg = CATEGORIES[catId];
+      lines.push('  '+cfg.label.toUpperCase());
+      if(cfg.hasResult){
+        cfg.events.forEach(ev=>{
+          const s = state.counts[catId+':'+ev.id+':success']||0;
+          const e = state.counts[catId+':'+ev.id+':error']||0;
+          const total = s+e;
+          const pct = total>0 ? Math.round((s/total)*100) : 0;
+          lines.push('    '+ev.label+': '+total+(total>0?' — '+pct+'% sucesso ('+s+'/'+e+')':''));
+        });
+      } else {
+        let total=0;
+        cfg.events.forEach(ev=>{ total += state.counts[catId+':'+ev.id]||0; });
+        cfg.events.forEach(ev=>{
+          const v = state.counts[catId+':'+ev.id]||0;
+          const pct = total>0 ? Math.round((v/total)*100) : 0;
+          lines.push('    '+ev.label+': '+v+(total>0?' ('+pct+'%)':''));
+        });
+      }
+      lines.push('');
+    });
+  });
+  return lines.join('\n');
+}
+
+function copySummary(){
+  const text = buildSummaryText();
+  const btn = document.getElementById('copyBtn');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>{
+      btn.textContent='Copiado!';
+      setTimeout(()=>{btn.textContent='Copiar texto para o slide';},1500);
+    }).catch(()=>fallbackCopy(text, btn));
+  } else {
+    fallbackCopy(text, btn);
+  }
+}
+function fallbackCopy(text, btn){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); btn.textContent='Copiado!'; }
+  catch(e){ btn.textContent='Selecione e copie manualmente'; }
+  document.body.removeChild(ta);
+  setTimeout(()=>{btn.textContent='Copiar texto para o slide';},2000);
+}
+
+/* ============================================================
+   JSON SAVE / LOAD
+   ============================================================ */
+function saveJSON(){
+  const payload = {
+    version: 3,
+    savedAt: new Date().toISOString(),
+    matchInfo: state.matchInfo,
+    counts: state.counts,
+    defenseCounts: state.defenseCounts,
+    defenseActive: state.defenseActive,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const clube = (clubeAnalisadoNome()||'analise').replace(/[^a-zA-Z0-9]+/g,'_');
+  const date = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = 'ficha_'+clube+'_'+date+'.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  setLastAction('Análise salva em arquivo .json');
+}
+
+function loadJSON(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const data = JSON.parse(e.target.result);
+      state.matchInfo = Object.assign({timeA:'',placarA:'',timeB:'',placarB:'',analisadoSide:'A',treinador:'',campeonato:''}, data.matchInfo||{});
+      state.counts = Object.assign(initCounts(), data.counts||{});
+      state.defenseCounts = Object.assign(initDefenseCounts(), data.defenseCounts||{});
+      state.defenseActive = data.defenseActive || {};
+      actionLog = [];
+
+      document.getElementById('timeA').value = state.matchInfo.timeA;
+      document.getElementById('placarA').value = state.matchInfo.placarA;
+      document.getElementById('timeB').value = state.matchInfo.timeB;
+      document.getElementById('placarB').value = state.matchInfo.placarB;
+      document.getElementById('treinador').value = state.matchInfo.treinador;
+      document.getElementById('campeonato').value = state.matchInfo.campeonato;
+      setAnalisado(state.matchInfo.analisadoSide || 'A');
+      document.getElementById('setupCard').open = false;
+
+      buildPhases();
+      renderAll();
+      setLastAction('Análise carregada: '+(state.matchInfo.timeA||'')+' x '+(state.matchInfo.timeB||''));
+    }catch(err){
+      alert('Não foi possível abrir este arquivo. Verifique se é um .json exportado por esta ferramenta.');
+    }
+  };
+  reader.readAsText(file);
+  evt.target.value = '';
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+buildPhases();
+renderAll();
+</script>
+</body>
+</html>
