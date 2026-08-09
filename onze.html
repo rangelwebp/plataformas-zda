@@ -615,8 +615,7 @@
           <label>Nacionalidade</label>
           <select id="selecao-nacionalidade">
             <option value="brasileiros">Brasileiros</option>
-            <option value="estrangeiros">Estrangeiros (combinado)</option>
-            <option value="todos">Todos os jogadores</option>
+            <option value="estrangeiros">Estrangeiros</option>
           </select>
         </div>
         <div>
@@ -1467,6 +1466,7 @@ document.getElementById('btn-salvar-notas').addEventListener('click', ()=>{
 document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
   const rodada = parseInt(document.getElementById('selecao-rodada').value, 10);
   const posicaoFiltro = document.getElementById('selecao-posicao').value;
+  const nacionalidadeFiltro = document.getElementById('selecao-nacionalidade').value; // 'brasileiros' | 'estrangeiros'
   const ligasSelecionadas = [...document.querySelectorAll('.selecao-liga:checked')].map(c=>c.value);
   const resultado = document.getElementById('selecao-resultado');
 
@@ -1479,6 +1479,9 @@ document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
     const j = jogadorById(n.jogadorId);
     if(!j) return null;
     if(posicaoFiltro && j.posicao !== posicaoFiltro) return null;
+    const eBrasileiro = (j.nacionalidade || 'Brasil') === 'Brasil';
+    if(nacionalidadeFiltro === 'brasileiros' && !eBrasileiro) return null;
+    if(nacionalidadeFiltro === 'estrangeiros' && eBrasileiro) return null;
     const c = clubeById(j.clubeAtualId);
     return {jogador:j, clube:c, liga:n.liga, valor:n.valor};
   }).filter(Boolean);
@@ -1488,6 +1491,7 @@ document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
     return;
   }
 
+  const mostrarNacionalidade = nacionalidadeFiltro === 'estrangeiros';
   const posicoesParaExibir = posicaoFiltro ? [posicaoFiltro] : ORDEM_POSICOES;
   let html = '';
   posicoesParaExibir.forEach(codigoPos=>{
@@ -1495,13 +1499,14 @@ document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
     if(doGrupo.length === 0) return;
     const pos = posicaoInfo(codigoPos);
     html += `<div class="group-header"><span class="pill ${pos.classe}">${pos.codigo}</span> ${pos.label} <span class="count">${doGrupo.length} jogador(es)</span></div>`;
-    html += `<div class="table-wrap"><table><thead><tr><th>#</th><th>Jogador</th><th>Clube</th><th>Liga</th><th>Nota</th></tr></thead><tbody>`;
+    html += `<div class="table-wrap"><table><thead><tr><th>#</th><th>Jogador</th><th>Clube</th><th>Liga</th>${mostrarNacionalidade ? '<th>Nacionalidade</th>' : ''}<th>Nota</th></tr></thead><tbody>`;
     doGrupo.forEach((l, idx)=>{
       html += `<tr>
         <td>${idx+1}</td>
         <td><strong>${escapeHtml(l.jogador.nome)}</strong></td>
         <td>${l.clube ? escapeHtml(l.clube.nome) : '—'}</td>
         <td><span class="liga-tag">${l.liga}</span></td>
+        ${mostrarNacionalidade ? `<td><span class="liga-tag">${escapeHtml(l.jogador.nacionalidade || 'Estrangeiro')}</span></td>` : ''}
         <td><span class="nota-badge" style="background:${corDaNota(l.valor)};">${l.valor}</span></td>
       </tr>`;
     });
