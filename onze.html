@@ -614,6 +614,7 @@
         <div class="field">
           <label>Nacionalidade</label>
           <select id="selecao-nacionalidade">
+            <option value="todos">Todos</option>
             <option value="brasileiros">Brasileiros</option>
             <option value="estrangeiros">Estrangeiros</option>
           </select>
@@ -1466,7 +1467,7 @@ document.getElementById('btn-salvar-notas').addEventListener('click', ()=>{
 document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
   const rodada = parseInt(document.getElementById('selecao-rodada').value, 10);
   const posicaoFiltro = document.getElementById('selecao-posicao').value;
-  const nacionalidadeFiltro = document.getElementById('selecao-nacionalidade').value; // 'brasileiros' | 'estrangeiros'
+  const nacionalidadeFiltro = document.getElementById('selecao-nacionalidade').value; // 'todos' | 'brasileiros' | 'estrangeiros'
   const ligasSelecionadas = [...document.querySelectorAll('.selecao-liga:checked')].map(c=>c.value);
   const resultado = document.getElementById('selecao-resultado');
 
@@ -1491,7 +1492,7 @@ document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
     return;
   }
 
-  const mostrarNacionalidade = nacionalidadeFiltro === 'estrangeiros';
+  const mostrarNacionalidade = nacionalidadeFiltro !== 'brasileiros';
   const posicoesParaExibir = posicaoFiltro ? [posicaoFiltro] : ORDEM_POSICOES;
   let html = '';
   posicoesParaExibir.forEach(codigoPos=>{
