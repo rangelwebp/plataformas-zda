@@ -113,6 +113,9 @@
   .grid{ display:grid; gap:20px; }
   .grid.cols-2{ grid-template-columns: 1fr 1fr; }
   @media (max-width: 860px){ .grid.cols-2{ grid-template-columns: 1fr; } }
+  .grid.cols-3{ grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 1024px){ .grid.cols-3{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px){ .grid.cols-3{ grid-template-columns: 1fr; } }
 
   .panel{
     background: var(--bg-panel);
@@ -190,7 +193,7 @@
   button.btn.danger{ background: var(--accent-red); color: #2A0A10; }
   button.btn.gold{ background: var(--accent-gold); color: #2A2005; }
   button.btn.small{ padding: 5px 12px; font-size: 14px; }
-  .lote-modo-btn.active{
+  .lote-modo-btn.active, .view-toggle-btn.active{
     background: var(--accent-green);
     color: #08130D;
     border-color: var(--accent-green);
@@ -297,14 +300,6 @@
   }
   .group-header .count{ font-size:13px; color:var(--text-faint); font-family: var(--font-body); font-weight:400; }
 
-  .destaque-icon{ font-size:16px; margin-right:4px; }
-  .destaque-card{
-    background: var(--bg-panel-alt); border:1px solid var(--border); border-radius: var(--radius-sm);
-    padding: 12px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;
-  }
-  .destaque-card .desc{ font-size:14.5px; }
-  .destaque-card .tipo-tag{ font-size:11.5px; text-transform:uppercase; letter-spacing:0.4px; color: var(--text-muted); }
-
   .stat-cards{ display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:20px; }
   .stat-card{ background: var(--bg-panel-alt); border:1px solid var(--border); border-radius: var(--radius-sm); padding:16px; text-align:center; }
   .stat-card .num{ font-family: var(--font-mono); font-size: 28px; font-weight:600; color: var(--accent-green); }
@@ -335,7 +330,6 @@
     <button data-view="jogadores">Jogadores</button>
     <button data-view="notas">Lançar Notas</button>
     <button data-view="selecao">Seleção</button>
-    <button data-view="liga3">Liga 3 · Destaques</button>
     <button data-view="resumo">Resumo</button>
     <button data-view="backup">Backup</button>
   </nav>
@@ -540,7 +534,7 @@
   <!-- ============ LANÇAR NOTAS ============ -->
   <section class="view" id="view-notas">
     <h2 class="view-title">Lançar Notas da Rodada</h2>
-    <p class="view-sub">Escolha a liga, a rodada e os dois clubes do confronto. Os brasileiros dos dois times aparecem agrupados, prontos para receber a nota.</p>
+    <p class="view-sub">Escolha a liga e a rodada. Na Liga Portugal e Liga Portugal 2, escolha os dois clubes do confronto. Na Liga 3, escolha só o clube — a nota já vem pronta de outra fonte, sem precisar de adversário.</p>
     <div class="panel">
       <div class="filter-bar">
         <div class="field">
@@ -548,6 +542,7 @@
           <select id="notas-liga">
             <option value="Liga Portugal">Liga Portugal</option>
             <option value="Liga Portugal 2">Liga Portugal 2</option>
+            <option value="Liga 3">Liga 3</option>
           </select>
         </div>
         <div class="field">
@@ -555,14 +550,14 @@
           <input type="number" id="notas-rodada" min="1" max="60" placeholder="Ex: 4">
         </div>
         <div class="field">
-          <label>Time A (mandante)</label>
+          <label id="notas-timeA-label">Time A (mandante)</label>
           <select id="notas-timeA"></select>
         </div>
-        <div class="field">
+        <div class="field" id="notas-timeb-wrap">
           <label>Time B (visitante)</label>
           <select id="notas-timeB"></select>
         </div>
-        <div class="field">
+        <div class="field" id="notas-filtro-nac-wrap">
           <label>Mostrar</label>
           <select id="notas-filtro-nacionalidade">
             <option value="todos">Todos</option>
@@ -609,6 +604,7 @@
           <div class="checkbox-group" style="padding-top:6px;">
             <label><input type="checkbox" class="selecao-liga" value="Liga Portugal" checked> Liga Portugal</label>
             <label><input type="checkbox" class="selecao-liga" value="Liga Portugal 2" checked> Liga Portugal 2</label>
+            <label><input type="checkbox" class="selecao-liga" value="Liga 3"> Liga 3</label>
           </div>
         </div>
         <div class="field">
@@ -623,59 +619,20 @@
           <button class="btn" id="btn-filtrar-selecao">Filtrar e ordenar</button>
         </div>
       </div>
+      <div class="row" style="margin-bottom:14px; align-items:center;">
+        <label style="margin:0; text-transform:none; font-weight:400; color:var(--text-muted); font-size:13px;">Visualização:</label>
+        <button type="button" class="btn secondary small view-toggle-btn active" data-modo="agrupado" id="btn-modo-agrupado">Agrupado por posição</button>
+        <button type="button" class="btn secondary small view-toggle-btn" data-modo="geral" id="btn-modo-geral">Lista geral (por nota)</button>
+      </div>
       <div id="selecao-resultado"></div>
-    </div>
-  </section>
-
-  <!-- ============ LIGA 3 ============ -->
-  <section class="view" id="view-liga3">
-    <h2 class="view-title">Liga 3 — Destaques da Rodada</h2>
-    <p class="view-sub">Sem notas disponíveis na Liga 3: aqui você registra gols, assistências, MVPs e clean sheets, e o sistema monta um mural de destaques por rodada.</p>
-    <div class="grid cols-2">
-      <div class="panel">
-        <h3><span class="dot"></span> Registrar destaque</h3>
-        <form id="form-destaque">
-          <div class="field">
-            <label>Jogador (Liga 3)</label>
-            <select id="destaque-jogador" required></select>
-          </div>
-          <div class="row">
-            <div class="field">
-              <label>Rodada</label>
-              <input type="number" id="destaque-rodada" min="1" max="60" required>
-            </div>
-            <div class="field">
-              <label>Tipo</label>
-              <select id="destaque-tipo" required>
-                <option value="gol">⚽ Gol</option>
-                <option value="assistencia">🎯 Assistência</option>
-                <option value="mvp">🏅 MVP da partida</option>
-                <option value="clean_sheet">🧤 Clean sheet</option>
-              </select>
-            </div>
-          </div>
-          <button type="submit" class="btn">Registrar destaque</button>
-        </form>
-      </div>
-      <div class="panel">
-        <h3><span class="dot"></span> Mural da rodada</h3>
-        <div class="filter-bar">
-          <div class="field">
-            <label>Rodada</label>
-            <input type="number" id="liga3-filtro-rodada" min="1" max="60" placeholder="Ex: 4">
-          </div>
-          <div><button class="btn secondary" id="btn-filtrar-liga3">Ver mural</button></div>
-        </div>
-        <div id="liga3-resultado"></div>
-      </div>
     </div>
   </section>
 
   <!-- ============ RESUMO ============ -->
   <section class="view" id="view-resumo">
     <h2 class="view-title">Resumo do Elenco</h2>
-    <p class="view-sub">Quantidade de jogadores <strong>ativos</strong> cadastrados por posição, separados por Liga Portugal / Liga Portugal 2 e por brasileiro/estrangeiro — dá pra conferir de cara se já tem elenco pra montar um 4-4-2, 4-3-3 etc.</p>
-    <div class="grid cols-2">
+    <p class="view-sub">Quantidade de jogadores <strong>ativos</strong> cadastrados por posição, separados por liga e por brasileiro/estrangeiro — dá pra conferir de cara se já tem elenco pra montar um 4-4-2, 4-3-3 etc.</p>
+    <div class="grid cols-3">
       <div class="panel">
         <h3><span class="dot"></span> Liga Portugal</h3>
         <div id="resumo-liga1"></div>
@@ -683,6 +640,10 @@
       <div class="panel">
         <h3><span class="dot"></span> Liga Portugal 2</h3>
         <div id="resumo-liga2"></div>
+      </div>
+      <div class="panel">
+        <h3><span class="dot"></span> Liga 3</h3>
+        <div id="resumo-liga3"></div>
       </div>
     </div>
     <p class="hint" style="margin-top:16px;">
@@ -739,29 +700,22 @@ const POSICOES = [
   {codigo:'AT', label:'Atacante', classe:'at'}
 ];
 const ORDEM_POSICOES = ['GK','LD','LE','ZC','MC','AT'];
-const DESTAQUE_LABELS = {
-  gol: {icone:'⚽', label:'Gol'},
-  assistencia: {icone:'🎯', label:'Assistência'},
-  mvp: {icone:'🏅', label:'MVP da partida'},
-  clean_sheet: {icone:'🧤', label:'Clean sheet'}
-};
 
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
 
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return {clubes:[], jogadores:[], notas:[], destaques:[]};
+    if(!raw) return {clubes:[], jogadores:[], notas:[]};
     const parsed = JSON.parse(raw);
     return {
       clubes: parsed.clubes || [],
       jogadores: (parsed.jogadores || []).map(j => ({ nacionalidade: 'Brasil', ...j })),
-      notas: parsed.notas || [],
-      destaques: parsed.destaques || []
+      notas: parsed.notas || []
     };
   }catch(e){
     console.error('Erro ao carregar dados', e);
-    return {clubes:[], jogadores:[], notas:[], destaques:[]};
+    return {clubes:[], jogadores:[], notas:[]};
   }
 }
 function saveState(){
@@ -894,7 +848,6 @@ function excluirClube(id){
   const jogadoresDoClube = state.jogadores.filter(j=>j.clubeAtualId === id).map(j=>j.id);
   state.jogadores = state.jogadores.filter(j=>j.clubeAtualId !== id);
   state.notas = state.notas.filter(n => !jogadoresDoClube.includes(n.jogadorId));
-  state.destaques = state.destaques.filter(d => !jogadoresDoClube.includes(d.jogadorId));
   state.clubes = state.clubes.filter(c=>c.id !== id);
   saveState();
   renderClubes();
@@ -1040,10 +993,9 @@ function editarJogador(id){
 
 function excluirJogador(id){
   const j = jogadorById(id);
-  if(!confirm(`Excluir "${j.nome}"? Isso também apaga todas as notas e destaques dele.`)) return;
+  if(!confirm(`Excluir "${j.nome}"? Isso também apaga todas as notas dele.`)) return;
   state.jogadores = state.jogadores.filter(x=>x.id !== id);
   state.notas = state.notas.filter(n=>n.jogadorId !== id);
-  state.destaques = state.destaques.filter(d=>d.jogadorId !== id);
   saveState();
   renderClubes();
   renderJogadores();
@@ -1241,6 +1193,7 @@ function renderResumoTabela(liga, containerId){
 function renderResumo(){
   renderResumoTabela('Liga Portugal', 'resumo-liga1');
   renderResumoTabela('Liga Portugal 2', 'resumo-liga2');
+  renderResumoTabela('Liga 3', 'resumo-liga3');
 }
 
 function refreshAllSelects(){
@@ -1248,12 +1201,9 @@ function refreshAllSelects(){
   fillClubeSelect(jogadorClubeInput);
   // select de clube no cadastro em lote (agrupado por liga)
   fillClubeSelect(document.getElementById('lote-clube'));
-  // selects de time A / time B no lançamento de notas
-  fillClubeSelectPorLiga(document.getElementById('notas-timeA'), document.getElementById('notas-liga').value);
-  fillClubeSelectPorLiga(document.getElementById('notas-timeB'), document.getElementById('notas-liga').value);
+  // selects de time A / time B (ou só clube, se Liga 3) no lançamento de notas
+  atualizarLayoutNotasPorLiga();
   // select de clube-filtro-liga já é fixo (não precisa)
-  // select de jogador na Liga 3
-  fillJogadorLiga3Select();
 }
 
 function fillClubeSelect(selectEl){
@@ -1279,10 +1229,19 @@ function fillClubeSelectPorLiga(selectEl, liga){
 /* =========================================================
    LANÇAR NOTAS
    ========================================================= */
-document.getElementById('notas-liga').addEventListener('change', ()=>{
-  fillClubeSelectPorLiga(document.getElementById('notas-timeA'), document.getElementById('notas-liga').value);
-  fillClubeSelectPorLiga(document.getElementById('notas-timeB'), document.getElementById('notas-liga').value);
-});
+function atualizarLayoutNotasPorLiga(){
+  const liga = document.getElementById('notas-liga').value;
+  const ehLiga3 = liga === 'Liga 3';
+  fillClubeSelectPorLiga(document.getElementById('notas-timeA'), liga);
+  if(!ehLiga3){
+    fillClubeSelectPorLiga(document.getElementById('notas-timeB'), liga);
+  }
+  document.getElementById('notas-timeb-wrap').style.display = ehLiga3 ? 'none' : '';
+  document.getElementById('notas-filtro-nac-wrap').style.display = ehLiga3 ? 'none' : '';
+  document.getElementById('notas-timeA-label').textContent = ehLiga3 ? 'Clube' : 'Time A (mandante)';
+}
+
+document.getElementById('notas-liga').addEventListener('change', atualizarLayoutNotasPorLiga);
 
 const OPCOES_POSICAO_HTML = ORDEM_POSICOES.map(p=>`<option value="${p}">${p}</option>`).join('');
 
@@ -1415,19 +1374,25 @@ function ativarQuickAdd(area){
 
 document.getElementById('btn-carregar-jogo').addEventListener('click', ()=>{
   const liga = document.getElementById('notas-liga').value;
+  const ehLiga3 = liga === 'Liga 3';
   const rodada = parseInt(document.getElementById('notas-rodada').value, 10);
   const timeAId = document.getElementById('notas-timeA').value;
-  const timeBId = document.getElementById('notas-timeB').value;
-  const filtroNac = document.getElementById('notas-filtro-nacionalidade').value;
+  const timeBId = ehLiga3 ? null : document.getElementById('notas-timeB').value;
+  const filtroNac = ehLiga3 ? 'todos' : document.getElementById('notas-filtro-nacionalidade').value;
 
   if(!rodada){ toast('Informe o número da rodada', true); return; }
-  if(!timeAId || !timeBId){ toast('Selecione os dois clubes', true); return; }
-  if(timeAId === timeBId){ toast('Escolha dois clubes diferentes', true); return; }
+  if(!timeAId){ toast(ehLiga3 ? 'Selecione o clube' : 'Selecione os dois clubes', true); return; }
+  if(!ehLiga3){
+    if(!timeBId){ toast('Selecione os dois clubes', true); return; }
+    if(timeAId === timeBId){ toast('Escolha dois clubes diferentes', true); return; }
+  }
 
   const area = document.getElementById('notas-jogo-area');
-  const timeA = clubeById(timeAId), timeB = clubeById(timeBId);
+  const timeA = clubeById(timeAId);
 
-  area.innerHTML = montarBlocoTime(timeA, liga, rodada, filtroNac) + montarBlocoTime(timeB, liga, rodada, filtroNac);
+  area.innerHTML = ehLiga3
+    ? montarBlocoTime(timeA, liga, rodada, filtroNac)
+    : montarBlocoTime(timeA, liga, rodada, filtroNac) + montarBlocoTime(clubeById(timeBId), liga, rodada, filtroNac);
   area.dataset.liga = liga;
   area.dataset.rodada = rodada;
   ativarQuickAdd(area);
@@ -1464,6 +1429,20 @@ document.getElementById('btn-salvar-notas').addEventListener('click', ()=>{
 /* =========================================================
    SELEÇÃO DA RODADA
    ========================================================= */
+let ultimoResultadoSelecao = null; // cache do último filtro, pra re-renderizar ao trocar o modo de visualização
+let selecaoModoExibicao = 'agrupado'; // 'agrupado' | 'geral'
+
+document.querySelectorAll('.view-toggle-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.view-toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    selecaoModoExibicao = btn.dataset.modo;
+    if(ultimoResultadoSelecao){
+      renderResultadoSelecao(ultimoResultadoSelecao.linhas, ultimoResultadoSelecao.posicaoFiltro, ultimoResultadoSelecao.mostrarNacionalidade);
+    }
+  });
+});
+
 document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
   const rodada = parseInt(document.getElementById('selecao-rodada').value, 10);
   const posicaoFiltro = document.getElementById('selecao-posicao').value;
@@ -1487,101 +1466,58 @@ document.getElementById('btn-filtrar-selecao').addEventListener('click', ()=>{
     return {jogador:j, clube:c, liga:n.liga, valor:n.valor};
   }).filter(Boolean);
 
+  const mostrarNacionalidade = nacionalidadeFiltro !== 'brasileiros';
+  ultimoResultadoSelecao = { linhas, posicaoFiltro, mostrarNacionalidade };
+
   if(linhas.length === 0){
     resultado.innerHTML = `<div class="empty-state">Nenhuma nota encontrada para esses filtros.</div>`;
     return;
   }
 
-  const mostrarNacionalidade = nacionalidadeFiltro !== 'brasileiros';
-  const posicoesParaExibir = posicaoFiltro ? [posicaoFiltro] : ORDEM_POSICOES;
-  let html = '';
-  posicoesParaExibir.forEach(codigoPos=>{
-    const doGrupo = linhas.filter(l => l.jogador.posicao === codigoPos).sort((a,b)=> b.valor - a.valor);
-    if(doGrupo.length === 0) return;
-    const pos = posicaoInfo(codigoPos);
-    html += `<div class="group-header"><span class="pill ${pos.classe}">${pos.codigo}</span> ${pos.label} <span class="count">${doGrupo.length} jogador(es)</span></div>`;
-    html += `<div class="table-wrap"><table><thead><tr><th>#</th><th>Jogador</th><th>Clube</th><th>Liga</th>${mostrarNacionalidade ? '<th>Nacionalidade</th>' : ''}<th>Nota</th></tr></thead><tbody>`;
-    doGrupo.forEach((l, idx)=>{
-      html += `<tr>
-        <td>${idx+1}</td>
-        <td><strong>${escapeHtml(l.jogador.nome)}</strong></td>
-        <td>${l.clube ? escapeHtml(l.clube.nome) : '—'}</td>
-        <td><span class="liga-tag">${l.liga}</span></td>
-        ${mostrarNacionalidade ? `<td><span class="liga-tag">${escapeHtml(l.jogador.nacionalidade || 'Estrangeiro')}</span></td>` : ''}
-        <td><span class="nota-badge" style="background:${corDaNota(l.valor)};">${l.valor}</span></td>
-      </tr>`;
-    });
-    html += `</tbody></table></div>`;
-  });
-  resultado.innerHTML = html || `<div class="empty-state">Nenhuma nota encontrada para esses filtros.</div>`;
+  renderResultadoSelecao(linhas, posicaoFiltro, mostrarNacionalidade);
 });
 
-/* =========================================================
-   LIGA 3 — DESTAQUES
-   ========================================================= */
-function fillJogadorLiga3Select(){
-  const select = document.getElementById('destaque-jogador');
-  const jogadoresLiga3 = state.jogadores.filter(j=>{
-    const c = clubeById(j.clubeAtualId);
-    return c && c.liga === 'Liga 3';
-  }).sort((a,b)=> a.nome.localeCompare(b.nome));
-
-  select.innerHTML = jogadoresLiga3.length
-    ? jogadoresLiga3.map(j=>{
-        const c = clubeById(j.clubeAtualId);
-        return `<option value="${j.id}">${escapeHtml(j.nome)} — ${escapeHtml(c.nome)}</option>`;
-      }).join('')
-    : `<option value="">Cadastre jogadores na Liga 3 primeiro</option>`;
-}
-
-document.getElementById('form-destaque').addEventListener('submit', e=>{
-  e.preventDefault();
-  const jogadorId = document.getElementById('destaque-jogador').value;
-  const rodada = parseInt(document.getElementById('destaque-rodada').value, 10);
-  const tipo = document.getElementById('destaque-tipo').value;
-  if(!jogadorId || !rodada) { toast('Preencha jogador e rodada', true); return; }
-
-  state.destaques.push({id: uid(), jogadorId, rodada, tipo});
-  saveState();
-  toast('Destaque registrado');
-  document.getElementById('destaque-rodada').value = '';
-});
-
-document.getElementById('btn-filtrar-liga3').addEventListener('click', renderMuralLiga3);
-
-function renderMuralLiga3(){
-  const rodada = parseInt(document.getElementById('liga3-filtro-rodada').value, 10);
-  const resultado = document.getElementById('liga3-resultado');
-  let lista = [...state.destaques];
-  if(rodada) lista = lista.filter(d=>d.rodada === rodada);
-  lista.sort((a,b)=> b.rodada - a.rodada);
-
-  if(lista.length === 0){
-    resultado.innerHTML = `<div class="empty-state">Nenhum destaque registrado ${rodada ? 'nesta rodada' : 'ainda'}.</div>`;
+function renderResultadoSelecao(linhas, posicaoFiltro, mostrarNacionalidade){
+  const resultado = document.getElementById('selecao-resultado');
+  if(!linhas || linhas.length === 0){
+    resultado.innerHTML = `<div class="empty-state">Nenhuma nota encontrada para esses filtros.</div>`;
     return;
   }
 
-  resultado.innerHTML = lista.map(d=>{
-    const j = jogadorById(d.jogadorId);
-    const c = j ? clubeById(j.clubeAtualId) : null;
-    const info = DESTAQUE_LABELS[d.tipo];
-    return `<div class="destaque-card">
-      <div class="desc">
-        <span class="destaque-icon">${info.icone}</span>
-        <strong>${j ? escapeHtml(j.nome) : '(jogador removido)'}</strong>
-        ${c ? `— ${escapeHtml(c.nome)}` : ''}
-        &nbsp;·&nbsp;<span class="tipo-tag">${info.label} · Rodada ${d.rodada}</span>
-      </div>
-      <button class="icon-btn" onclick="excluirDestaque('${d.id}')" title="Excluir">✕</button>
-    </div>`;
-  }).join('');
-}
+  const linhaTabela = (l, idx) => `<tr>
+    <td>${idx+1}</td>
+    <td><strong>${escapeHtml(l.jogador.nome)}</strong></td>
+    ${selecaoModoExibicao === 'geral' ? `<td><span class="pill ${posicaoInfo(l.jogador.posicao).classe}">${l.jogador.posicao}</span></td>` : ''}
+    <td>${l.clube ? escapeHtml(l.clube.nome) : '—'}</td>
+    <td><span class="liga-tag">${l.liga}</span></td>
+    ${mostrarNacionalidade ? `<td><span class="liga-tag">${escapeHtml(l.jogador.nacionalidade || 'Estrangeiro')}</span></td>` : ''}
+    <td><span class="nota-badge" style="background:${corDaNota(l.valor)};">${l.valor}</span></td>
+  </tr>`;
 
-function excluirDestaque(id){
-  state.destaques = state.destaques.filter(d=>d.id !== id);
-  saveState();
-  renderMuralLiga3();
-  toast('Destaque removido', true);
+  let html = '';
+
+  if(selecaoModoExibicao === 'geral'){
+    // lista única, sem separar por posição, ordenada da maior nota pra menor
+    const todasOrdenadas = [...linhas].sort((a,b)=> b.valor - a.valor);
+    html += `<div class="group-header">Lista geral <span class="count">${todasOrdenadas.length} jogador(es)</span></div>`;
+    html += `<div class="table-wrap"><table><thead><tr><th>#</th><th>Jogador</th><th>Pos.</th><th>Clube</th><th>Liga</th>${mostrarNacionalidade ? '<th>Nacionalidade</th>' : ''}<th>Nota</th></tr></thead><tbody>`;
+    todasOrdenadas.forEach((l, idx)=>{ html += linhaTabela(l, idx); });
+    html += `</tbody></table></div>`;
+  }else{
+    // agrupado por posição, cada grupo ordenado por nota
+    const posicoesParaExibir = posicaoFiltro ? [posicaoFiltro] : ORDEM_POSICOES;
+    posicoesParaExibir.forEach(codigoPos=>{
+      const doGrupo = linhas.filter(l => l.jogador.posicao === codigoPos).sort((a,b)=> b.valor - a.valor);
+      if(doGrupo.length === 0) return;
+      const pos = posicaoInfo(codigoPos);
+      html += `<div class="group-header"><span class="pill ${pos.classe}">${pos.codigo}</span> ${pos.label} <span class="count">${doGrupo.length} jogador(es)</span></div>`;
+      html += `<div class="table-wrap"><table><thead><tr><th>#</th><th>Jogador</th><th>Clube</th><th>Liga</th>${mostrarNacionalidade ? '<th>Nacionalidade</th>' : ''}<th>Nota</th></tr></thead><tbody>`;
+      doGrupo.forEach((l, idx)=>{ html += linhaTabela(l, idx); });
+      html += `</tbody></table></div>`;
+    });
+  }
+
+  resultado.innerHTML = html || `<div class="empty-state">Nenhuma nota encontrada para esses filtros.</div>`;
 }
 
 /* =========================================================
@@ -1592,7 +1528,6 @@ function renderBackupStats(){
     <div class="stat-card"><div class="num">${state.clubes.length}</div><div class="lbl">Clubes</div></div>
     <div class="stat-card"><div class="num">${state.jogadores.length}</div><div class="lbl">Jogadores</div></div>
     <div class="stat-card"><div class="num">${state.notas.length}</div><div class="lbl">Notas lançadas</div></div>
-    <div class="stat-card"><div class="num">${state.destaques.length}</div><div class="lbl">Destaques (Liga 3)</div></div>
   `;
 }
 
@@ -1623,8 +1558,7 @@ document.getElementById('btn-importar').addEventListener('click', ()=>{
       state = {
         clubes: importado.clubes || [],
         jogadores: importado.jogadores || [],
-        notas: importado.notas || [],
-        destaques: importado.destaques || []
+        notas: importado.notas || []
       };
       saveState();
       renderAll();
@@ -1639,9 +1573,9 @@ document.getElementById('btn-importar').addEventListener('click', ()=>{
 });
 
 document.getElementById('btn-limpar-tudo').addEventListener('click', ()=>{
-  if(!confirm('Apagar TODOS os dados (clubes, jogadores, notas, destaques)? Esta ação não pode ser desfeita.')) return;
+  if(!confirm('Apagar TODOS os dados (clubes, jogadores, notas)? Esta ação não pode ser desfeita.')) return;
   if(!confirm('Tem certeza mesmo? Considere exportar um backup antes.')) return;
-  state = {clubes:[], jogadores:[], notas:[], destaques:[]};
+  state = {clubes:[], jogadores:[], notas:[]};
   saveState();
   renderAll();
   toast('Todos os dados foram apagados', true);
@@ -1662,7 +1596,6 @@ function renderAll(){
   document.getElementById('notas-jogo-area').innerHTML = '';
   document.getElementById('notas-salvar-area').style.display = 'none';
   document.getElementById('selecao-resultado').innerHTML = '';
-  document.getElementById('liga3-resultado').innerHTML = '';
 }
 
 renderAll();
