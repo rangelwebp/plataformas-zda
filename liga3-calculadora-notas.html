@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONZE BR — Calculadora de Notas · Liga 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0C1420; --bg-panel: #131E2E; --bg-panel-alt: #182339; --bg-input: #0F1826;
+    --border: #263449; --text: #E7ECF3; --text-muted: #8FA0B8; --text-faint: #5C6C82;
+    --accent-green: #33C17A; --accent-green-dim: #1F7A4D; --accent-gold: #E8B94A;
+    --accent-blue: #5B9BD5; --accent-orange: #EF8354; --accent-red: #E5566B;
+    --radius: 10px; --radius-sm: 6px;
+    --font-display: 'Barlow Condensed', sans-serif; --font-body: 'Inter', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{ background: var(--bg); color: var(--text); font-family: var(--font-body); min-height:100vh; line-height:1.4; }
+  ::selection{ background: var(--accent-green-dim); color:#fff; }
+
+  header.app-header{
+    background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border); padding: 22px 28px 18px; position: sticky; top:0; z-index:20;
+  }
+  .brand{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+  .brand h1{ font-family: var(--font-display); font-weight:800; font-size:28px; letter-spacing:0.5px; margin:0; line-height:1; }
+  .brand h1 span{ color: var(--accent-gold); }
+  .badge-complemento{
+    font-family: var(--font-display); font-size:12.5px; letter-spacing:0.5px; text-transform:uppercase;
+    background: rgba(232,185,74,0.14); color: var(--accent-gold); border:1px solid rgba(232,185,74,0.35);
+    padding: 3px 10px; border-radius:999px;
+  }
+  nav.tabs{ display:flex; gap:6px; margin-top:18px; flex-wrap:wrap; }
+  nav.tabs button{
+    font-family: var(--font-display); font-size:17px; letter-spacing:0.3px; font-weight:600;
+    background:transparent; border:1px solid transparent; color: var(--text-muted);
+    padding:7px 16px; border-radius:999px; cursor:pointer; transition: all .15s ease;
+  }
+  nav.tabs button:hover{ color: var(--text); border-color: var(--border); }
+  nav.tabs button.active{ color:#2A2005; background: var(--accent-gold); border-color: var(--accent-gold); }
+
+  main{ max-width: 1220px; margin:0 auto; padding: 26px 28px 80px; }
+  .view{ display:none; }
+  .view.active{ display:block; animation: fadeIn .18s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+  h2.view-title{ font-family: var(--font-display); font-size:26px; font-weight:700; margin:0 0 4px; }
+  p.view-sub{ color: var(--text-muted); font-size:13.5px; margin:0 0 20px; }
+
+  .grid{ display:grid; gap:20px; }
+  .grid.cols-2{ grid-template-columns: 1fr 1fr; }
+  @media (max-width:860px){ .grid.cols-2{ grid-template-columns:1fr; } }
+
+  .panel{ background: var(--bg-panel); border:1px solid var(--border); border-radius: var(--radius); padding:20px; }
+  .panel h3{ font-family: var(--font-display); font-size:19px; font-weight:600; margin:0 0 14px; display:flex; align-items:center; gap:8px; }
+  .panel h3 .dot{ width:7px; height:7px; border-radius:50%; background: var(--accent-gold); }
+  .panel + .panel{ margin-top:20px; }
+
+  label{ display:block; font-size:12px; color: var(--text-muted); margin-bottom:5px; text-transform:uppercase; letter-spacing:0.4px; font-weight:600; }
+  .field{ margin-bottom:14px; }
+  input[type=text], input[type=number], select, input[type=file]{
+    width:100%; background: var(--bg-input); border:1px solid var(--border); color: var(--text);
+    padding:9px 11px; border-radius: var(--radius-sm); font-family: var(--font-body); font-size:14px; outline:none;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus{
+    border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(232,185,74,0.15);
+  }
+  .row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .row > *{ flex:1; min-width:130px; }
+  .check-row{ display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+  .check-row input{ width:auto; }
+  .check-row label{ margin:0; text-transform:none; font-size:14px; font-weight:400; color: var(--text); }
+
+  button.btn{
+    font-family: var(--font-display); font-size:16px; font-weight:600; letter-spacing:0.3px;
+    background: var(--accent-gold); color:#2A2005; border:none; padding:9px 20px; border-radius: var(--radius-sm);
+    cursor:pointer; transition: filter .12s ease, transform .05s ease;
+  }
+  button.btn:hover{ filter: brightness(1.08); }
+  button.btn:active{ transform: scale(0.98); }
+  button.btn.secondary{ background:transparent; color: var(--text); border:1px solid var(--border); }
+  button.btn.green{ background: var(--accent-green); color:#08130D; }
+  button.btn.danger{ background: var(--accent-red); color:#2A0A10; }
+  button.btn.small{ padding:5px 12px; font-size:13px; }
+  button.icon-btn{
+    background:none; border:1px solid var(--border); color: var(--text-muted);
+    width:28px; height:28px; border-radius: var(--radius-sm); cursor:pointer; font-size:14px; line-height:1;
+  }
+  button.icon-btn:hover{ border-color: var(--accent-red); color: var(--accent-red); }
+  button.link-btn{
+    background:none; border:none; color: var(--accent-blue); font-family: var(--font-body); font-size:12.5px;
+    cursor:pointer; text-decoration:underline; padding:0;
+  }
+
+  .toggle-btn.active{ background: var(--accent-gold); color:#2A2005; border-color: var(--accent-gold); }
+
+  table{ width:100%; border-collapse:collapse; font-size:14px; }
+  thead th{
+    text-align:left; font-family: var(--font-display); font-weight:600; font-size:12px; letter-spacing:0.3px;
+    color: var(--text-muted); border-bottom:1px solid var(--border); padding:8px 10px; text-transform:uppercase;
+  }
+  tbody td{ padding:9px 10px; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+  tbody tr:hover{ background: rgba(255,255,255,0.02); }
+  .table-wrap{ overflow-x:auto; margin-top:6px; }
+  .empty-state{ color: var(--text-faint); font-size:13.5px; padding:18px 4px; text-align:center; border:1px dashed var(--border); border-radius: var(--radius-sm); }
+
+  .pill{ display:inline-block; font-family: var(--font-display); font-weight:700; font-size:13px; padding:2px 9px; border-radius:5px; letter-spacing:0.3px; }
+  .pill.gk{ background: rgba(232,185,74,0.16); color: var(--accent-gold); }
+  .pill.def{ background: rgba(91,155,213,0.16); color: var(--accent-blue); }
+  .pill.mc{ background: rgba(51,193,122,0.16); color: var(--accent-green); }
+  .pill.at{ background: rgba(239,131,84,0.18); color: var(--accent-orange); }
+
+  .liga-tag{ font-size:11.5px; color: var(--text-muted); border:1px solid var(--border); padding:2px 8px; border-radius:999px; white-space:nowrap; }
+  .nota-tag{ font-family: var(--font-mono); font-weight:700; font-size:14px; border:1px solid; padding:2px 9px; border-radius:5px; }
+
+  .nota-grande{
+    font-family: var(--font-mono); font-weight:700; font-size:44px; text-align:center; padding:14px;
+    border-radius: var(--radius); border:1px solid var(--border); color:#fff; text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  }
+  .breakdown-item{
+    display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px;
+  }
+  .breakdown-item:last-child{ border-bottom:none; }
+  .breakdown-item .valor{ font-family: var(--font-mono); font-weight:600; }
+  .breakdown-item .valor.pos{ color: var(--accent-green); }
+  .breakdown-item .valor.neg{ color: var(--accent-red); }
+
+  .stat-cards{ display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:20px; }
+  .stat-card{ background: var(--bg-panel-alt); border:1px solid var(--border); border-radius: var(--radius-sm); padding:16px; text-align:center; }
+  .stat-card .num{ font-family: var(--font-mono); font-size:28px; font-weight:600; color: var(--accent-gold); }
+  .stat-card .lbl{ font-size:12px; color: var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; margin-top:4px; }
+
+  .toast{
+    position:fixed; bottom:24px; right:24px; background: var(--accent-gold); color:#2A2005;
+    font-family: var(--font-display); font-weight:600; font-size:15px; padding:12px 20px; border-radius: var(--radius-sm);
+    box-shadow:0 8px 24px rgba(0,0,0,0.4); opacity:0; transform: translateY(8px); transition: all .2s ease; pointer-events:none; z-index:100;
+  }
+  .toast.show{ opacity:1; transform:translateY(0); }
+  .toast.danger{ background: var(--accent-red); color:#2A0A10; }
+
+  .divider{ height:1px; background: var(--border); margin:20px 0; border:none; }
+  .hint{ font-size:12.5px; color: var(--text-faint); margin-top:-8px; margin-bottom:14px; }
+  .section-title{ font-family: var(--font-display); font-size:16px; font-weight:700; margin: 4px 0 10px; color: var(--accent-gold); }
+
+  /* time / jogador */
+  .team-block{ background: var(--bg-panel-alt); border:1px solid var(--border); border-radius: var(--radius-sm); padding:14px; margin-bottom:14px; }
+  .team-block h4{ font-family: var(--font-display); font-size:18px; margin:0 0 10px; display:flex; align-items:center; justify-content:space-between; }
+
+  .jog-row{ padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .jog-row:last-child{ border-bottom:none; }
+  .jog-header{ display:flex; align-items:center; gap:10px; }
+  .jog-header input[type=checkbox]{ width:auto; flex-shrink:0; }
+  .jog-header .name{ flex:1; font-size:14.5px; }
+  .jog-detalhes{
+    display:none; margin: 8px 0 4px 28px; padding: 12px 14px;
+    background: var(--bg-input); border:1px solid var(--border); border-radius: var(--radius-sm);
+  }
+  .jog-detalhes.show{ display:block; }
+  .jog-detalhes .grupo-titulo{
+    font-family: var(--font-display); font-size:11.5px; text-transform:uppercase; letter-spacing:0.4px;
+    color: var(--text-faint); font-weight:700; margin: 10px 0 6px;
+  }
+  .jog-detalhes .grupo-titulo:first-child{ margin-top:0; }
+  .jog-detalhes .mini-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+  .jog-detalhes .mini-field{ display:flex; flex-direction:column; gap:3px; }
+  .jog-detalhes .mini-field label{ margin:0; font-size:10px; text-transform:uppercase; letter-spacing:0.3px; color: var(--text-faint); font-weight:600; }
+  .jog-detalhes input[type=number]{ width:58px; padding:5px 6px; font-family: var(--font-mono); text-align:center; font-size:13px; }
+  .jog-detalhes select{ padding:5px 6px; font-size:13px; width:auto; min-width:100px; }
+  .jog-detalhes .check-mini{ display:flex; align-items:center; gap:5px; font-size:13px; color: var(--text); margin:0; text-transform:none; font-weight:400; }
+  .jog-detalhes .check-mini input{ width:auto; }
+
+  .resultado-linha{ display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .resultado-linha:last-child{ border-bottom:none; }
+  .resultado-linha .name{ flex:1; font-size:14px; }
+  .resultado-detalhe{ display:none; margin: 8px 0 8px 0; padding:10px 12px; background: var(--bg-input); border:1px solid var(--border); border-radius: var(--radius-sm); }
+  .resultado-detalhe.show{ display:block; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">
+    <h1>LIGA 3 <span>·</span> Calculadora de Notas</h1>
+    <span class="badge-complemento">complemento do ONZE BR</span>
+  </div>
+  <nav class="tabs">
+    <button data-view="importar" class="active">Importar Jogadores</button>
+    <button data-view="confronto">Calcular por Confronto</button>
+    <button data-view="avulso">Jogador Avulso</button>
+    <button data-view="historico">Histórico</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ IMPORTAR ============ -->
+  <section class="view active" id="view-importar">
+    <h2 class="view-title">Importar Jogadores</h2>
+    <p class="view-sub">Use o backup .json exportado da ferramenta principal (aba Backup → Baixar backup). Aqui a gente filtra automaticamente só os clubes e jogadores da Liga 3.</p>
+    <div class="panel">
+      <div class="field">
+        <label>Arquivo de backup (.json)</label>
+        <input type="file" id="import-arquivo" accept="application/json">
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="import-so-brasileiros">
+        <label for="import-so-brasileiros">Importar só jogadores brasileiros (deixe desmarcado pra trazer todo mundo da Liga 3)</label>
+      </div>
+      <button class="btn" id="btn-importar">Importar</button>
+      <p class="hint" style="margin-top:14px;">Isso substitui os jogadores importados anteriormente aqui nesta ferramenta. Não afeta nem apaga nada no sistema principal.</p>
+    </div>
+    <div class="stat-cards" id="import-stats" style="margin-top:20px;"></div>
+  </section>
+
+  <!-- ============ CALCULAR POR CONFRONTO ============ -->
+  <section class="view" id="view-confronto">
+    <h2 class="view-title">Calcular por Confronto</h2>
+    <p class="view-sub">Escolha os dois clubes da partida — o sistema já lista todos os jogadores dos dois lados. Marque só quem atuou.</p>
+
+    <div class="panel">
+      <h3><span class="dot"></span> Dados da partida</h3>
+      <div class="row">
+        <div class="field">
+          <label>Rodada</label>
+          <input type="number" id="cf-rodada" min="1" max="60">
+        </div>
+        <div class="field">
+          <label>Clube A</label>
+          <select id="cf-clubeA"></select>
+        </div>
+        <div class="field">
+          <label>Clube B</label>
+          <select id="cf-clubeB"></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Gols Clube A</label>
+          <input type="number" id="cf-golsA" min="0" value="0">
+        </div>
+        <div class="field">
+          <label>Gols Clube B</label>
+          <input type="number" id="cf-golsB" min="0" value="0">
+        </div>
+      </div>
+      <p class="hint">Resultado (vitória/empate/derrota) e gols sofridos de cada time são calculados sozinhos a partir do placar.</p>
+
+      <p class="section-title">Ficha da partida (opcional — o que não tiver, deixe em branco)</p>
+      <div class="row">
+        <div class="field"><label>Remates (A)</label><input type="number" id="cf-remA" min="0"></div>
+        <div class="field"><label>Remates (B)</label><input type="number" id="cf-remB" min="0"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Remates à baliza (A)</label><input type="number" id="cf-rembA" min="0"></div>
+        <div class="field"><label>Remates à baliza (B)</label><input type="number" id="cf-rembB" min="0"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Cantos (A)</label><input type="number" id="cf-cantA" min="0"></div>
+        <div class="field"><label>Cantos (B)</label><input type="number" id="cf-cantB" min="0"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Posse de bola % (A)</label><input type="number" id="cf-posseA" min="0" max="100"></div>
+        <div class="field"><label>Posse de bola % (B)</label><input type="number" id="cf-posseB" min="0" max="100"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Ataques perigosos (A)</label><input type="number" id="cf-ataqA" min="0"></div>
+        <div class="field"><label>Ataques perigosos (B)</label><input type="number" id="cf-ataqB" min="0"></div>
+      </div>
+
+      <button class="btn" id="btn-carregar-confronto">Carregar jogadores dos dois clubes</button>
+    </div>
+
+    <div id="confronto-times-area"></div>
+
+    <div id="confronto-calcular-area" style="display:none; margin-top:16px;">
+      <button class="btn green" id="btn-calcular-confronto">Calcular notas de todos os marcados</button>
+    </div>
+
+    <div class="panel" id="confronto-resultado-panel" style="display:none; margin-top:20px;">
+      <h3><span class="dot"></span> Resultado — revise e salve</h3>
+      <p class="hint">Clique em "ver cálculo" pra conferir o detalhamento de qualquer jogador antes de salvar.</p>
+      <div id="confronto-resultado-lista"></div>
+      <button class="btn gold" id="btn-salvar-confronto-tudo" style="margin-top:14px;">Salvar marcados no histórico</button>
+    </div>
+  </section>
+
+  <!-- ============ JOGADOR AVULSO ============ -->
+  <section class="view" id="view-avulso">
+    <h2 class="view-title">Jogador Avulso</h2>
+    <p class="view-sub">Pra testar a nota de um jogador que não está na sua lista (de outro time, outra liga, só pra comparar). Não fica salvo em nenhum cadastro, só o resultado vai pro histórico se você quiser.</p>
+
+    <div class="panel">
+      <h3><span class="dot"></span> Dados do time dele na partida</h3>
+      <div class="row">
+        <div class="field"><label>Rodada</label><input type="number" id="av-rodada" min="1" max="60"></div>
+        <div class="field"><label>Nome do jogador</label><input type="text" id="av-nome" placeholder="Ex: Fulano"></div>
+        <div class="field"><label>Clube</label><input type="text" id="av-clube" placeholder="Ex: Vianense"></div>
+        <div class="field"><label>Nacionalidade</label><input type="text" id="av-nacionalidade" placeholder="Ex: Uruguai"></div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Posição</label>
+          <select id="av-posicao">
+            <option value="GK">GK — Goleiro</option>
+            <option value="LD">LD — Lateral Direito</option>
+            <option value="LE">LE — Lateral Esquerdo</option>
+            <option value="ZC">ZC — Zagueiro Central</option>
+            <option value="MC">MC — Meio-Campo</option>
+            <option value="AT">AT — Atacante</option>
+          </select>
+        </div>
+        <div class="field"><label>Gols marcados pelo time dele</label><input type="number" id="av-gols-time" min="0" value="0"></div>
+        <div class="field"><label>Gols sofridos pelo time dele</label><input type="number" id="av-gols-sofridos" min="0" value="0"></div>
+      </div>
+
+      <p class="section-title">Minutagem</p>
+      <div class="row">
+        <div class="field"><label>Entrou aos</label><input type="number" id="av-entrada" min="0" max="90" value="0"></div>
+        <div class="field"><label>Saiu aos</label><input type="number" id="av-saida" min="0" max="90" value="90"></div>
+      </div>
+
+      <p class="section-title">Eventos individuais</p>
+      <div class="row">
+        <div class="field"><label>Gols</label><input type="number" id="av-gols" min="0" value="0"></div>
+        <div class="field"><label>Assistências</label><input type="number" id="av-assistencias" min="0" value="0"></div>
+      </div>
+      <div class="check-row"><input type="checkbox" id="av-gol-decisivo"><label for="av-gol-decisivo">Um dos gols foi o gol da vitória/decisivo</label></div>
+      <div class="check-row"><input type="checkbox" id="av-mvp"><label for="av-mvp">Foi o MVP da partida</label></div>
+      <div class="check-row"><input type="checkbox" id="av-selecao-rodada"><label for="av-selecao-rodada">Está na Seleção da Rodada de algum veículo/jornalista</label></div>
+
+      <div class="row">
+        <div class="field">
+          <label>Cartão</label>
+          <select id="av-cartao">
+            <option value="nenhum">Nenhum</option>
+            <option value="amarelo">Amarelo</option>
+            <option value="vermelho">Vermelho</option>
+          </select>
+        </div>
+        <div class="field" id="av-cartao-minuto-wrap" style="display:none;">
+          <label>Minuto do cartão</label>
+          <input type="number" id="av-cartao-minuto" min="0" max="90">
+        </div>
+      </div>
+
+      <div id="av-bloco-goleiro" style="display:none;">
+        <p class="section-title">Guarda-redes</p>
+        <div class="row">
+          <div class="field"><label>Defesas (ficha)</label><input type="number" id="av-defesas" min="0" value="0"></div>
+          <div class="field"><label>Defesas difíceis (melhores momentos)</label><input type="number" id="av-defesas-dificeis" min="0" value="0"></div>
+          <div class="field"><label>Pênaltis defendidos</label><input type="number" id="av-penalti-defendido" min="0" value="0"></div>
+          <div class="field"><label>Falhas do goleiro</label><input type="number" id="av-falha-goleiro" min="0" value="0"></div>
+        </div>
+      </div>
+
+      <p class="section-title">Melhores Momentos</p>
+      <div class="row">
+        <div class="field"><label>Jogada de destaque</label><input type="number" id="av-jogada-destaque" min="0" value="0"></div>
+        <div class="field"><label>Chute na trave</label><input type="number" id="av-chute-trave" min="0" value="0"></div>
+        <div class="field"><label>Corte/desarme crucial</label><input type="number" id="av-desarme-crucial" min="0" value="0"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Lançamento longo preciso</label><input type="number" id="av-lancamento-preciso" min="0" value="0"></div>
+        <div class="field"><label>Passe decisivo</label><input type="number" id="av-passe-decisivo" min="0" value="0"></div>
+        <div class="field"><label>Cobrança perigosa</label><input type="number" id="av-cobranca-perigosa" min="0" value="0"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Falha que gerou gol adversário</label><input type="number" id="av-falha-gerou-gol" min="0" value="0"></div>
+      </div>
+
+      <button class="btn green" id="btn-calcular-avulso">Calcular nota</button>
+    </div>
+
+    <div class="panel" id="av-resultado-panel" style="display:none; margin-top:20px;">
+      <h3><span class="dot"></span> Resultado</h3>
+      <div class="grid cols-2">
+        <div>
+          <div class="nota-grande" id="av-resultado-nota">6.6</div>
+          <button class="btn" id="btn-salvar-avulso" style="width:100%; margin-top:12px;">Salvar no histórico</button>
+        </div>
+        <div>
+          <p class="section-title" style="margin-top:0;">Detalhamento</p>
+          <div id="av-resultado-breakdown"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HISTÓRICO ============ -->
+  <section class="view" id="view-historico">
+    <h2 class="view-title">Histórico de Cálculos</h2>
+    <p class="view-sub">Notas já calculadas nesta ferramenta. Use pra copiar o valor e digitar na tela de Lançar Notas do sistema principal.</p>
+    <div class="row" style="margin-bottom:14px;">
+      <div class="field" style="max-width:160px;">
+        <label>Filtrar rodada</label>
+        <input type="number" id="hist-filtro-rodada" min="1" max="60" placeholder="Todas">
+      </div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Rodada</th><th>Jogador</th><th>Clube</th><th>Pos.</th><th>Nota</th><th></th></tr></thead>
+      <tbody id="tbody-historico"></tbody>
+    </table></div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   ESTADO / PERSISTÊNCIA (armazenamento próprio, separado do sistema principal)
+   ========================================================= */
+const STORAGE_KEY = 'liga3_calculadora_notas_v2';
+const ORDEM_POSICOES = ['GK','LD','LE','ZC','MC','AT'];
+const POSICOES_DEFENSIVAS = ['GK','LD','LE','ZC'];
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return {clubes:[], jogadores:[], historico:[]};
+    const parsed = JSON.parse(raw);
+    return {
+      clubes: parsed.clubes || [],
+      jogadores: parsed.jogadores || [],
+      historico: parsed.historico || []
+    };
+  }catch(e){
+    console.error('Erro ao carregar dados', e);
+    return {clubes:[], jogadores:[], historico:[]};
+  }
+}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+let state = loadState();
+
+function toast(msg, danger=false){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.toggle('danger', danger);
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=> el.classList.remove('show'), 2600);
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function posicaoClasse(codigo){
+  if(codigo === 'GK') return 'gk';
+  if(['LD','LE','ZC'].includes(codigo)) return 'def';
+  if(codigo === 'MC') return 'mc';
+  return 'at';
+}
+function corDaNota(valor){
+  if(valor < 6) return '#CD0B00';
+  if(valor < 6.5) return '#ED7E07';
+  if(valor < 7) return '#D9AF00';
+  if(valor < 8) return '#00C424';
+  if(valor < 9) return '#00ADC4';
+  return '#374DF5';
+}
+function clubeById(id){ return state.clubes.find(c=>c.id === id); }
+
+/* =========================================================
+   NAVEGAÇÃO
+   ========================================================= */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('main .view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-'+btn.dataset.view).classList.add('active');
+    if(btn.dataset.view === 'importar') renderImportStats();
+    if(btn.dataset.view === 'historico') renderHistorico();
+  });
+});
+
+/* =========================================================
+   IMPORTAR JOGADORES
+   ========================================================= */
+function renderImportStats(){
+  document.getElementById('import-stats').innerHTML = `
+    <div class="stat-card"><div class="num">${state.clubes.length}</div><div class="lbl">Clubes (Liga 3)</div></div>
+    <div class="stat-card"><div class="num">${state.jogadores.length}</div><div class="lbl">Jogadores importados</div></div>
+  `;
+}
+
+function popularSelectsClubes(){
+  const opcoes = [...state.clubes].sort((a,b)=>a.nome.localeCompare(b.nome))
+    .map(c=>`<option value="${c.id}">${escapeHtml(c.nome)}</option>`).join('');
+  const vazio = `<option value="">Selecione um clube</option>`;
+  document.getElementById('cf-clubeA').innerHTML = vazio + opcoes;
+  document.getElementById('cf-clubeB').innerHTML = vazio + opcoes;
+}
+
+document.getElementById('btn-importar').addEventListener('click', ()=>{
+  const fileInput = document.getElementById('import-arquivo');
+  const file = fileInput.files[0];
+  if(!file){ toast('Escolha o arquivo de backup primeiro', true); return; }
+  const soBrasileiros = document.getElementById('import-so-brasileiros').checked;
+
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const dados = JSON.parse(e.target.result);
+      const clubesLiga3 = (dados.clubes || []).filter(c => c.liga === 'Liga 3');
+      const idsClubesLiga3 = clubesLiga3.map(c => c.id);
+      let jogadoresLiga3 = (dados.jogadores || []).filter(j => j.ativo && idsClubesLiga3.includes(j.clubeAtualId));
+      if(soBrasileiros){
+        jogadoresLiga3 = jogadoresLiga3.filter(j => (j.nacionalidade || 'Brasil') === 'Brasil');
+      }
+
+      state.clubes = clubesLiga3;
+      state.jogadores = jogadoresLiga3;
+      saveState();
+      renderImportStats();
+      popularSelectsClubes();
+      toast(`Importado: ${clubesLiga3.length} clube(s), ${jogadoresLiga3.length} jogador(es)`);
+    }catch(err){
+      console.error(err);
+      toast('Arquivo inválido — não foi possível importar', true);
+    }
+  };
+  reader.onerror = ()=> toast('Erro ao ler o arquivo', true);
+  reader.readAsText(file);
+});
+
+/* =========================================================
+   FÓRMULA DE PONTUAÇÃO (compartilhada entre Confronto e Avulso)
+   ========================================================= */
+const BASE_NOTA = 6.6;
+const PESO_DOMINIO_POR_POSICAO = { MC: 1.0, LD: 0.7, LE: 0.7, AT: 0.4, ZC: 0.2, GK: 0.2 };
+const PONTOS_RESULTADO = { vitoria: 0.15, empate: 0.05, derrota: -0.15 };
+
+function fracaoComparativa(a, b){
+  const na = Number(a), nb = Number(b);
+  if(a === '' || b === '' || a == null || b == null || isNaN(na) || isNaN(nb) || (na + nb) === 0) return null;
+  return (na - nb) / (na + nb);
+}
+function calcularIndice(proprio, adversario){
+  const fracoes = [
+    fracaoComparativa(proprio.remates, adversario.remates),
+    fracaoComparativa(proprio.remates_baliza, adversario.remates_baliza),
+    fracaoComparativa(proprio.cantos, adversario.cantos),
+    fracaoComparativa(proprio.posse, adversario.posse),
+    fracaoComparativa(proprio.ataques, adversario.ataques)
+  ].filter(f => f !== null);
+  if(fracoes.length === 0) return 0;
+  return (fracoes.reduce((a,b)=>a+b, 0) / fracoes.length) * 0.3;
+}
+function pontosMinutagem(min){ if(min <= 45) return 0; if(min <= 75) return 0.15; return 0.3; }
+function pontosCleanSheet(min){ if(min <= 45) return 0.13; if(min <= 75) return 0.25; return 0.5; }
+function pontosGolsSofridos(n){ if(n <= 0) return 0; if(n === 1) return -0.2; if(n === 2) return -0.45; return -0.8; }
+function pontosCartaoAmarelo(min){ if(min <= 30) return -0.5; if(min <= 75) return -0.3; return -0.15; }
+function pontosCartaoVermelho(min){ if(min <= 60) return -1.0; return -0.6; }
+
+// campos: {posicao, entrada, saida, gols, assistencias, golDecisivo, mvp, selecaoRodada,
+//          cartao, cartaoMinuto, defesas, defesasDificeis, penaltis, falhasGoleiro,
+//          jogadaDestaque, chuteTrave, desarmeCrucial, lancamentoPreciso, passeDecisivo, cobrancaPerigosa, falhaGerouGol}
+// contexto: {resultado, indice, golsSofridos}
+function calcularNotaJogador(campos, contexto){
+  const breakdown = [];
+  const add = (label, valor)=>{ if(valor !== 0) breakdown.push({label, valor: Math.round(valor*1000)/1000}); };
+
+  const minutosEmCampo = Math.max(0, (campos.saida||0) - (campos.entrada||0));
+  let nota = BASE_NOTA;
+  add('Nota base', BASE_NOTA);
+
+  const ptsResultado = PONTOS_RESULTADO[contexto.resultado] || 0;
+  nota += ptsResultado; add(`Resultado (${contexto.resultado})`, ptsResultado);
+
+  const pesoPos = PESO_DOMINIO_POR_POSICAO[campos.posicao] || 0.3;
+  const ptsDominio = contexto.indice * pesoPos;
+  nota += ptsDominio;
+  if(ptsDominio !== 0) add(`Domínio coletivo (peso ${campos.posicao})`, ptsDominio);
+
+  const ptsMin = pontosMinutagem(minutosEmCampo);
+  nota += ptsMin; add(`Minutagem (${minutosEmCampo}min em campo)`, ptsMin);
+
+  if(campos.gols > 0){ const p = campos.gols * 0.7; nota += p; add(`Gols (${campos.gols})`, p); }
+  if(campos.assistencias > 0){ const p = campos.assistencias * 0.5; nota += p; add(`Assistências (${campos.assistencias})`, p); }
+  if(campos.gols > 0 && campos.golDecisivo){ nota += 0.3; add('Gol decisivo/da vitória', 0.3); }
+  if(campos.mvp){ nota += 0.8; add('MVP da partida', 0.8); }
+  if(campos.selecaoRodada){ nota += 0.4; add('Seleção da Rodada (jornalistas)', 0.4); }
+
+  if(campos.cartao && campos.cartao !== 'nenhum'){
+    const minCartao = campos.cartaoMinuto != null ? campos.cartaoMinuto : 45;
+    const p = campos.cartao === 'amarelo' ? pontosCartaoAmarelo(minCartao) : pontosCartaoVermelho(minCartao);
+    nota += p; add(`Cartão ${campos.cartao} (aos ${minCartao}min)`, p);
+  }
+
+  if(POSICOES_DEFENSIVAS.includes(campos.posicao)){
+    if(contexto.golsSofridos === 0){
+      const p = pontosCleanSheet(minutosEmCampo);
+      nota += p; add(`Clean sheet (${minutosEmCampo}min em campo)`, p);
+    }else{
+      const p = pontosGolsSofridos(contexto.golsSofridos);
+      nota += p; add(`Gols sofridos pelo time (${contexto.golsSofridos})`, p);
+    }
+  }
+
+  if(campos.posicao === 'GK'){
+    if(campos.defesas > 0){ const p = Math.min(campos.defesas, 5) * 0.08; nota += p; add(`Defesas (${campos.defesas}, máx. 5 contam)`, p); }
+    if(campos.defesasDificeis > 0){ const p = campos.defesasDificeis * 0.15; nota += p; add(`Defesas difíceis (${campos.defesasDificeis})`, p); }
+    if(campos.penaltis > 0){ const p = campos.penaltis * 1.0; nota += p; add(`Pênaltis defendidos (${campos.penaltis})`, p); }
+    if(campos.falhasGoleiro > 0){ const p = campos.falhasGoleiro * -0.6; nota += p; add(`Falhas do goleiro (${campos.falhasGoleiro})`, p); }
+  }
+
+  const eventos = [
+    [campos.jogadaDestaque, 'Jogada de destaque', 0.15],
+    [campos.chuteTrave, 'Chute na trave', 0.15],
+    [campos.desarmeCrucial, 'Corte/desarme crucial', 0.15],
+    [campos.lancamentoPreciso, 'Lançamento longo preciso', 0.15],
+    [campos.passeDecisivo, 'Passe decisivo', 0.1],
+    [campos.cobrancaPerigosa, 'Cobrança perigosa', 0.05],
+    [campos.falhaGerouGol, 'Falha que gerou gol adversário', -0.4]
+  ];
+  eventos.forEach(([n, label, valorUnitario])=>{
+    if(n > 0){ const p = n * valorUnitario; nota += p; add(`${label} (${n}x)`, p); }
+  });
+
+  nota = Math.max(0, Math.min(10, nota));
+  return { nota: Math.round(nota * 100) / 100, breakdown, minutosEmCampo };
+}
+
+function lerNumEl(id, defaultVal){
+  const el = document.getElementById(id);
+  if(!el) return defaultVal;
+  const v = el.value;
+  if(v === '' || v === null) return defaultVal;
+  const n = parseFloat(v);
+  return isNaN(n) ? defaultVal : n;
+}
+
+/* =========================================================
+   CALCULAR POR CONFRONTO
+   ========================================================= */
+function montarLinhaJogadorConfronto(jogador){
+  const pos = jogador.posicao;
+  const ehGoleiro = pos === 'GK';
+  const c = clubeById(jogador.clubeAtualId);
+  return `<div class="jog-row" data-jogador-id="${jogador.id}" data-nome="${escapeHtml(jogador.nome)}" data-posicao="${pos}" data-clube-id="${jogador.clubeAtualId}">
+    <div class="jog-header">
+      <input type="checkbox" class="jc-atuou">
+      <span class="pill ${posicaoClasse(pos)}">${pos}</span>
+      <span class="name">${escapeHtml(jogador.nome)}</span>
+      ${jogador.nacionalidade && jogador.nacionalidade !== 'Brasil' ? `<span class="liga-tag">${escapeHtml(jogador.nacionalidade)}</span>` : ''}
+    </div>
+    <div class="jog-detalhes">
+      <div class="grupo-titulo">Minutagem</div>
+      <div class="mini-row">
+        <div class="mini-field"><label>Entrou</label><input type="number" class="jc-entrada" min="0" max="90" value="0"></div>
+        <div class="mini-field"><label>Saiu</label><input type="number" class="jc-saida" min="0" max="90" value="90"></div>
+      </div>
+      <div class="grupo-titulo">Eventos</div>
+      <div class="mini-row">
+        <div class="mini-field"><label>Gols</label><input type="number" class="jc-gols" min="0" value="0"></div>
+        <div class="mini-field"><label>Assist.</label><input type="number" class="jc-assist" min="0" value="0"></div>
+        <label class="check-mini"><input type="checkbox" class="jc-gol-decisivo"> Gol decisivo</label>
+        <label class="check-mini"><input type="checkbox" class="jc-mvp"> 🏅 MVP</label>
+        <label class="check-mini"><input type="checkbox" class="jc-selecao"> Seleção da Rodada</label>
+      </div>
+      <div class="grupo-titulo">Cartão</div>
+      <div class="mini-row">
+        <div class="mini-field"><label>Tipo</label>
+          <select class="jc-cartao"><option value="nenhum">Nenhum</option><option value="amarelo">Amarelo</option><option value="vermelho">Vermelho</option></select>
+        </div>
+        <div class="mini-field jc-cartao-minuto-wrap" style="display:none;"><label>Minuto</label><input type="number" class="jc-cartao-minuto" min="0" max="90" value="45"></div>
+      </div>
+      ${ehGoleiro ? `
+      <div class="grupo-titulo">Guarda-redes</div>
+      <div class="mini-row">
+        <div class="mini-field"><label>Defesas</label><input type="number" class="jc-defesas" min="0" value="0"></div>
+        <div class="mini-field"><label>Def. difíceis</label><input type="number" class="jc-defesas-dificeis" min="0" value="0"></div>
+        <div class="mini-field"><label>Pênaltis def.</label><input type="number" class="jc-penalti" min="0" value="0"></div>
+        <div class="mini-field"><label>Falhas</label><input type="number" class="jc-falha-goleiro" min="0" value="0"></div>
+      </div>` : ''}
+      <div class="grupo-titulo">Melhores Momentos</div>
+      <div class="mini-row">
+        <div class="mini-field"><label>Jogada destaque</label><input type="number" class="jc-jogada-destaque" min="0" value="0"></div>
+        <div class="mini-field"><label>Chute na trave</label><input type="number" class="jc-chute-trave" min="0" value="0"></div>
+        <div class="mini-field"><label>Desarme crucial</label><input type="number" class="jc-desarme-crucial" min="0" value="0"></div>
+        <div class="mini-field"><label>Lanç. preciso</label><input type="number" class="jc-lancamento-preciso" min="0" value="0"></div>
+        <div class="mini-field"><label>Passe decisivo</label><input type="number" class="jc-passe-decisivo" min="0" value="0"></div>
+        <div class="mini-field"><label>Cobrança perigosa</label><input type="number" class="jc-cobranca-perigosa" min="0" value="0"></div>
+        <div class="mini-field"><label>Falha→gol</label><input type="number" class="jc-falha-gerou-gol" min="0" value="0"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function montarBlocoTimeConfronto(clube){
+  const jogadores = state.jogadores.filter(j=>j.clubeAtualId === clube.id).sort((a,b)=>
+    ORDEM_POSICOES.indexOf(a.posicao) - ORDEM_POSICOES.indexOf(b.posicao) || a.nome.localeCompare(b.nome));
+  const linhas = jogadores.length
+    ? jogadores.map(montarLinhaJogadorConfronto).join('')
+    : `<div class="empty-state">Nenhum jogador importado deste clube.</div>`;
+  return `<div class="team-block" data-clube-id="${clube.id}">
+    <h4>${escapeHtml(clube.nome)} <span class="liga-tag">${jogadores.length} jogador(es)</span></h4>
+    ${linhas}
+  </div>`;
+}
+
+function ativarToggleConfronto(area){
+  area.querySelectorAll('.jc-atuou').forEach(chk=>{
+    chk.addEventListener('change', ()=>{
+      chk.closest('.jog-row').querySelector('.jog-detalhes').classList.toggle('show', chk.checked);
+    });
+  });
+  area.querySelectorAll('.jc-cartao').forEach(sel=>{
+    sel.addEventListener('change', ()=>{
+      const wrap = sel.closest('.jog-row').querySelector('.jc-cartao-minuto-wrap');
+      wrap.style.display = sel.value === 'nenhum' ? 'none' : 'block';
+    });
+  });
+}
+
+document.getElementById('btn-carregar-confronto').addEventListener('click', ()=>{
+  const clubeAId = document.getElementById('cf-clubeA').value;
+  const clubeBId = document.getElementById('cf-clubeB').value;
+  if(!clubeAId || !clubeBId){ toast('Selecione os dois clubes', true); return; }
+  if(clubeAId === clubeBId){ toast('Escolha dois clubes diferentes', true); return; }
+
+  const area = document.getElementById('confronto-times-area');
+  area.innerHTML = montarBlocoTimeConfronto(clubeById(clubeAId)) + montarBlocoTimeConfronto(clubeById(clubeBId));
+  ativarToggleConfronto(area);
+  document.getElementById('confronto-calcular-area').style.display = 'block';
+  document.getElementById('confronto-resultado-panel').style.display = 'none';
+});
+
+function lerCamposLinha(row){
+  const cartaoWrap = row.querySelector('.jc-cartao-minuto-wrap');
+  return {
+    posicao: row.dataset.posicao,
+    entrada: parseFloat(row.querySelector('.jc-entrada').value) || 0,
+    saida: parseFloat(row.querySelector('.jc-saida').value) || 90,
+    gols: parseFloat(row.querySelector('.jc-gols').value) || 0,
+    assistencias: parseFloat(row.querySelector('.jc-assist').value) || 0,
+    golDecisivo: row.querySelector('.jc-gol-decisivo').checked,
+    mvp: row.querySelector('.jc-mvp').checked,
+    selecaoRodada: row.querySelector('.jc-selecao').checked,
+    cartao: row.querySelector('.jc-cartao').value,
+    cartaoMinuto: parseFloat(row.querySelector('.jc-cartao-minuto').value) || 45,
+    defesas: row.querySelector('.jc-defesas') ? (parseFloat(row.querySelector('.jc-defesas').value) || 0) : 0,
+    defesasDificeis: row.querySelector('.jc-defesas-dificeis') ? (parseFloat(row.querySelector('.jc-defesas-dificeis').value) || 0) : 0,
+    penaltis: row.querySelector('.jc-penalti') ? (parseFloat(row.querySelector('.jc-penalti').value) || 0) : 0,
+    falhasGoleiro: row.querySelector('.jc-falha-goleiro') ? (parseFloat(row.querySelector('.jc-falha-goleiro').value) || 0) : 0,
+    jogadaDestaque: parseFloat(row.querySelector('.jc-jogada-destaque').value) || 0,
+    chuteTrave: parseFloat(row.querySelector('.jc-chute-trave').value) || 0,
+    desarmeCrucial: parseFloat(row.querySelector('.jc-desarme-crucial').value) || 0,
+    lancamentoPreciso: parseFloat(row.querySelector('.jc-lancamento-preciso').value) || 0,
+    passeDecisivo: parseFloat(row.querySelector('.jc-passe-decisivo').value) || 0,
+    cobrancaPerigosa: parseFloat(row.querySelector('.jc-cobranca-perigosa').value) || 0,
+    falhaGerouGol: parseFloat(row.querySelector('.jc-falha-gerou-gol').value) || 0
+  };
+}
+
+let ultimoResultadoConfronto = [];
+
+document.getElementById('btn-calcular-confronto').addEventListener('click', ()=>{
+  const rodada = parseInt(document.getElementById('cf-rodada').value, 10) || null;
+  const clubeAId = document.getElementById('cf-clubeA').value;
+  const clubeBId = document.getElementById('cf-clubeB').value;
+  const golsA = lerNumEl('cf-golsA', 0);
+  const golsB = lerNumEl('cf-golsB', 0);
+
+  const statsA = { remates: document.getElementById('cf-remA').value, remates_baliza: document.getElementById('cf-rembA').value, cantos: document.getElementById('cf-cantA').value, posse: document.getElementById('cf-posseA').value, ataques: document.getElementById('cf-ataqA').value };
+  const statsB = { remates: document.getElementById('cf-remB').value, remates_baliza: document.getElementById('cf-rembB').value, cantos: document.getElementById('cf-cantB').value, posse: document.getElementById('cf-posseB').value, ataques: document.getElementById('cf-ataqB').value };
+
+  const indiceA = calcularIndice(statsA, statsB);
+  const indiceB = calcularIndice(statsB, statsA);
+  const resultadoA = golsA > golsB ? 'vitoria' : (golsA === golsB ? 'empate' : 'derrota');
+  const resultadoB = golsB > golsA ? 'vitoria' : (golsA === golsB ? 'empate' : 'derrota');
+
+  const contextoPorClube = {
+    [clubeAId]: { resultado: resultadoA, indice: indiceA, golsSofridos: golsB },
+    [clubeBId]: { resultado: resultadoB, indice: indiceB, golsSofridos: golsA }
+  };
+
+  // valida no máximo 1 MVP no confronto inteiro
+  const linhasMarcadas = [...document.querySelectorAll('#confronto-times-area .jog-row')].filter(row => row.querySelector('.jc-atuou').checked);
+  const totalMvp = linhasMarcadas.filter(row => row.querySelector('.jc-mvp').checked).length;
+  if(totalMvp > 1){ toast('Só pode haver 1 MVP no confronto — corrija antes de calcular', true); return; }
+  if(linhasMarcadas.length === 0){ toast('Marque ao menos um jogador como "atuou"', true); return; }
+
+  ultimoResultadoConfronto = linhasMarcadas.map(row=>{
+    const campos = lerCamposLinha(row);
+    const clubeId = row.dataset.clubeId;
+    const contexto = contextoPorClube[clubeId];
+    const resultado = calcularNotaJogador(campos, contexto);
+    return {
+      jogadorId: row.dataset.jogadorId,
+      nome: row.dataset.nome,
+      posicao: row.dataset.posicao,
+      clube: clubeById(clubeId).nome,
+      rodada,
+      nota: resultado.nota,
+      breakdown: resultado.breakdown,
+      salvar: true
+    };
+  });
+
+  renderResultadoConfronto();
+});
+
+function renderResultadoConfronto(){
+  const painel = document.getElementById('confronto-resultado-panel');
+  const lista = document.getElementById('confronto-resultado-lista');
+  lista.innerHTML = ultimoResultadoConfronto.map((r, idx)=>{
+    const cor = corDaNota(r.nota);
+    const breakdownHtml = r.breakdown.map(item=>{
+      const classe = item.valor > 0 ? 'pos' : (item.valor < 0 ? 'neg' : '');
+      const sinal = item.valor > 0 ? '+' : '';
+      return `<div class="breakdown-item"><span>${escapeHtml(item.label)}</span><span class="valor ${classe}">${sinal}${item.valor}</span></div>`;
+    }).join('');
+    return `<div>
+      <div class="resultado-linha">
+        <input type="checkbox" class="rc-salvar" data-idx="${idx}" checked>
+        <span class="pill ${posicaoClasse(r.posicao)}">${r.posicao}</span>
+        <span class="name"><strong>${escapeHtml(r.nome)}</strong> — ${escapeHtml(r.clube)}</span>
+        <span class="nota-tag" style="border-color:${cor}; color:${cor};">${r.nota.toFixed(2)}</span>
+        <button type="button" class="link-btn rc-ver" data-idx="${idx}">ver cálculo</button>
+      </div>
+      <div class="resultado-detalhe" id="rc-detalhe-${idx}">${breakdownHtml}</div>
+    </div>`;
+  }).join('');
+
+  lista.querySelectorAll('.rc-ver').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.getElementById('rc-detalhe-'+btn.dataset.idx).classList.toggle('show');
+    });
+  });
+  lista.querySelectorAll('.rc-salvar').forEach(chk=>{
+    chk.addEventListener('change', ()=>{ ultimoResultadoConfronto[chk.dataset.idx].salvar = chk.checked; });
+  });
+
+  painel.style.display = 'block';
+  painel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+document.getElementById('btn-salvar-confronto-tudo').addEventListener('click', ()=>{
+  const marcados = ultimoResultadoConfronto.filter(r => r.salvar);
+  if(marcados.length === 0){ toast('Nenhum jogador marcado pra salvar', true); return; }
+  marcados.forEach(r=>{
+    state.historico.push({ id: uid(), rodada: r.rodada, nome: r.nome, clube: r.clube, posicao: r.posicao, nota: r.nota, breakdown: r.breakdown });
+  });
+  saveState();
+  toast(`${marcados.length} nota(s) salva(s) no histórico`);
+});
+
+/* =========================================================
+   JOGADOR AVULSO
+   ========================================================= */
+document.getElementById('av-posicao').addEventListener('change', ()=>{
+  document.getElementById('av-bloco-goleiro').style.display = document.getElementById('av-posicao').value === 'GK' ? 'block' : 'none';
+});
+document.getElementById('av-cartao').addEventListener('change', ()=>{
+  document.getElementById('av-cartao-minuto-wrap').style.display = document.getElementById('av-cartao').value === 'nenhum' ? 'none' : 'block';
+});
+
+let ultimoResultadoAvulso = null;
+
+document.getElementById('btn-calcular-avulso').addEventListener('click', ()=>{
+  const golsTime = lerNumEl('av-gols-time', 0);
+  const golsSofridos = lerNumEl('av-gols-sofridos', 0);
+  const resultado = golsTime > golsSofridos ? 'vitoria' : (golsTime === golsSofridos ? 'empate' : 'derrota');
+
+  const campos = {
+    posicao: document.getElementById('av-posicao').value,
+    entrada: lerNumEl('av-entrada', 0),
+    saida: lerNumEl('av-saida', 90),
+    gols: lerNumEl('av-gols', 0),
+    assistencias: lerNumEl('av-assistencias', 0),
+    golDecisivo: document.getElementById('av-gol-decisivo').checked,
+    mvp: document.getElementById('av-mvp').checked,
+    selecaoRodada: document.getElementById('av-selecao-rodada').checked,
+    cartao: document.getElementById('av-cartao').value,
+    cartaoMinuto: lerNumEl('av-cartao-minuto', 45),
+    defesas: lerNumEl('av-defesas', 0),
+    defesasDificeis: lerNumEl('av-defesas-dificeis', 0),
+    penaltis: lerNumEl('av-penalti-defendido', 0),
+    falhasGoleiro: lerNumEl('av-falha-goleiro', 0),
+    jogadaDestaque: lerNumEl('av-jogada-destaque', 0),
+    chuteTrave: lerNumEl('av-chute-trave', 0),
+    desarmeCrucial: lerNumEl('av-desarme-crucial', 0),
+    lancamentoPreciso: lerNumEl('av-lancamento-preciso', 0),
+    passeDecisivo: lerNumEl('av-passe-decisivo', 0),
+    cobrancaPerigosa: lerNumEl('av-cobranca-perigosa', 0),
+    falhaGerouGol: lerNumEl('av-falha-gerou-gol', 0)
+  };
+  const contexto = { resultado, indice: 0, golsSofridos };
+
+  const resultadoCalc = calcularNotaJogador(campos, contexto);
+  ultimoResultadoAvulso = resultadoCalc;
+
+  const notaEl = document.getElementById('av-resultado-nota');
+  notaEl.textContent = resultadoCalc.nota.toFixed(2);
+  notaEl.style.background = corDaNota(resultadoCalc.nota);
+
+  document.getElementById('av-resultado-breakdown').innerHTML = resultadoCalc.breakdown.map(item=>{
+    const classe = item.valor > 0 ? 'pos' : (item.valor < 0 ? 'neg' : '');
+    const sinal = item.valor > 0 ? '+' : '';
+    return `<div class="breakdown-item"><span>${escapeHtml(item.label)}</span><span class="valor ${classe}">${sinal}${item.valor}</span></div>`;
+  }).join('');
+
+  document.getElementById('av-resultado-panel').style.display = 'block';
+});
+
+document.getElementById('btn-salvar-avulso').addEventListener('click', ()=>{
+  if(!ultimoResultadoAvulso){ toast('Calcule a nota primeiro', true); return; }
+  const nome = document.getElementById('av-nome').value.trim();
+  if(!nome){ toast('Digite o nome do jogador', true); return; }
+  const clube = document.getElementById('av-clube').value.trim() || '—';
+  const rodada = parseInt(document.getElementById('av-rodada').value, 10) || null;
+  const posicao = document.getElementById('av-posicao').value;
+
+  state.historico.push({ id: uid(), rodada, nome, clube, posicao, nota: ultimoResultadoAvulso.nota, breakdown: ultimoResultadoAvulso.breakdown });
+  saveState();
+  toast(`Nota de ${nome} salva no histórico`);
+});
+
+/* =========================================================
+   HISTÓRICO
+   ========================================================= */
+document.getElementById('hist-filtro-rodada').addEventListener('input', renderHistorico);
+
+function renderHistorico(){
+  const filtro = parseInt(document.getElementById('hist-filtro-rodada').value, 10);
+  const tbody = document.getElementById('tbody-historico');
+  let lista = [...state.historico];
+  if(filtro) lista = lista.filter(h => h.rodada === filtro);
+  lista.sort((a,b)=> (b.rodada||0) - (a.rodada||0) || a.nome.localeCompare(b.nome));
+
+  if(lista.length === 0){
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">Nenhum cálculo salvo ainda.</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = lista.map(h=>`
+    <tr>
+      <td>${h.rodada || '—'}</td>
+      <td><strong>${escapeHtml(h.nome)}</strong></td>
+      <td>${escapeHtml(h.clube)}</td>
+      <td><span class="pill ${posicaoClasse(h.posicao)}">${h.posicao}</span></td>
+      <td><span class="nota-tag" style="border-color:${corDaNota(h.nota)}; color:${corDaNota(h.nota)};">${h.nota.toFixed(2)}</span></td>
+      <td><button class="icon-btn" onclick="excluirHistorico('${h.id}')" title="Excluir">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+function excluirHistorico(id){
+  state.historico = state.historico.filter(h => h.id !== id);
+  saveState();
+  renderHistorico();
+  toast('Registro removido', true);
+}
+
+/* =========================================================
+   BOOT
+   ========================================================= */
+renderImportStats();
+popularSelectsClubes();
+</script>
+</body>
+</html>
