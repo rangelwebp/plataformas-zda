@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+  LIGA 3 · Calculadora de Notas — complemento do ONZE BR
+  CHANGELOG (mais recente primeiro)
+  ------------------------------------------
+  v1.2.0 — Tabela de ajuste do BeSoccer recalibrada (valores um pouco mais assertivos,
+           já que em jogos com pouco destaque de vídeo ele é um dos poucos sinais
+           individuais disponíveis pra desempate): <50 −0.40 · 50–59 −0.25 · 60–64 0 ·
+           65–70 +0.15 · 71–75 +0.20 · 76–80 +0.25 · 81–86 +0.30 · 87+ +0.35.
+  v1.1.0 — Ajuste fino opcional com nota do BeSoccer (aplicado por último, depois de toda
+           pontuação individual/coletiva). Participação de destaque separada de Jogada de
+           destaque (pesos diferentes). Novo atributo Bloqueio de chute. Pesos dos Melhores
+           Momentos todos diferenciados. Posse de bola complementar automática (A+B=100).
+           Arredondamento final em 1 casa decimal (ex: 7.57 → 7.6).
+  v1.0.0 — Versão por confronto: escolhe os dois clubes, lista todos os jogadores,
+           marca quem atuou, calcula em lote. Jogador Avulso como aba separada.
+-->
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -142,6 +159,10 @@
 
   .divider{ height:1px; background: var(--border); margin:20px 0; border:none; }
   .hint{ font-size:12.5px; color: var(--text-faint); margin-top:-8px; margin-bottom:14px; }
+  .app-footer{
+    text-align:center; padding: 18px 20px 26px; color: var(--text-faint); font-size:11.5px;
+    font-family: var(--font-mono); letter-spacing:0.4px; border-top:1px solid var(--border); margin-top:10px;
+  }
   .section-title{ font-family: var(--font-display); font-size:16px; font-weight:700; margin: 4px 0 10px; color: var(--accent-gold); }
 
   /* time / jogador */
@@ -358,16 +379,23 @@
       <p class="section-title">Melhores Momentos</p>
       <div class="row">
         <div class="field"><label>Jogada de destaque</label><input type="number" id="av-jogada-destaque" min="0" value="0"></div>
+        <div class="field"><label>Participação de destaque</label><input type="number" id="av-participacao-destaque" min="0" value="0"></div>
         <div class="field"><label>Chute na trave</label><input type="number" id="av-chute-trave" min="0" value="0"></div>
-        <div class="field"><label>Corte/desarme crucial</label><input type="number" id="av-desarme-crucial" min="0" value="0"></div>
       </div>
       <div class="row">
+        <div class="field"><label>Bloqueio de chute</label><input type="number" id="av-bloqueio" min="0" value="0"></div>
+        <div class="field"><label>Corte/desarme crucial</label><input type="number" id="av-desarme-crucial" min="0" value="0"></div>
         <div class="field"><label>Lançamento longo preciso</label><input type="number" id="av-lancamento-preciso" min="0" value="0"></div>
+      </div>
+      <div class="row">
         <div class="field"><label>Passe decisivo</label><input type="number" id="av-passe-decisivo" min="0" value="0"></div>
         <div class="field"><label>Cobrança perigosa</label><input type="number" id="av-cobranca-perigosa" min="0" value="0"></div>
-      </div>
-      <div class="row">
         <div class="field"><label>Falha que gerou gol adversário</label><input type="number" id="av-falha-gerou-gol" min="0" value="0"></div>
+      </div>
+
+      <p class="section-title">Ajuste fino (opcional)</p>
+      <div class="row">
+        <div class="field"><label>Nota BeSoccer</label><input type="number" id="av-besoccer" min="0" max="100" placeholder="ex: 72"></div>
       </div>
 
       <button class="btn green" id="btn-calcular-avulso">Calcular nota</button>
@@ -405,6 +433,8 @@
   </section>
 
 </main>
+
+<footer class="app-footer">LIGA 3 · Calculadora de Notas · v1.2.0</footer>
 
 <div class="toast" id="toast"></div>
 
@@ -560,6 +590,19 @@ function pontosCartaoVermelho(min){ if(min <= 60) return -1.0; return -0.6; }
 //          cartao, cartaoMinuto, defesas, defesasDificeis, penaltis, falhasGoleiro,
 //          jogadaDestaque, chuteTrave, desarmeCrucial, lancamentoPreciso, passeDecisivo, cobrancaPerigosa, falhaGerouGol}
 // contexto: {resultado, indice, golsSofridos}
+function pontosAjusteBeSoccer(rating){
+  if(rating == null || rating === '' || isNaN(rating)) return 0;
+  const r = Number(rating);
+  if(r < 50) return -0.40;
+  if(r < 60) return -0.25;
+  if(r < 65) return 0;
+  if(r < 71) return 0.15;
+  if(r < 76) return 0.20;
+  if(r < 81) return 0.25;
+  if(r < 87) return 0.30;
+  return 0.35;
+}
+
 function calcularNotaJogador(campos, contexto){
   const breakdown = [];
   const add = (label, valor)=>{ if(valor !== 0) breakdown.push({label, valor: Math.round(valor*1000)/1000}); };
@@ -609,10 +652,12 @@ function calcularNotaJogador(campos, contexto){
   }
 
   const eventos = [
-    [campos.jogadaDestaque, 'Jogada de destaque', 0.15],
-    [campos.chuteTrave, 'Chute na trave', 0.15],
-    [campos.desarmeCrucial, 'Corte/desarme crucial', 0.15],
-    [campos.lancamentoPreciso, 'Lançamento longo preciso', 0.15],
+    [campos.jogadaDestaque, 'Jogada de destaque', 0.25],
+    [campos.chuteTrave, 'Chute na trave', 0.20],
+    [campos.bloqueio, 'Bloqueio de chute', 0.18],
+    [campos.desarmeCrucial, 'Corte/desarme crucial', 0.16],
+    [campos.participacaoDestaque, 'Participação de destaque', 0.15],
+    [campos.lancamentoPreciso, 'Lançamento longo preciso', 0.13],
     [campos.passeDecisivo, 'Passe decisivo', 0.1],
     [campos.cobrancaPerigosa, 'Cobrança perigosa', 0.05],
     [campos.falhaGerouGol, 'Falha que gerou gol adversário', -0.4]
@@ -621,8 +666,13 @@ function calcularNotaJogador(campos, contexto){
     if(n > 0){ const p = n * valorUnitario; nota += p; add(`${label} (${n}x)`, p); }
   });
 
+  // BeSoccer entra só no fim, como ajuste fino — depois de toda pontuação individual e coletiva
+  const ptsBeSoccer = pontosAjusteBeSoccer(campos.beSoccer);
+  if(ptsBeSoccer !== 0){ nota += ptsBeSoccer; add(`Ajuste BeSoccer (${campos.beSoccer})`, ptsBeSoccer); }
+
   nota = Math.max(0, Math.min(10, nota));
-  return { nota: Math.round(nota * 100) / 100, breakdown, minutosEmCampo };
+  nota = Math.round(nota * 10) / 10;
+  return { nota, breakdown, minutosEmCampo };
 }
 
 function lerNumEl(id, defaultVal){
@@ -680,12 +730,18 @@ function montarLinhaJogadorConfronto(jogador){
       <div class="grupo-titulo">Melhores Momentos</div>
       <div class="mini-row">
         <div class="mini-field"><label>Jogada destaque</label><input type="number" class="jc-jogada-destaque" min="0" value="0"></div>
+        <div class="mini-field"><label>Participação destaque</label><input type="number" class="jc-participacao-destaque" min="0" value="0"></div>
         <div class="mini-field"><label>Chute na trave</label><input type="number" class="jc-chute-trave" min="0" value="0"></div>
+        <div class="mini-field"><label>Bloqueio</label><input type="number" class="jc-bloqueio" min="0" value="0"></div>
         <div class="mini-field"><label>Desarme crucial</label><input type="number" class="jc-desarme-crucial" min="0" value="0"></div>
         <div class="mini-field"><label>Lanç. preciso</label><input type="number" class="jc-lancamento-preciso" min="0" value="0"></div>
         <div class="mini-field"><label>Passe decisivo</label><input type="number" class="jc-passe-decisivo" min="0" value="0"></div>
         <div class="mini-field"><label>Cobrança perigosa</label><input type="number" class="jc-cobranca-perigosa" min="0" value="0"></div>
         <div class="mini-field"><label>Falha→gol</label><input type="number" class="jc-falha-gerou-gol" min="0" value="0"></div>
+      </div>
+      <div class="grupo-titulo">Ajuste fino (opcional)</div>
+      <div class="mini-row">
+        <div class="mini-field"><label>Nota BeSoccer</label><input type="number" class="jc-besoccer" min="0" max="100" placeholder="ex: 72"></div>
       </div>
     </div>
   </div>`;
@@ -716,6 +772,15 @@ function ativarToggleConfronto(area){
     });
   });
 }
+
+document.getElementById('cf-posseA').addEventListener('input', (e)=>{
+  const v = parseFloat(e.target.value);
+  document.getElementById('cf-posseB').value = (v === '' || isNaN(v)) ? '' : Math.max(0, Math.min(100, 100 - v));
+});
+document.getElementById('cf-posseB').addEventListener('input', (e)=>{
+  const v = parseFloat(e.target.value);
+  document.getElementById('cf-posseA').value = (v === '' || isNaN(v)) ? '' : Math.max(0, Math.min(100, 100 - v));
+});
 
 document.getElementById('btn-carregar-confronto').addEventListener('click', ()=>{
   const clubeAId = document.getElementById('cf-clubeA').value;
@@ -748,12 +813,15 @@ function lerCamposLinha(row){
     penaltis: row.querySelector('.jc-penalti') ? (parseFloat(row.querySelector('.jc-penalti').value) || 0) : 0,
     falhasGoleiro: row.querySelector('.jc-falha-goleiro') ? (parseFloat(row.querySelector('.jc-falha-goleiro').value) || 0) : 0,
     jogadaDestaque: parseFloat(row.querySelector('.jc-jogada-destaque').value) || 0,
+    participacaoDestaque: parseFloat(row.querySelector('.jc-participacao-destaque').value) || 0,
     chuteTrave: parseFloat(row.querySelector('.jc-chute-trave').value) || 0,
+    bloqueio: parseFloat(row.querySelector('.jc-bloqueio').value) || 0,
     desarmeCrucial: parseFloat(row.querySelector('.jc-desarme-crucial').value) || 0,
     lancamentoPreciso: parseFloat(row.querySelector('.jc-lancamento-preciso').value) || 0,
     passeDecisivo: parseFloat(row.querySelector('.jc-passe-decisivo').value) || 0,
     cobrancaPerigosa: parseFloat(row.querySelector('.jc-cobranca-perigosa').value) || 0,
-    falhaGerouGol: parseFloat(row.querySelector('.jc-falha-gerou-gol').value) || 0
+    falhaGerouGol: parseFloat(row.querySelector('.jc-falha-gerou-gol').value) || 0,
+    beSoccer: row.querySelector('.jc-besoccer').value === '' ? null : parseFloat(row.querySelector('.jc-besoccer').value)
   };
 }
 
@@ -820,7 +888,7 @@ function renderResultadoConfronto(){
         <input type="checkbox" class="rc-salvar" data-idx="${idx}" checked>
         <span class="pill ${posicaoClasse(r.posicao)}">${r.posicao}</span>
         <span class="name"><strong>${escapeHtml(r.nome)}</strong> — ${escapeHtml(r.clube)}</span>
-        <span class="nota-tag" style="border-color:${cor}; color:${cor};">${r.nota.toFixed(2)}</span>
+        <span class="nota-tag" style="border-color:${cor}; color:${cor};">${r.nota.toFixed(1)}</span>
         <button type="button" class="link-btn rc-ver" data-idx="${idx}">ver cálculo</button>
       </div>
       <div class="resultado-detalhe" id="rc-detalhe-${idx}">${breakdownHtml}</div>
@@ -883,12 +951,15 @@ document.getElementById('btn-calcular-avulso').addEventListener('click', ()=>{
     penaltis: lerNumEl('av-penalti-defendido', 0),
     falhasGoleiro: lerNumEl('av-falha-goleiro', 0),
     jogadaDestaque: lerNumEl('av-jogada-destaque', 0),
+    participacaoDestaque: lerNumEl('av-participacao-destaque', 0),
     chuteTrave: lerNumEl('av-chute-trave', 0),
+    bloqueio: lerNumEl('av-bloqueio', 0),
     desarmeCrucial: lerNumEl('av-desarme-crucial', 0),
     lancamentoPreciso: lerNumEl('av-lancamento-preciso', 0),
     passeDecisivo: lerNumEl('av-passe-decisivo', 0),
     cobrancaPerigosa: lerNumEl('av-cobranca-perigosa', 0),
-    falhaGerouGol: lerNumEl('av-falha-gerou-gol', 0)
+    falhaGerouGol: lerNumEl('av-falha-gerou-gol', 0),
+    beSoccer: document.getElementById('av-besoccer').value === '' ? null : lerNumEl('av-besoccer', null)
   };
   const contexto = { resultado, indice: 0, golsSofridos };
 
@@ -896,7 +967,7 @@ document.getElementById('btn-calcular-avulso').addEventListener('click', ()=>{
   ultimoResultadoAvulso = resultadoCalc;
 
   const notaEl = document.getElementById('av-resultado-nota');
-  notaEl.textContent = resultadoCalc.nota.toFixed(2);
+  notaEl.textContent = resultadoCalc.nota.toFixed(1);
   notaEl.style.background = corDaNota(resultadoCalc.nota);
 
   document.getElementById('av-resultado-breakdown').innerHTML = resultadoCalc.breakdown.map(item=>{
@@ -943,7 +1014,7 @@ function renderHistorico(){
       <td><strong>${escapeHtml(h.nome)}</strong></td>
       <td>${escapeHtml(h.clube)}</td>
       <td><span class="pill ${posicaoClasse(h.posicao)}">${h.posicao}</span></td>
-      <td><span class="nota-tag" style="border-color:${corDaNota(h.nota)}; color:${corDaNota(h.nota)};">${h.nota.toFixed(2)}</span></td>
+      <td><span class="nota-tag" style="border-color:${corDaNota(h.nota)}; color:${corDaNota(h.nota)};">${h.nota.toFixed(1)}</span></td>
       <td><button class="icon-btn" onclick="excluirHistorico('${h.id}')" title="Excluir">✕</button></td>
     </tr>
   `).join('');
